@@ -1,0 +1,73 @@
+html, ul, body, h1, header, input, span, form {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+html {
+    font-family:'Open Sans', Helvetica, sans-serif;
+    height:100%;
+}
+textarea, input {outline:none; box-shadow:none;}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+img {
+    max-width:100%;
+    height:auto;
+    margin:auto;
+}
+.field {
+    border:none;
+    font-size:14px;
+    padding:6px 12px;
+    color:#555;
+    border-bottom:1px dashed #D9D9D9;
+    border-radius:1px;
+    margin:0 auto;
+    margin-bottom:5px;
+    height:15px;
+    width:70%;
+    height:20px;
+    text-align:center;
+}
+.go {
+    font-size:90%;
+    cursor:pointer;
+    min-width:100px;
+    height:40px;
+    border:none;
+    border-radius:2px;
+    background-color:#E9E9E9;
+    color:#333;
+    padding:1px;
+    -webkit-transition:all 0.15s ease-in-out 0s;
+    -moz-transition:all 0.15s ease-in-out 0s;
+    transition:all 0.15s ease-in-out 0s;
+    border:1px solid #C3C3C3;
+}
+.go:hover {border:1px solid #A3A3A3;}
+.go:active {
+    background-color:#C9C9C9;
+    border-color:#F9F9F9;
+}
+footer {
+    margin-bottom:.5em;
+    width:95%;
+    position:absolute;
+    color:#B0B0B0;
+    font-size:12px;
+    text-align:center;
+    bottom:0;
+}
+#footer-content {padding-top:10px;}
+#message {
+    position:fixed;
+    font-size:90%;
+    overflow:hidden;
+    padding:3px;
+    top:0;
+    background-color:#A3A3A3;
+    color:white;
+    text-align:center;
+    width:100%;
+}
+#message a {color:white;}
+@media (max-height:400px) {
+    footer {display:none;}
+}

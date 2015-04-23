@@ -1,0 +1,7 @@
+pymysql
+Twython
+beautifulsoup4
+requests[security]
+scipy
+gensim
+nltk

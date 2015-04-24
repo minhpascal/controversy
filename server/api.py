@@ -139,7 +139,8 @@ def get_full(url):
 
     res = " ".join(p.text for p in body) 
     if not res:
-        raise UsageError('failed to parse')
+        raise UsageError('failed-to-parse')
+    jar.clear()
     return res
 
 def tw_search(keyword):

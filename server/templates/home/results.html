@@ -5,11 +5,11 @@
       <span ng-click="clear()" id=clear>&times;</span>
     </form>
 
-    <span id=right-header title="{{ unique.Name }}&mdash;{{ unique.School }}">
+    <span id=right-header>
       <span class=non-essentials>
         welcome back, {{ unique.Name|first_name }} &middot;
       </span>
-      <a href="/logot">logout</a>
+      <a href="/logout">logout</a>
     </span>
   </span>
 </header>
@@ -17,12 +17,12 @@
 {% raw %}
 <main>
 <ul class=cards ng-show="json" ng-style="$root.results_style">
-  <li ng-repeat="article in json.articles">
+  <li ng-repeat="article in json.articles track by $index">
   <div class=card>
     <p class=card-title ng-bind-html="article.title"></p>
-    <img class=full ng-show="article.xlarge" src="{{ article.xlarge }}" />
+    <img class=full ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
     <p ng-bind-html="article.abstract"></p>
-    <p class=url>Read the full article</p>
+    <a href="#read/{{ $index }}"><p class=url>Read the full article</p></a>
   </div>
   </li>
 </ul>

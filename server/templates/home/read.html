@@ -1,3 +1,36 @@
 {% raw %}
-<p>{{ article }}</p>
+<header ng-keydown="kd($event)">
+  <span id=header-content>
+    <span class=smaller>
+      <a href="#results">&larr; back</a>
+      &middot;
+      {{ article.title | limitTo: lim }}{{ article.title.length > lim ? '&hellip;' : ''}}
+      </span>
+    </span>
+  </span>
+  <span id=right-header>
+    <a ng-show="previousExists" ng-click="change(-1)">
+      &lArr; previous
+    </a>
+    <span ng-show="previousExists && nextExists">
+      &middot;
+    </span>
+    <a ng-show="nextExists" ng-click="change(1)">
+      next &rArr;
+    </a>
+  </span>
+</span>
+</header>
+
+<main>
+  <ul class=details>
+    <li ng-repeat="key in ['author', 'source', 'score', 'published']">
+      <span class=detail>
+        {{ article[key] }}
+      </span>&nbsp;
+    </li>
+  </ul>
+
+  <p>{{ article.full }}</p>
+</main>
 {% endraw %}

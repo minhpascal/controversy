@@ -4,33 +4,32 @@ header {
     -moz-user-select:none;
     -webkit-user-select:none;
     -khtml-user-select:none;
-    user-select:none;
-    font-size:20px;
     cursor:default;
     width:100%;
-    color:#333;
     height:45px;
-    padding: .3em 0;
+    padding:.3em 0;
     line-height:45px;
     background:#fff;
-    text-align:left;
     border-bottom:1px solid #efefef;
     position:fixed;
+    font-size:20px;
+}
+#header-title {
+    text-align:left;
+    font-size:1.2em;
     color:#333;
 }
-#header-title {font-size:1.2em;}
 #header-content {padding-left:10px;}
+#subheader, #right-header, .smaller {font-size:70%;}
 #subheader {
-    font-size:65%;
     opacity:.4;
     padding-left:5px;
 }
 #right-header {
-    font-size:70%;
     float:right;
     padding-right:10px;
 }
-main {padding-top:6em;}
+main {padding:6em 1em;}
 #top-search {display:inline;}
 #top-search input {
     font-size:16px;
@@ -77,6 +76,22 @@ main {padding-top:6em;}
 .danger {
     color:white;
     background-color:#d43f3a;
+    border-radius:2px;
+    padding:2px;
+}
+ul.details {
+    -webkit-column-break-inside:avoid;
+    -moz-column-break-inside:avoid;
+    column-break-inside:avoid;
+    list-style:none;
+}
+ul.details li {display:inline;}
+.detail {
+    line-height:1.5;
+    color:#333;
+    font-size:75%;
+    font-weight:700;
+    background-color:#f2f2f2;
     border-radius:2px;
     padding:2px;
 }

@@ -1,6 +1,6 @@
 {% raw %}
 <figure>
-  <img src="static/{{ $root.error.code }}.jpg" ng-show="$root.error.message" />
+  <img ng-src="static/{{ $root.error.code }}.jpg" ng-show="$root.error.message" />
   <figcaption>
     <span class=danger>
       {{ $root.error.message }}

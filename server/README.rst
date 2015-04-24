@@ -20,7 +20,7 @@ response::
     {
 	     'articles': [
 		    {
-			'xlarge': 'images/2015/03/31/world/31IRAQ/31IRAQ-articleLarge.jpg',
+			'xlarge': 'http://www.nytimes.com/images/2015/03/31/world/31IRAQ/31IRAQ-articleLarge.jpg',
 			'title': "Islamic State's Grip on City Appears Firmer Than Iraqis Acknowledge",
 			'url': 'http://www.nytimes.com/2015/03/31/world/middleeast/un-leader-warns-iraq-not-to-mistreat-civilians-after-liberation-from-isis.html',
 			'full': 'We had some exciting results today, involving hippos and Rod Nordland, our senior hippo...'

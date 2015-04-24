@@ -2,7 +2,9 @@ var cApp = angular.module('Home', ['ngRoute', 'ngSanitize']);
 var ERROR_MESSAGES = {
   'no-articles' : 'Despite our best efforts, we simply could not find any articles with that keyword. May we interest you in another try?',
   'our-fault' : 'Well, this is akward; we messed up. Please file a bug at github.com/gdyer/controversy/issues.',
-  'not-logged-in' : 'A server update was just pushed! Please refresh the page and log in again.'
+  'not-logged-in' : 'A server update was just pushed! Please refresh the page and log in again.',
+  'no-page' : 'Holy guacamole! We couldn\'t find that article or page (and we\'re not sure if it had anything to do with avocados or a diety).',
+  'failed-to-parse' : 'There was a malformed article result that broke this response. Please try a differt keyword and file a bug at github.com/gdyer/controversy/issues.'
 };
 
 cApp.run(function($rootScope) {
@@ -10,9 +12,10 @@ cApp.run(function($rootScope) {
   $rootScope.last_query = '';
   $rootScope.can_query = true;
   $rootScope.setError = function(code) {
-  $rootScope.error = {
-      'message' : (code in ERROR_MESSAGES) ? ERROR_MESSAGES[code] : ERROR_MESSAGES['our-fault'],
-      'code' : code
+    var e = code in ERROR_MESSAGES;
+    $rootScope.error = {
+      'message' : (e) ? ERROR_MESSAGES[code] : ERROR_MESSAGES['our-fault'],
+    'code' : (e) ? code : 'our-fault'
     }
   }
   $rootScope.article = function(index) {
@@ -22,25 +25,25 @@ cApp.run(function($rootScope) {
 
 cApp.config(function ($routeProvider) {
   $routeProvider
-    .when('/', {
-      templateUrl : 'html/search.html',
-      controller : 'SearchController'
-    })
+  .when('/', {
+    templateUrl : 'html/search.html',
+    controller : 'SearchController'
+  })
 
-    .when('/results', {
-      templateUrl : 'html/results.html',
-      controller : 'ResultsController'
-    })
+.when('/results', {
+  templateUrl : 'html/results.html',
+  controller : 'ResultsController'
+})
 
-    .when('/article', {
-      templateUrl : 'html/read.html',
-      controller : 'ReadController'
-    })
+.when('/read/:article', {
+  templateUrl : 'html/read.html',
+  controller : 'ReadController'
+})
 
-    .when('/error', {
-      templateUrl : 'html/error.html',
-      controller : 'ErrorController'
-    })
+.when('/error', {
+  templateUrl : 'html/error.html',
+  controller : 'ErrorController'
+})
 });
 
 cApp.controller('SearchController', function($scope, $http, $rootScope, $location) {
@@ -64,6 +67,9 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
   }
 
   $scope.submit = function() {
+    if ($rootScope.json && ($rootScope.last_query.localeCompare($rootScope.keyword) === 0)) {
+      $location.path('/results');
+    }
     if ($rootScope.is_loading || !$rootScope.can_query) {
       return;
     }
@@ -81,7 +87,10 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
       $location.path('/error');
     }
 
-    $http.get('/api?q=' + $rootScope.keyword + ($scope.is_testing ? '&test=1' : '')).
+    var call = '/api?q=' + $rootScope.keyword + ($scope.is_testing ? '&test=1' : '');
+    console.log('querying ==> ' + call);
+
+    $http.get(call).
       success(function(res) {
         $rootScope.json = res;
         $rootScope.is_loading = false;  
@@ -97,15 +106,16 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
           $location.path('/results');
         }
       }).
-      error(function(res) {
-        handleError(res['message']);
-      });
+    error(function(res) {
+      handleError(res['message']);
+    });
   };
 });
 
 cApp.controller('ResultsController', function($scope, $rootScope, $location) {
   if (!$rootScope.json) {
     $location.path('/');
+    return;
   }
 
   $scope.readArticle = function(index) {
@@ -114,15 +124,88 @@ cApp.controller('ResultsController', function($scope, $rootScope, $location) {
 });
 
 cApp.controller('ErrorController', function($scope, $rootScope, $location) {
-  if (!$rootScope.error) {
-    $location.path('/');
-  }
   $scope.goHome = function() {
     $location.path('/');
   };
 
+  if (!$rootScope.error) {
+    $scope.goHome();
+  }
 });
 
-cApp.controller('ReadController', function($scope) {
-  console.log($scope.article);
+cApp.controller('ReadController', function($scope, $rootScope, $location, $routeParams, $window, anchorSmoothScroll) {
+  $scope.articleIndex = parseInt($routeParams.article);
+  if (!$scope.article || !$rootScope.json) {
+    $location.path('/');
+    return;
+  }
+
+  $scope.article = $rootScope.json['articles'][$scope.articleIndex];
+  $scope.nextExists = $scope.articleIndex < $rootScope.json['articles'].length - 1;
+  $scope.previousExists = $scope.articleIndex != 0;
+
+  $scope.change = function(i) {
+    $scope.articleIndex += i;
+    $location.path('read/' + $scope.articleIndex);
+    $location.hash('header-content');
+    anchorSmoothScroll.scrollTo('header-content');
+  };
+
+  var value = $window.innerWidth;
+  $scope.lim = 150;
+
+  if (value < 500)
+  $scope.lim = 20;
+  else if (value < 600)
+    $scope.lim = 40;
+  else if (value < 750)
+    $scope.lim = 60;
+
+});
+
+cApp.service('anchorSmoothScroll', function(){
+  this.scrollTo = function(eID) {
+    var startY = currentYPosition();
+    var stopY = elmYPosition(eID);
+    var distance = stopY > startY ? stopY - startY : startY - stopY;
+    if (distance < 100) {
+      scrollTo(0, stopY);
+      return;
+    }
+    var speed = Math.round(distance / 100);
+    if (speed >= 20) speed = 20;
+    var step = Math.round(distance / 25);
+    var leapY = stopY > startY ? startY + step : startY - step;
+    var timer = 0;
+    if (stopY > startY) {
+      for ( var i=startY; i<stopY; i+=step ) {
+        setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+        leapY += step; if (leapY > stopY) leapY = stopY; timer++;
+      } return;
+    }
+    for ( var i=startY; i>stopY; i-=step ) {
+      setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+      leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
+    }
+
+    function currentYPosition() {
+      if (self.pageYOffset) return self.pageYOffset;
+      if (document.documentElement && document.documentElement.scrollTop)
+        return document.documentElement.scrollTop;
+      if (document.body.scrollTop) return document.body.scrollTop;
+      return 0;
+    }
+
+    function elmYPosition(eID) {
+      var elm = document.getElementById(eID);
+      var y = elm.offsetTop;
+      var node = elm;
+      while (node.offsetParent && node.offsetParent != document.body) {
+        node = node.offsetParent;
+        y += node.offsetTop;
+      } return y;
+    }
+
+  };
+
 });

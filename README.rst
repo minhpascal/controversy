@@ -46,18 +46,18 @@ pending
 #. cache scored result
 #. cache full NYT articles
 #. continued development of experimental ui
-        * refactor `home.js` to use templates
         * full article ui
         * highlighted-sentences/hover/tweet ui
         * trending queries ui
         * user history ui
-#. "confidence" included in api response (a function of number of tweets)
 
 
 pending (after PURE)
 ----------------------
 #. development of external api
 #. queries table -> redis cache
+#. "show more" on results ui queries more than 10 articles
+#. "confidence" included in api response (a function of number of tweets)
 
 ---------
 

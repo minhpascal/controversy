@@ -1,6 +1,6 @@
 html, ul, body, h1, header, input, span, form {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
 html {
-    font-family:'Open Sans', Helvetica, sans-serif;
+    font-family: 'Lato', sans-serif;
     height:100%;
 }
 textarea, input {outline:none; box-shadow:none;}
@@ -14,7 +14,7 @@ img {
 }
 .field {
     border:none;
-    font-size:14px;
+    font-size:16px;
     padding:6px 12px;
     color:#555;
     border-bottom:1px dashed #D9D9D9;

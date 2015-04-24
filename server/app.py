@@ -7,6 +7,7 @@
 
     :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
     :license: BSD, see LICENSE for more details.
+    :author: Graham Dyer
 """
 from flask import Flask, session, redirect, render_template, request, Blueprint, flash
 from functools import wraps
@@ -102,6 +103,12 @@ def logout():
     session.pop('username', None)
     flash("you were logged out")
     return redirect('/login')
+
+@app.route('/html/<path>')
+@require_login
+def serve_ang(path):
+    unique = db.dump_user(session['username'])
+    return render_template('home/%s' % path, unique=unique)
 
 @app.route("/")
 @require_login

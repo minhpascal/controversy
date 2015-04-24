@@ -8,6 +8,7 @@
 
     :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
     :license: BSD, see LICENSE for more details.
+    :author: Graham Dyer
 """
 from flask import render_template, Blueprint, session, jsonify, request, Response
 from config import *
@@ -74,7 +75,7 @@ def new_query(keyword):
     return success(controversy({
             'tweets' : tw_search(keyword),
             'articles' : arts
-        }))
+    }))
 
 def format_date(s):
     return s.strftime('%Y%m%d')
@@ -90,7 +91,8 @@ def nyt_search(keyword):
         'begin_date' : format_date(last_week),
         'end_date' : format_date(today),
         'api-key' : NYT_KEY,
-        'facet_field' : 'source'})
+        'facet_field' : 'source'
+    })
 
 
     response = urllib2.urlopen("http://api.nytimes.com/svc/search/v2/articlesearch.json?%s" % params)
@@ -121,14 +123,13 @@ def make_nyt_pretty(keyword, json_response):
                 'published' : make_date(time.strptime(article['pub_date'][:10], '%Y-%m-%d')),
                 'xlarge' : 'http://www.nytimes.com/%s' % article['multimedia'][1]['url'] if has_multimedia else None,
                 'full' : get_full(url)
-            }
+        }
 
         res.append(data)
     return res
 
 def get_full(url):
     """nyt url --> full article text."""
-
     jar = cookielib.CookieJar()
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(jar))
     opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
@@ -139,9 +140,7 @@ def get_full(url):
     res = " ".join(p.text for p in body) 
     if not res:
         raise UsageError('failed to parse')
-
     return res
-
 
 def tw_search(keyword):
     twitter = get_auth()
@@ -162,7 +161,7 @@ def tw_search(keyword):
                 'followers' : r['user']['followers_count'],
                 'pimg' : r['user']['profile_image_url_https'],
                 'sentiment' : get_sentiment(clean)
-                })
+            })
         try:
             next_res = results['search_metadata']['next_results']
             next_max = next_res.split('max_id=')[1].split('&')[0]
@@ -186,7 +185,7 @@ def get_sentiment(tweet):
     params = urllib.urlencode({
         "api-key" : SENTIGEM_KEY,
         "text" : tweet
-        })
+    })
     response = urllib2.urlopen("https://api.sentigem.com/external/get-sentiment?%s" % params)
     res = json.load(response)
     print('sentiment cost ==> %s' % res['cost'])
@@ -202,7 +201,7 @@ def get_sentiment(tweet):
 def history():
     return success({
         'queries' : db.user_history(session['username'])
-        })
+    })
 
 
 @api.route('/%s' % STREAM_ENDPOINT)
@@ -211,5 +210,7 @@ def trending():
     freq = Counter(hist)
     s = reduce(lambda x,y : x + y, freq.values())
     for k, v in freq.iteritems():
-        freq[k] = (float(v)/s) * 100 
-    return success({"trending" : freq})
+        freq[k] = (float(v) / s) * 100 
+    return success({
+        "trending" : freq
+    })

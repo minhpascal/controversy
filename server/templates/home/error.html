@@ -1,0 +1,14 @@
+{% raw %}
+<figure>
+  <img src="static/{{ $root.error.code }}.jpg" ng-show="$root.error.message" />
+  <figcaption>
+    <span class=danger>
+      {{ $root.error.message }}
+    </span>
+  </figcaption>
+  <br>
+  <form ng-submit="goHome()">
+      <input class=go type=submit value="new query &rarr;" />
+  </form>
+</figure>
+{% endraw %}

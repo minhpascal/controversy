@@ -1,5 +1,12 @@
+# -*- coding: utf-8 -*-
 """
-db functionality
+    db.py
+    ~~~~~
+
+    db functionality
+    :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang
+    :license: BSD, see LICENSE for more details.
+    :author: Graham Dyer
 """
 
 import pymysql as sql

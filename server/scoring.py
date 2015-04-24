@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-    app.py
-    ~~~~~~
+    scoring.py
+    ~~~~~~~~~~
 
     Adds score and relevant tweets to response.
 
     :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
     :license: BSD, see LICENSE for more details.
+    :author: Ismini Lourentzou
 """
 import math, nltk, re, string, scipy
 from gensim import corpora

@@ -45,11 +45,11 @@ pending
 -------
 #. cache scored result
 #. cache full NYT articles
-#. continued development of experimental ui
-        * full article ui
-        * highlighted-sentences/hover/tweet ui
-        * trending queries ui
-        * user history ui
+#. continued development of ui
+        * highlighted-sentences/hover/tweet
+        * trending queries
+        * user history
+#. explore better error handling for malformed articles
 
 
 pending (after PURE)

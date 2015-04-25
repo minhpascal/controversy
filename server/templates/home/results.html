@@ -22,7 +22,9 @@
     <p class=card-title ng-bind-html="article.title"></p>
     <img class=full ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
     <p ng-bind-html="article.abstract"></p>
-    <a href="#read/{{ $index }}"><p class=url>Read the full article</p></a>
+    <p class=url>
+      <a href="#read/{{ $index }}">Read the full article</a>
+    </p>
   </div>
   </li>
 </ul>

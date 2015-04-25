@@ -123,7 +123,7 @@ def controversy(data):
     #for every article
     for article_index in xrange(len(data['articles'])):
         score = 0
-        query = tokenizer.tokenize(data['articles'][article_index]["abstract"])
+        query = tokenizer.tokenize(data['articles'][article_index]["full"])
         sentences = [];
 
         #for every sentence
@@ -135,14 +135,14 @@ def controversy(data):
             #for every relevant tweet
             for tweet in scores:
                 doc_index = tweet[1]
-                sentiments.append(data["tweets"][doc_index]["sentiment"])
-                relevant_tweets.append(data["tweets"][doc_index])
+                sentiments.append(data['tweets'][doc_index]['sentiment'])
+                relevant_tweets.append(data['tweets'][doc_index])
 
             #find entropy of sentiment
             sentences.append({ 
                 'tweets' : relevant_tweets,
                 'text' : sentence
-                })
+            })
 
             sentiments = dict((x,(sentiments.count(x)/float(len(sentiments)))) for x in set(sentiments)).values()
             entropy = scipy.stats.entropy(sentiments, base=2)

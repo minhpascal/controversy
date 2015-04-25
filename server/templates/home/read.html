@@ -4,28 +4,26 @@
     <span class=smaller>
       <a href="#results">&larr; back</a>
       &middot;
-      {{ article.title | limitTo: lim }}{{ article.title.length > lim ? '&hellip;' : ''}}
+      <span ng-bind-html="article.title | limitTo: lim"></span> {{ article.title.length > lim ? '&hellip;' : ''}}</span>
+    </span>
+    <span id=right-header>
+      <a ng-show="previousExists" ng-click="change(-1)">
+        &lArr; previous
+      </a>
+      <span ng-show="previousExists && nextExists">
+        &middot;
       </span>
+      <a ng-show="nextExists" ng-click="change(1)">
+        next &rArr;
+      </a>
     </span>
   </span>
-  <span id=right-header>
-    <a ng-show="previousExists" ng-click="change(-1)">
-      &lArr; previous
-    </a>
-    <span ng-show="previousExists && nextExists">
-      &middot;
-    </span>
-    <a ng-show="nextExists" ng-click="change(1)">
-      next &rArr;
-    </a>
-  </span>
-</span>
 </header>
 
 <main>
   <ul class=details>
-    <li ng-repeat="key in ['author', 'source', 'score', 'published']">
-      <span class=detail>
+    <li ng-repeat="key in ['author', 'source', 'published']">
+      <span ng-show="article[key]" class=detail>
         {{ article[key] }}
       </span>&nbsp;
     </li>

@@ -52,7 +52,7 @@ def success(r):
 def make_date(t=None):
     """datetime or None -> sql-ready date-string."""
 
-    f = '%Y-%m-%d %H:%M:%S'
+    f = '%Y-%m-%d'
     return time.strftime(f) if t is None else time.strftime(f, t)
 
 

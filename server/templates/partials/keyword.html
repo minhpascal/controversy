@@ -1,22 +1,12 @@
 {% raw %}
-<figure ng-show="error_message">
-  <img src="static/{{ error_img }}.jpg" ng-show="error_message" />
-  <figcaption><span class=danger>{{ error_message }}</span></figcaption>
-</figure>
-
-
-<!-- results -->
 <ul class=cards ng-show="json" ng-style="results_style">
   <li ng-repeat="article in json.articles">
-  <div class=card>
-    <p class=card-title ng-bind-html="article.title"></p>
-    <img class=full ng-show="article.xlarge" src="{{ article.xlarge }}" />
-    <p ng-bind-html="article.abstract"></p>
-    <p class=url>Read the full article</p>
-  </div>
+    <div class=card>
+      <p class=card-title ng-bind-html="article.title"></p>
+      <img class=full ng-show="article.xlarge" src="{{ article.xlarge }}" />
+      <p ng-bind-html="article.abstract"></p>
+      <p class=url>Read the full article</p>
+    </div>
   </li>
-
-</div>
-<!-- end results -->
-
+</ul>
 {% endraw %}

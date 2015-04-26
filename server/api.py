@@ -17,7 +17,12 @@ from twython import Twython
 from collections import Counter
 from bs4 import BeautifulSoup
 from scoring import controversy
-import urllib, urllib2, cookielib, datetime, time, json, db, re, random, requests
+import urllib, urllib2, cookielib, requests
+import datetime, time
+import json
+import db, redis
+import re
+import random
 api = Blueprint('/api', __name__)
 from app import loggedin
 
@@ -30,6 +35,7 @@ MAX_ARTICLES = 100
 HISTORY_ENDPOINT = 'user-history'
 STREAM_ENDPOINT = 'stream'
 
+sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
 
 @api.errorhandler(UsageError)
 def handle_error(error):
@@ -44,8 +50,11 @@ def restrict():
     if QUERY_PARAM not in request.args and request.path.split('/')[-1] not in [HISTORY_ENDPOINT, STREAM_ENDPOINT]:
         raise UsageError('missing keyword')
 
+def justmime(r):
+    return Response(r, mimetype="application/json", status=200)
 
 def success(r):
+    #: not used by main api
     r.update({'error':0})
     return jsonify(r)
 
@@ -63,12 +72,15 @@ def query():
     u = session['username']
     if db.unique_user_query(q, u):
         db.append_history(q, make_date(), u)
+    else:
+        db.update_history(q, make_date(), u)
 
-    return new_query(q)
+    cached = sr.get(q)
+    return justmime(cached) if cached else new_query(q)
 
 def new_query(keyword):
-    #db.add_query(keyword, make_date())
     if 'test' in request.args:
+        #: safe to remove make_response import when this is deleted
         response = make_response(render_template('testing-response.json'))
         response.headers["Content-Type"] = "application/json"
         return response
@@ -76,10 +88,15 @@ def new_query(keyword):
     arts = nyt_search(keyword)
     if len(arts) == 0:
         raise UsageError('no-articles', status_code=200)
-    return success(controversy({
-            'tweets' : tw_search(keyword),
-            'articles' : arts
+
+    ranked = json.dumps(controversy({
+        'tweets' : tw_search(keyword),
+        'articles' : arts,
+        'error' : 0
     }))
+
+    sr.set(keyword, ranked)
+    return justmime(ranked)
 
 def format_date(s):
     return s.strftime('%Y%m%d')

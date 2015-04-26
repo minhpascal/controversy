@@ -3,7 +3,7 @@ Controversy
 
 Joint Mining of News Text and Social Media to Discover Controversial Points in News
 
-``requirements.txt`` and setup changed on 4/22
+**``config.py``, setup, & ``requirements.txt`` changed on 4/25**
 
 running the server
 ------------------
@@ -32,6 +32,8 @@ create ``config``::
 * ``sudo pip install -r requirements.txt``
 	- ``{{ type admin password }}``
         - if there's an error, ensure you have ``scipy`` `requirements <http://www.scipy.org/install.html>`_ satisfied
+* ``redis-server``
+        - if not installed : ``sudo apt-get install redis-server``, ``brew install redis`` or  `anti-brew-OSX <http://jasdeep.ca/2012/05/installing-redis-on-mac-os-x/>`_
 * ``python``
         - ``import nltk``
         - ``nltk.download('all')`` (may take a while, but all data is downloaded to ``~/``, so you can purge it later)

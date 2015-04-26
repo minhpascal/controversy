@@ -167,7 +167,7 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
           return x['text']
     }).join('|'), 'gi');
     corpus = corpus.replace(re, function(matched) {
-      return "<mark>" + matched + "</mark>";
+      return "<b>" + matched + "</b>";
     });
 
     return corpus;

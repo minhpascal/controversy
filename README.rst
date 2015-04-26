@@ -3,13 +3,13 @@ Controversy
 
 Joint Mining of News Text and Social Media to Discover Controversial Points in News
 
-**``config.py``, setup, & ``requirements.txt`` changed on 4/25**
+``config.py``, setup, & ``requirements.txt`` changed on 4/25
 
 running the server
 ------------------
 * ``cd server``
 
-create ``config``::
+create config::
 
 	echo "import os
 	DB_HOST = 'localhost'
@@ -45,14 +45,13 @@ create ``config``::
 
 pending
 -------
-#. cache scored api resonse
-#. cache full NYT articles
+#. cache full NYT articles (with SQL)
 #. continued development of ui
         * highlighted-sentences/hover/tweet
         * trending queries
         * user history
 #. explore better error handling for malformed articles
-#. limit BM25 to only the top ``x%`` most related tweets (there are too many now)
+#. limit BM25 to only the top ``x%`` most related tweets (there are occasionally too many)
 
 
 pending (after PURE)

@@ -10,7 +10,7 @@
     :license: BSD, see LICENSE for more details.
     :author: Graham Dyer
 """
-from flask import render_template, Blueprint, session, jsonify, request, Response
+from flask import render_template, make_response, Blueprint, session, jsonify, request, Response
 from config import *
 from error import UsageError
 from twython import Twython 
@@ -67,8 +67,12 @@ def query():
     return new_query(q)
 
 def new_query(keyword):
-    #: return unranked until ported method is available 
     #db.add_query(keyword, make_date())
+    if 'test' in request.args:
+        response = make_response(render_template('testing-response.json'))
+        response.headers["Content-Type"] = "application/json"
+        return response
+
     arts = nyt_search(keyword)
     if len(arts) == 0:
         raise UsageError('no-articles', status_code=200)
@@ -103,7 +107,7 @@ def nyt_search(keyword):
 def make_nyt_pretty(keyword, json_response):
     res = []
     for article in json_response['response']['docs']:
-        if 'corrections' in article['headline']['main'].lower():
+        if 'test yourself' in article['headline']['main'].lower():
             continue
         has_multimedia = len(article['multimedia']) > 1
         has_byline = article['byline']
@@ -179,10 +183,7 @@ def clean_tweet(dirty):
 
 def get_sentiment(tweet):
     """Get sentiment of a ( clean ) tweet."""
-
-    if 'test' in request.args:
-        return random.choice([0,2,4])
-
+    return random.choice([0,2,4])
     params = urllib.urlencode({
         "api-key" : SENTIGEM_KEY,
         "text" : tweet

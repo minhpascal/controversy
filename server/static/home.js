@@ -50,7 +50,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
   var SET_OPACITY = function(o) {
     $rootScope.results_style = {'opacity' : o };
   }
-  $scope.is_testing = true;
+  $scope.testing_js = true;
   $scope.button_value = 'query';
 
   $scope.$watch(function() {
@@ -87,7 +87,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
       $location.path('/error');
     }
 
-    var call = '/api?q=' + $rootScope.keyword + ($scope.is_testing ? '&test=1' : '');
+    var call = '/api?q=' + $rootScope.keyword + ($scope.testing_js ? '&test=1' : '');
     console.log('querying ==> ' + call);
 
     $http.get(call).
@@ -151,6 +151,7 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
     anchorSmoothScroll.scrollTo('header-content');
   };
 
+
   var value = $window.innerWidth;
   $scope.lim = 150;
 
@@ -160,6 +161,17 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
     $scope.lim = 40;
   else if (value < 750)
     $scope.lim = 60;
+
+  $scope.highlight = function(corpus, needles) {
+    var re = new RegExp(needles.map(function(x) {
+          return x['text']
+    }).join('|'), 'gi');
+    corpus = corpus.replace(re, function(matched) {
+      return "<mark>" + matched + "</mark>";
+    });
+
+    return corpus;
+  };
 
 });
 
@@ -178,12 +190,12 @@ cApp.service('anchorSmoothScroll', function(){
     var leapY = stopY > startY ? startY + step : startY - step;
     var timer = 0;
     if (stopY > startY) {
-      for ( var i=startY; i<stopY; i+=step ) {
+      for (var i=startY; i<stopY; i+=step) {
         setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
         leapY += step; if (leapY > stopY) leapY = stopY; timer++;
       } return;
     }
-    for ( var i=startY; i>stopY; i-=step ) {
+    for (var i=startY; i>stopY; i-=step) {
       setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
       leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
     }

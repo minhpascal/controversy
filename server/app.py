@@ -108,7 +108,7 @@ def logout():
 @require_login
 def serve_ang(path):
     unique = db.dump_user(session['username'])
-    return render_template('home/%s' % path, unique=unique)
+    return render_template('partials/%s' % path, unique=unique)
 
 @app.route("/")
 @require_login

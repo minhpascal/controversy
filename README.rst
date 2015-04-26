@@ -9,7 +9,7 @@ running the server
 ------------------
 * ``cd server``
 
-running the server::
+create ``config``::
 
 	echo "import os
 	DB_HOST = 'localhost'
@@ -43,13 +43,14 @@ running the server::
 
 pending
 -------
-#. cache scored result
+#. cache scored api resonse
 #. cache full NYT articles
 #. continued development of ui
         * highlighted-sentences/hover/tweet
         * trending queries
         * user history
 #. explore better error handling for malformed articles
+#. limit BM25 to only the top ``x%`` most related tweets (there are too many now)
 
 
 pending (after PURE)

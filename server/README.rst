@@ -43,7 +43,7 @@ response::
 					'text': 'Great results today!'
 				}
 			],
-			'published': '2015-03-31 00:00:00'
+			'published': '2015-03-31'
 		},
 	
 	     ...]

@@ -9,7 +9,7 @@
     :license: BSD, see LICENSE for more details.
     :author: Ismini Lourentzou
 """
-import math, nltk, re, string, scipy
+import math, nltk, re, string, scipy, heapq
 from gensim import corpora
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
@@ -139,17 +139,27 @@ def controversy(data):
                 relevant_tweets.append(data['tweets'][doc_index])
 
             #find entropy of sentiment
-            sentences.append({ 
-                'tweets' : relevant_tweets,
-                'text' : sentence
-            })
-
             sentiments = dict((x,(sentiments.count(x)/float(len(sentiments)))) for x in set(sentiments)).values()
             entropy = scipy.stats.entropy(sentiments, base=2)
             score += entropy
 
-        data['articles'][article_index]['sentences'] = sentences
+            sentences.append({
+                'tweets' : relevant_tweets,
+                'text' : sentence,
+                'entropy' : entropy
+            })
+
+        #: get 5% of setences
+        n = int(math.ceil(len(sentences) * 0.05))
+        #: create a list of n largest entropy values
+        nlargest = heapq.nlargest(n, map(lambda x : x['entropy'], sentences))
+        filtered = filter(lambda x : any(x['entropy'] >= i for i in nlargest) and len(x['tweets']) > 1, sentences)
+
+
+        data['articles'][article_index]['sentences'] = filtered
         data['articles'][article_index]['score'] = score
+
+
 
     data.pop('tweets', None)
     return data

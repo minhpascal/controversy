@@ -77,7 +77,6 @@ main {padding:6em 1em;}
     color:white;
     background-color:#d43f3a;
     border-radius:2px;
-    margin:5px 5px;
     padding:2px;
 }
 ul.details {
@@ -95,6 +94,9 @@ ul.details li {display:inline;}
     background-color:#f2f2f2;
     border-radius:2px;
     padding:2px;
+}
+mark {
+    background-color:rgba(255,255,51,.5);
 }
 @media (max-width:600px) {
     #header-title {font-size:100%;}

@@ -17,8 +17,8 @@
 <form ng-submit='submit()' style="text-align:center">
   <input autocomplete=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
   <p>
-  use fake sentiment
-  <input type=checkbox ng-model="is_testing" checked />
+  testing js
+  <input type=checkbox ng-model="testing_js" checked />
   </p>
   <input type=submit class=go ng-class="{'disabled' : !$root.can_query, 'loading' : $root.is_loading}" value="{{ button_value }}" /> 
 </form>

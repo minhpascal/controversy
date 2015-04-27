@@ -146,7 +146,7 @@ def controversy(data):
             sentences.append({
                 'tweets' : relevant_tweets,
                 'text' : sentence,
-                'entropy' : entropy,
+                'entropy' : entropy
             })
 
         #: get 5% of setences

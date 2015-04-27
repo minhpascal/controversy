@@ -42,7 +42,6 @@ response::
 					],
 					'text': 'Great results today!',
                                         'entropy': 1.52121243,
-                                        'index': 0
 
 				}
 			],

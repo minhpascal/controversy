@@ -15,12 +15,12 @@ cApp.run(function($rootScope) {
     var e = code in ERROR_MESSAGES;
     $rootScope.error = {
       'message' : (e) ? ERROR_MESSAGES[code] : ERROR_MESSAGES['our-fault'],
-    'code' : (e) ? code : 'our-fault'
+      'code' : (e) ? code : 'our-fault'
     }
   }
   $rootScope.article = function(index) {
     return ($rootScope.json) ? $rootScope.json['articles'][index] : null;
-  }
+  };
 });
 
 cApp.config(function ($routeProvider) {
@@ -30,20 +30,26 @@ cApp.config(function ($routeProvider) {
     controller : 'SearchController'
   })
 
-.when('/results', {
-  templateUrl : 'html/results.html',
-  controller : 'ResultsController'
-})
+  .when('/results', {
+    templateUrl : 'html/results.html',
+    controller : 'ResultsController'
+  })
 
-.when('/read/:article', {
-  templateUrl : 'html/read.html',
-  controller : 'ReadController'
-})
+  .when('/read/:article/:sentence', {
+    templateUrl : 'html/tweets.html',
+    controller : 'TweetsController'
+  })
 
-.when('/error', {
-  templateUrl : 'html/error.html',
-  controller : 'ErrorController'
-})
+  .when('/read/:article', {
+    templateUrl : 'html/read.html',
+    controller : 'ReadController'
+  })
+
+  .when('/error', {
+    templateUrl : 'html/error.html',
+    controller : 'ErrorController'
+  })
+
 });
 
 cApp.controller('SearchController', function($scope, $http, $rootScope, $location) {
@@ -140,7 +146,7 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
     return;
   }
 
-  $scope.article = $rootScope.json['articles'][$scope.articleIndex];
+  $scope.article = $rootScope.article($scope.articleIndex);
   $scope.nextExists = $scope.articleIndex < $rootScope.json['articles'].length - 1;
   $scope.previousExists = $scope.articleIndex != 0;
 
@@ -150,7 +156,6 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
     $location.hash('header-content');
     anchorSmoothScroll.scrollTo('header-content');
   };
-
 
   var value = $window.innerWidth;
   $scope.lim = 150;
@@ -163,14 +168,39 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
     $scope.lim = 60;
 
   $scope.highlight = function(corpus, needles) {
+    var i = -1;
     var re = new RegExp(needles.map(function(x) {
           return x['text']
     }).join('|'), 'gi');
     corpus = corpus.replace(re, function(matched) {
-      return "<b>" + matched + "</b>";
+      i++; 
+      return "<b><a href='#read/" + $routeParams.article + '/' + i + "'>" + matched + "</a></b>";
     });
 
     return corpus;
+  };
+
+});
+
+
+cApp.controller('TweetsController', function($scope, $rootScope, $location, $routeParams, anchorSmoothScroll) {
+
+  $scope.sentenceIndex = parseInt($routeParams.sentence);
+  var articles = $rootScope.article([$routeParams.article]);
+  if (!articles) {
+    $location.path('/');
+    return;
+  }
+  
+  $scope.sentence = articles['sentences'][$scope.sentenceIndex];
+  $scope.nextExists = $scope.sentenceIndex < articles['sentences'].length - 1;
+  $scope.previousExists = $scope.sentenceIndex != 0;
+
+  $scope.change = function(i) {
+    $scope.sentenceIndex += i;
+    $location.path('read/' + $routeParams.article + '/' + $scope.sentenceIndex);
+    $location.hash('header-content');
+    anchorSmoothScroll.scrollTo('header-content');
   };
 
 });

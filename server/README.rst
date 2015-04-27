@@ -40,7 +40,10 @@ response::
 								'clean': 'It is a great day!'
 						}
 					],
-					'text': 'Great results today!'
+					'text': 'Great results today!',
+                                        'entropy': 1.52121243,
+                                        'index': 0
+
 				}
 			],
 			'published': '2015-03-31'

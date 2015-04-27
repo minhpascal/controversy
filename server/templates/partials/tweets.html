@@ -1,0 +1,33 @@
+{% raw %}
+<header>
+  <span id=header-content>
+    <span class=smaller>
+      <a href="#results/{{ articleIndex }}">
+        &larr; article
+      </a>
+      <span class=non-essentials>
+        &middot;
+        controversial sentence &mdash; related social content
+      </span>
+    </span>
+    <span id=right-header>
+      <span ng-show="previousExists" ng-click="change(-1)">
+        &lArr; previous
+      </span>
+      <span ng-show="previousExists && nextExists">
+        &middot;
+      </span>
+      <span ng-show="nextExists" ng-click="change(1)">
+        next &rArr;
+      </span>
+    </span>
+  </span>
+</header>
+<main>
+  <mark><i>{{ sentence.text }}</i></mark>
+  <dl>
+    <dt ng-repeat="tweet in sentence.tweets">
+    @{{ tweet.author }} : {{ tweet.tweet }}
+  </dl>
+</main>
+{% endraw %}

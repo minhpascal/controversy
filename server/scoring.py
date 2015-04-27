@@ -123,7 +123,7 @@ def controversy(data):
     #for every article
     for article_index in xrange(len(data['articles'])):
         score = 0
-        query = tokenizer.tokenize(data['articles'][article_index]["full"])
+        query = tokenizer.tokenize(data['articles'][article_index]['full'])
         sentences = [];
 
         #for every sentence
@@ -146,7 +146,7 @@ def controversy(data):
             sentences.append({
                 'tweets' : relevant_tweets,
                 'text' : sentence,
-                'entropy' : entropy
+                'entropy' : entropy,
             })
 
         #: get 5% of setences

@@ -1,8 +1,8 @@
 {% raw %}
-<header ng-keydown="kd($event)">
+<header>
   <span id=header-content>
     <span class=smaller>
-      <a href="#results">&larr; back</a>
+      <a href="#results">&larr; all articles</a>
       &middot;
       <span ng-bind-html="article.title | limitTo: lim"></span> {{ article.title.length > lim ? '&hellip;' : ''}}</span>
     </span>
@@ -19,7 +19,6 @@
     </span>
   </span>
 </header>
-
 <main>
   <ul class=details>
     <li ng-repeat="key in ['author', 'source', 'published']">

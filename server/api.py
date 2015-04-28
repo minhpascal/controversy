@@ -199,7 +199,7 @@ def clean_tweet(dirty):
     return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", dirty.strip('#')).split())
 
 def get_sentiment(tweet):
-    """Get sentiment of a ( clean ) tweet."""
+    """Get sentiment of a ( clean ) tweet. Will move to NLTK later."""
     return random.choice([0,2,4])
     params = urllib.urlencode({
         "api-key" : SENTIGEM_KEY,

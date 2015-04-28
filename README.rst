@@ -55,11 +55,11 @@ pending
 
 
 pending (after PURE)
-----------------------
+--------------------
 #. development of external api
-#. queries table -> redis cache
 #. "show more" on results ui queries more than 10 articles
 #. "confidence" included in api response (a function of number of tweets)
+#. native sentiment analysis
 
 ---------
 

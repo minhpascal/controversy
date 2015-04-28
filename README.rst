@@ -45,21 +45,19 @@ create config::
 
 pending
 -------
-#. cache full NYT articles (with SQL)
-#. continued development of ui
-        * highlighted-sentences/hover/tweet
-        * trending queries
-        * user history
+#. better tweet ui
+#. nltk sentiment
 #. explore better error handling for malformed articles
 #. limit BM25 to only the top ``x%`` most related tweets (there are occasionally too many)
 
 
-pending (after PURE)
+pending (summer)
 --------------------
+#. trending queries, api calls, and user history graphs with d3
+#. cache full NYT articles (with SQL)
 #. development of external api
 #. "show more" on results ui queries more than 10 articles
 #. "confidence" included in api response (a function of number of tweets)
-#. native sentiment analysis
 
 ---------
 

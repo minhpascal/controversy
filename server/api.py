@@ -200,10 +200,9 @@ def clean_tweet(dirty):
 
 def get_sentiment(tweet):
     """Get sentiment of a ( clean ) tweet. Will move to NLTK later."""
-    return random.choice([0,2,4])
     params = urllib.urlencode({
         "api-key" : SENTIGEM_KEY,
-        "text" : tweet
+        "text" : tweet.encode('utf-8')
     })
     response = urllib2.urlopen("https://api.sentigem.com/external/get-sentiment?%s" % params)
     res = json.load(response)

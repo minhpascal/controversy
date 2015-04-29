@@ -1,40 +1,83 @@
-ul.cards {
-    -webkit-transition:0.2s linear all;
-    -moz-transition:0.2s linear all;
-    transition:0.2s linear all;
-    -webkit-column-count:1;
-    -webkit-column-gap:6px;
+ul.cards, ul.tweets, div.tweet, div.tweet-meta {
+    -webkit-transition:0.1s linear all;
+    -moz-transition:0.1s linear all;
+    transition:0.1s linear all;
+}
+ul.cards, ul.tweets {
     -webkit-column-fill:auto;
-    -moz-column-count:1;
-    -moz-column-gap:6px;
     -moz-column-fill:auto;
-    column-count:1;
-    column-gap:6px;
     column-fill:auto;
     margin:0 auto;
     width:400px;
 }
-ul.cards li {
+ul.cards {
+    -webkit-column-count:1;
+    -webkit-column-gap:6px;
+    column-count:1;
+    column-gap:6px;
+    -moz-column-count:1;
+    -moz-column-gap:6px;
+}
+ul.tweets {
+    margin-top:2em;
+    -webkit-column-count:2;
+    -webkit-column-gap:5px;
+    column-count:2;
+    column-gap:5px;
+    -moz-column-count:2;
+    -moz-column-gap:5px;
+}
+ul.cards li, ul.tweets li {
     -webkit-column-break-inside:avoid;
     -moz-column-break-inside:avoid;
     column-break-inside:avoid;
-    margin-bottom:2em;
     list-style:none;
-    width:400px;
 }
-div.card {
+ul.cards li {
+    width:400px;
+    margin-bottom:2em;
+}
+ul.tweets li {
+    width:180px;
+    margin-bottom:5px;
+}
+div.card, div.tweet, div.tweet-meta {
     padding-bottom:10px;
     background:#fff;
     border:1px solid #efefef;
-    -webkit-box-shadow:0px 1px 4px 0px rgba(0,0,0,0.2);
-    box-shadow:0px 1px 4px 0px rgba(0,0,0,0.2);
-    -moz-box-shadow:0px 1px 4px 0px rgba(0,0,0,0.2); 
     color:#444;
-    font-size:14px;
+    position:relative;
     -moz-border-radius:2px;
     -webkit-border-radius:2px;
     border-radius:2px;
-    position:relative;
+    font-size:14px;
+}
+div.tweet, div.tweet-meta {
+    padding:2px;
+    overflow:hidden;
+}
+div.card { 
+    -webkit-box-shadow:0px 1px 4px 0px rgba(0,0,0,0.2);
+    box-shadow:0px 1px 4px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow:0px 1px 4px 0px rgba(0,0,0,0.2); 
+}
+div.tweet-meta {
+    padding:5px;
+    margin-top:5px;
+    text-align:center;
+}
+div.tweet-meta img {
+    width:54px;
+    height:54px;
+    border-radius:27px;
+    border:1px dashed #d9d9d9;
+}
+div.mad {border:1px solid #d43f3a;}
+div.happy {border:1px solid #449d44;}
+div.hovering {color:black;}
+div.no-hover {
+    color:#c3c3c3;
+    border:1px solid #f9f9f9;
 }
 div.most-controversial {border:2px solid #d43f3a;}
 div.least-controversial {border:2px solid #2e6da4;}
@@ -71,6 +114,12 @@ div.card img.full {width:100%;}
         -moz-column-count:2;
         column-count:2;
     }
+    ul.tweets {
+        width:850px;
+        -webkit-column-count:4;
+        -moz-column-count:4;
+        column-count:4;
+    }
 }
 @media (min-width:1320px) {
     ul.cards {
@@ -79,16 +128,15 @@ div.card img.full {width:100%;}
         -moz-column-count:3;
         column-count:3;
     }
+    ul.tweets {
+        width:1250px;
+        -webkit-column-count:6;
+        -moz-column-count:6;
+        column-count:6;
+    }
 }
 @media (max-width:550px) {
-    .non-essentials {
-        display:none;
-    }
-    ul.cards {
-        width:320px;
-    }
-    ul.cards li {
-        width:315px;
-    }
+    .non-essentials {display:none;}
+    ul.cards {width:320px;}
+    ul.cards li {width:315px;}
 }
-    

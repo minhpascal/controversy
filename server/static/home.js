@@ -62,9 +62,8 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
   $scope.$watch(function() {
     return $rootScope.keyword;
   }, function() {
-    var same = $rootScope.keyword.localeCompare($rootScope.last_query) != 0;
-    $rootScope.can_query = same && ($rootScope.keyword.length > 0) 
-    SET_OPACITY((same) ? 0.5 : 1.0);
+    $rootScope.can_query = ($rootScope.keyword.length > 0) && ($rootScope.keyword.localeCompare($rootScope.last_query) != 0);
+    SET_OPACITY(($rootScope.can_query) ? 0.5 : 1.0);
   }, true);
 
   $scope.clear = function() {
@@ -202,6 +201,17 @@ cApp.controller('TweetsController', function($scope, $rootScope, $location, $rou
     $location.path('read/' + $scope.articleIndex + '/' + $scope.sentenceIndex);
     $location.hash('header-content');
     anchorSmoothScroll.scrollTo('header-content');
+  };
+
+  $scope.hoverIn = function(pimg) {
+    this.hovering = true;
+    $scope.propic = pimg;
+    $scope.globalHover = true;
+  };
+
+  $scope.hoverOut = function() {
+    this.hovering = false;
+    $scope.globalHover = false;
   };
 
 });

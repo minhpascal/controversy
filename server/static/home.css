@@ -48,9 +48,7 @@ main {padding:6em 1em;}
     margin-bottom:10px;
     width:275px;
 }
-#search:focus, #top-search input:focus {
-    border-bottom:1px dashed #a3a3a3;
-}
+#search:focus, #top-search input:focus {border-bottom:1px dashed #a3a3a3;}
 .loading, .top-loading {background:url('/static/loading.gif') no-repeat;}
 .top-loading {
     background-position:98% 50%;
@@ -96,9 +94,8 @@ ul.details li {display:inline;}
     padding:2px;
 }
 mark {
-    text-align:justify;
     line-height:25px;
-    background-color:rgba(255,255,51,.5);
+    background-color:rgba(255,255,51,.3);
     border-radius:2px;
     padding:2px;
 }

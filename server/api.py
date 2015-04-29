@@ -124,7 +124,7 @@ def nyt_search(keyword):
 def make_nyt_pretty(keyword, json_response):
     res = []
     for article in json_response['response']['docs']:
-        if 'test yourself' in article['headline']['main'].lower():
+        if article['headline']['main'].lower() in ['test yourself', 'paid notice:']:
             continue
         has_multimedia = len(article['multimedia']) > 1
         has_byline = article['byline']
@@ -134,7 +134,9 @@ def make_nyt_pretty(keyword, json_response):
         re.sub('[<>]', '', ab)
 
         url = article['web_url']
-
+        full = get_full(url)
+        if not full:
+            continue
         data = {
                 'url' : url,
                 'author' : article['byline']['original'] if has_byline else None,
@@ -143,7 +145,7 @@ def make_nyt_pretty(keyword, json_response):
                 'source' : article['source'],
                 'published' : make_date(time.strptime(article['pub_date'][:10], '%Y-%m-%d')),
                 'xlarge' : 'http://www.nytimes.com/%s' % article['multimedia'][1]['url'] if has_multimedia else None,
-                'full' : get_full(url)
+                'full' : full
         }
 
         res.append(data)
@@ -159,8 +161,6 @@ def get_full(url):
     body = soup.findAll('p', {'class' : ['story-body-text', 'story-content']})
 
     res = " ".join(p.text for p in body) 
-    if not res:
-        raise UsageError('failed-to-parse')
     jar.clear()
     return res
 
@@ -181,7 +181,7 @@ def tw_search(keyword):
                 'clean' : clean, 
                 'author' : r['user']['screen_name'],
                 'followers' : r['user']['followers_count'],
-                'pimg' : r['user']['profile_image_url_https'],
+                'pimg' : r['user']['profile_image_url'],
                 'sentiment' : get_sentiment(clean)
             })
         try:

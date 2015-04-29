@@ -45,7 +45,6 @@ create config::
 
 pending
 -------
-#. better tweet ui
 #. nltk sentiment
 #. explore better error handling for malformed articles
 #. limit BM25 to only the top ``x%`` most related tweets (there are occasionally too many)
@@ -58,6 +57,7 @@ pending (summer)
 #. development of external api
 #. "show more" on results ui queries more than 10 articles
 #. "confidence" included in api response (a function of number of tweets)
+#. when should cached content should be considered too old?
 
 ---------
 

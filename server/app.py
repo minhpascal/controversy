@@ -114,7 +114,7 @@ def serve_ang(path):
 @require_login
 def index():
     unique = db.dump_user(session['username'])
-    return genpage('Home', unique, css=['home', 'cards'], js=['home'], angular='Home')
+    return genpage('App', unique, css=['home', 'cards'], js=['home'], angular='Home')
 
 @app.template_filter('first_name')
 def first_name(s):

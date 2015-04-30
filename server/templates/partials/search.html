@@ -14,7 +14,7 @@
 </header>
 {% raw %}
 <main>
-<form ng-submit='submit()' style="text-align:center">
+<form ng-submit="submit()" id=home-search>
   <input autocomplete=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
   <p>
   testing js
@@ -22,5 +22,7 @@
   </p>
   <input type=submit class=go ng-class="{'disabled' : !$root.can_query, 'loading' : $root.is_loading}" value="{{ button_value }}" /> 
 </form>
+
+
 </main>
 {% endraw %}

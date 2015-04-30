@@ -29,6 +29,9 @@ header {
     float:right;
     padding-right:10px;
 }
+#home-search {
+    text-align:center;
+}
 main {padding:6em 1em;}
 #top-search {display:inline;}
 #top-search input {

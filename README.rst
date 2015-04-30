@@ -45,19 +45,22 @@ create config::
 
 pending
 -------
-#. nltk sentiment
-#. explore better error handling for malformed articles
-#. limit BM25 to only the top ``x%`` most related tweets (there are occasionally too many)
-
+#. none--prepare for finals
 
 pending (summer)
---------------------
-#. trending queries, api calls, and user history graphs with d3
+----------------
+#. nltk sentiment
+#. stats for nerds with nvd3
+        - average global sentiment of tweets vs time
+        - average controversy score for a keyword vs time
+        - api calls vs time
+        - trending queries
 #. cache full NYT articles (with SQL)
 #. development of external api
-#. "show more" on results ui queries more than 10 articles
+#. "show more" on results ui queries more than 10 articles without repeats
 #. "confidence" included in api response (a function of number of tweets)
 #. when should cached content should be considered too old?
+#. web ui Firefox, Safari support
 
 ---------
 

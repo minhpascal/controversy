@@ -17,8 +17,10 @@ from config import *
 from form import *
 app = Flask(__name__)
 
+
 def loggedin():
     return session.get('username') is not None
+
 
 def require_login(view):
     @wraps(view)
@@ -29,9 +31,10 @@ def require_login(view):
             return redirect('/login')
     return protected_view
 
+
 def genpage(title, unique, css=[], js=[], angular=''):
     return render_template("%s.html" % title,
-        page = 
+        page =
             {
                 "title" : title,
                 "custom_css" : map(lambda x: "%s.css" % x, css),
@@ -40,6 +43,7 @@ def genpage(title, unique, css=[], js=[], angular=''):
             },
         unique = unique
     )
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -70,6 +74,7 @@ def login():
             return redirect('/')
     return genpage("Login", unique, css=["login"])
 
+
 @app.route("/register", methods=['GET', 'POST'])
 def getaccount():
     #: see form.py
@@ -98,11 +103,13 @@ def getaccount():
     unique['logged_in'] = loggedin()
     return genpage('Register', unique, css=['login'])
 
+
 @app.route("/logout")
 def logout():
     session.pop('username', None)
     flash("you were logged out")
     return redirect('/login')
+
 
 @app.route('/html/<path>')
 @require_login
@@ -110,11 +117,13 @@ def serve_ang(path):
     unique = db.dump_user(session['username'])
     return render_template('partials/%s' % path, unique=unique)
 
+
 @app.route("/")
 @require_login
 def index():
     unique = db.dump_user(session['username'])
     return genpage('App', unique, css=['home', 'cards'], js=['home'], angular='Home')
+
 
 @app.template_filter('first_name')
 def first_name(s):

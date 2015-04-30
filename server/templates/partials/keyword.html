@@ -3,7 +3,7 @@
   <li ng-repeat="article in json.articles">
     <div class=card>
       <p class=card-title ng-bind-html="article.title"></p>
-      <img class=full ng-show="article.xlarge" src="{{ article.xlarge }}" />
+      <img class=full ng-show="article.xlarge" ng-style="{ 'background-image' : 'url(' + article.xlarge + ')'}" />
       <p ng-bind-html="article.abstract"></p>
       <p class=url>Read the full article</p>
     </div>

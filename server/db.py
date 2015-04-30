@@ -15,7 +15,7 @@ from pymysql import Error
 
 def get_conn():
     return sql.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME)
- 
+
 def get_cursor():
     conn = get_conn()
     return conn.cursor(), conn
@@ -43,7 +43,7 @@ def user_exists(username):
         FROM Users
         WHERE
         Id = %s;''', (username,))
-    return cur.fetchone() is not None   
+    return cur.fetchone() is not None
 
 def create_user(form):
     cur, _ = get_cursor()
@@ -134,3 +134,4 @@ def append_history(keyword, date, user):
         _.commit()
     except:
         return
+

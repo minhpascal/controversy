@@ -26,8 +26,6 @@ import random
 api = Blueprint('/api', __name__)
 from app import loggedin
 
-
-
 QUERY_PARAM = 'q'
 MAX_ATTEMPTS = 10
 MAX_TWEETS = 1000
@@ -37,11 +35,13 @@ STREAM_ENDPOINT = 'stream'
 
 sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
 
+
 @api.errorhandler(UsageError)
 def handle_error(error):
     response = jsonify(error.todict())
     response.status_code = error.status_code
     return response
+
 
 @api.before_request
 def restrict():
@@ -50,8 +50,10 @@ def restrict():
     if QUERY_PARAM not in request.args and request.path.split('/')[-1] not in [HISTORY_ENDPOINT, STREAM_ENDPOINT]:
         raise UsageError('missing keyword')
 
+
 def justmime(r):
     return Response(r, mimetype="application/json", status=200)
+
 
 def success(r):
     #: not used by main api
@@ -65,7 +67,6 @@ def make_date(t=None):
     return time.strftime(f) if t is None else time.strftime(f, t)
 
 
-
 @api.route('/')
 def query():
     q = request.args[QUERY_PARAM]
@@ -77,6 +78,7 @@ def query():
 
     cached = sr.get(q)
     return justmime(cached) if cached else new_query(q)
+
 
 def new_query(keyword):
     if 'test' in request.args:
@@ -98,8 +100,10 @@ def new_query(keyword):
     sr.set(keyword, ranked)
     return justmime(ranked)
 
+
 def format_date(s):
     return s.strftime('%Y%m%d')
+
 
 def nyt_search(keyword):
     """Get articles based on keyword."""
@@ -151,6 +155,7 @@ def make_nyt_pretty(keyword, json_response):
         res.append(data)
     return res
 
+
 def get_full(url):
     """nyt url --> full article text."""
     jar = cookielib.CookieJar()
@@ -163,6 +168,7 @@ def get_full(url):
     res = " ".join(p.text for p in body) 
     jar.clear()
     return res
+
 
 def tw_search(keyword):
     twitter = get_auth()
@@ -191,12 +197,15 @@ def tw_search(keyword):
             break
     return tweets
 
+
 def get_auth():
     auth = Twython(API_KEY, API_SECRET, oauth_version = 2)
     return Twython(API_KEY, access_token = auth.obtain_access_token())
 
+
 def clean_tweet(dirty):
     return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", dirty.strip('#')).split())
+
 
 def get_sentiment(tweet):
     """Get sentiment of a ( clean ) tweet. Will move to NLTK later."""
@@ -213,8 +222,6 @@ def get_sentiment(tweet):
     return {'negative':0, 'neutral':2, 'positive':4}[res['polarity']]
 
 
-
-
 @api.route('/%s' % HISTORY_ENDPOINT)
 def history():
     return success({
@@ -228,7 +235,7 @@ def trending():
     freq = Counter(hist)
     s = reduce(lambda x,y : x + y, freq.values())
     for k, v in freq.iteritems():
-        freq[k] = (float(v) / s) * 100 
+        freq[k] = (float(v) / s) * 100
     return success({
         "trending" : freq
     })

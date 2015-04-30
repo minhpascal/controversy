@@ -27,11 +27,11 @@
   <mark>{{ sentence.text }}</mark>
   <ul class=tweets>
     <li ng-repeat="tweet in sentence.tweets">
-      <div class=tweet ng-mouseenter="hoverIn(tweet.pimg)" ng-mouseleave="hoverOut()" ng-class="{ 'happy' : tweet.sentiment == 4, 'mad' : tweet.sentiment == 0, 'hovering' : hovering, 'no-hover' : (!hovering && globalHover)}">
+      <div class=tweet ng-mouseenter="hoverIn('http://www.avalonreal.com/images/favicons/twitter_favicon.jpg')" ng-mouseleave="hoverOut()" ng-class="{ 'happy' : tweet.sentiment == 4, 'mad' : tweet.sentiment == 0, 'hovering' : hovering, 'no-hover' : (!hovering && globalHover)}">
         {{ tweet.tweet }}
       </div> 
       <div class=tweet-meta ng-show="hovering">
-        <img ng-src="{{ propic }}"/>
+        <img ng-src="{{ tweet.pimg }}"/>
         <p>
           @{{ tweet.author }} has {{ tweet.followers }} followers
         </p>

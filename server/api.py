@@ -60,6 +60,7 @@ def success(r):
     r.update({'error':0})
     return jsonify(r)
 
+
 def make_date(t=None):
     """datetime or None -> sql-ready date-string."""
 

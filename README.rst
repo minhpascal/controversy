@@ -43,23 +43,21 @@ create config::
 * open ``localhost:5000`` in your web browser
 
 
-pending
--------
-#. none--prepare for finals
-
 pending (summer)
 ----------------
-#. nltk sentiment
+#. StanfordNLP sentiment
 #. stats for nerds with nvd3
         - average global sentiment of tweets vs time
-        - average controversy score for a keyword vs time
+        - average controversy score for a keyword vs time (this is the timeline feature spoken about in beginning of semester)
         - api calls vs time
         - trending queries
 #. cache full NYT articles (with SQL)
-#. development of external api
 #. "show more" on results ui queries more than 10 articles without repeats
 #. "confidence" included in api response (a function of number of tweets)
-#. when should cached content should be considered too old?
+#. when should cached content should be considered too old? intelligent purge system based on frequency of keyword in queries
+#. use more than sentiment
+#. development of external api
+#. deployment
 #. web ui Firefox, Safari support
 
 ---------

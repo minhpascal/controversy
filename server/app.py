@@ -11,8 +11,9 @@
 """
 from flask import Flask, session, redirect, render_template, request, Blueprint, flash
 from functools import wraps
+import random
 from api import api
-import db, random
+import db
 from config import *
 from form import *
 app = Flask(__name__)
@@ -133,4 +134,4 @@ def first_name(s):
 if __name__ == "__main__":
     app.secret_key = SECRET_KEY
     app.register_blueprint(api, url_prefix='/api')
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=8080)

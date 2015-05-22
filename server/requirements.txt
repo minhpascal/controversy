@@ -1,8 +1,9 @@
 pymysql
 Twython
 beautifulsoup4
-requests[security]
-scipy
-gensim
+requests
+requests_oauthlib
 nltk
 redis
+scipy
+gensim

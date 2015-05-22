@@ -5,8 +5,8 @@ Joint Mining of News Text and Social Media to Discover Controversial Points in N
 
 ``config.py``, setup, & ``requirements.txt`` changed on 4/25
 
-running the server
-------------------
+Running for development
+-----------------------
 * ``cd server``
 
 create config::
@@ -29,9 +29,9 @@ create config::
 	- ``USE  {{ DB_NAME }};``
 	- ``SOURCE schema.sql;``
 	- ``CTRL C`` (leave MySQL)
+* ensure you have ``scipy`` `dependencies <http://www.scipy.org/install.html>`_ satisfied
 * ``sudo pip install -r requirements.txt``
 	- ``{{ type admin password }}``
-        - if there's an error, ensure you have ``scipy`` `requirements <http://www.scipy.org/install.html>`_ satisfied
 * ``redis-server``
         - if not installed : ``sudo apt-get install redis-server``, ``brew install redis`` or  `anti-brew-OSX <http://jasdeep.ca/2012/05/installing-redis-on-mac-os-x/>`_
 * ``python``
@@ -43,7 +43,7 @@ create config::
 * open ``localhost:5000`` in your web browser
 
 
-pending (summer)
+Pending
 ----------------
 #. StanfordNLP sentiment
 #. stats for nerds with nvd3

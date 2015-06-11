@@ -8,8 +8,9 @@
 Controversy
 ~~~~~~~~~~~
 
-Joint Mining of News Text and Social Media to Discover Controversial Points in News
+Joint Mining of news text and social media to discover controversial points in news. `Learn more`_ |->|
 
+`Live on Linode`_
 
 Running for development
 -----------------------
@@ -46,5 +47,6 @@ Pending
 
 Ismini Lourentzou, Lisa Huang, Graham Dyer |---| ``{lourent2, xhuang62, gdyer2}@illinois.edu`` |---| University of Illinois, Urbana-Champaign
 
-.. _Live: http://192.155.89.114/
+.. _Live on Linode: http://192.155.89.114/
 .. _dependencies: http://www.scipy.org/install.html
+.. _Learn more: https://github.com/gdyer/controversy/blob/master/documents/gdyer2_poster.pdf

@@ -5,7 +5,7 @@
 Controversy
 ~~~~~~~~~~~
 
-Joint Mining of news text and social media to discover controversial points in news. `Learn more`_
+Joint Mining of news text and social media to discover controversial points in news. `Learn more`_.
 
 `A live instance`_.
 
@@ -40,6 +40,7 @@ Pending
 #. development of external api
 #. web ui Firefox, Safari support
 
+-----
 
 .. image:: http://www.life.illinois.edu/newmark/_Media/uclogo_1867_horz_bold.gif
 

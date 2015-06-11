@@ -20,6 +20,19 @@ from form import *
 
 app = Flask(__name__)
 app.register_blueprint(api, url_prefix='/api')
+app.secret_key = SECRET_KEY
+
+
+@app.errorhandler(500)
+def handle_500(error):
+    print(error)
+    app.logger.exception(error)
+    from flask import jsonify
+    import twilio
+    from twilio.rest import TwilioRestClient
+    client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
+    client.messages.create(body="Problem with with controversy on Linode!", to=ADMIN_PHONE, from_="+19089982913")
+    return jsonify({ 'error' : 1, 'message' : 'our-fault' }), 500
 
 
 def loggedin():
@@ -135,5 +148,4 @@ def first_name(s):
 
 
 if __name__ == "__main__":
-    app.secret_key = SECRET_KEY
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8080, debug=True)

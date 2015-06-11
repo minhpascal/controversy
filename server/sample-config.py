@@ -9,3 +9,6 @@ API_KEY = 'api key' # create this and below @ apps.twitter.com or ask g afk
 API_SECRET = 'api secret' # change
 NYT_KEY = 'nyt key' # change
 SENTIGEM_KEY = 'sgm key' # change
+ADMIN_PHONE = '+11234539000' # change
+TWILIO_SID = 'twilio id' # change
+TWILIO_AUTH_TOKEN = 'twilio auth token' # change

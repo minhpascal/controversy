@@ -44,9 +44,11 @@ mv controversy /etc/nginx/sites-enabled/
 sudo /etc/init.d/nginx restart
 
 echo "[program:controversy]
-command = gunicorn app:app -b localhost:8000
-directory = /home/www/controversy/server
-user = gdyer" > /etc/supervisor/conf.d/controversy.conf
+command=gunicorn app:app -b localhost:8000 --log-file /var/log/gunicorn/log.log
+directory=/home/www/controversy/server
+user=root
+stderr_logfile=/var/log/supervisor/error.log
+stdout_logfile=/var/log/supervisor/out.log" > /etc/supervisor/conf.d/controversy.conf
 supervisorctl reread
 supervisorctl update
 supervisorctl start controversy

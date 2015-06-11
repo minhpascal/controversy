@@ -32,11 +32,8 @@ MAX_ARTICLES = 100
 HISTORY_ENDPOINT = 'user-history'
 STREAM_ENDPOINT = 'stream'
 
+
 sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
-
-
-def loggedin():
-    return session.get('username') is not None
 
 
 @api.errorhandler(UsageError)
@@ -44,6 +41,10 @@ def handle_error(error):
     response = jsonify(error.todict())
     response.status_code = error.status_code
     return response
+
+
+def loggedin():
+    return session.get('username') is not None
 
 
 @api.before_request

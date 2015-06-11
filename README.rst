@@ -1,16 +1,13 @@
 .. |---| unicode:: U+2014 .. em dash
-        :trim:
-.. |--| unicode:: U+2013 .. en dash
 .. |->| unicode:: U+2192 .. to
-.. |=>| unicode:: U+27FA .. implies
 .. |...| unicode:: U+2026 .. ldots
 
 Controversy
 ~~~~~~~~~~~
 
-Joint Mining of news text and social media to discover controversial points in news. `Learn more`_ |->|
+Joint Mining of news text and social media to discover controversial points in news. `Learn more`_
 
-`Live on Linode`_
+`A live instance`_.
 
 Running for development
 -----------------------
@@ -43,10 +40,11 @@ Pending
 #. development of external api
 #. web ui Firefox, Safari support
 
----------
+
+.. image:: http://www.life.illinois.edu/newmark/_Media/uclogo_1867_horz_bold.gif
 
 Ismini Lourentzou, Lisa Huang, Graham Dyer |---| ``{lourent2, xhuang62, gdyer2}@illinois.edu`` |---| University of Illinois, Urbana-Champaign
 
-.. _Live on Linode: http://192.155.89.114/
+.. _a live instance: http://192.155.89.114/
 .. _dependencies: http://www.scipy.org/install.html
 .. _Learn more: https://github.com/gdyer/controversy/blob/master/documents/gdyer2_poster.pdf

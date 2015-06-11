@@ -10,7 +10,7 @@
     :license: BSD, see LICENSE for more details.
     :author: Graham Dyer
 """
-from flask import render_template, make_response, Blueprint, session, jsonify, request, Response
+from flask import render_template, make_response, Blueprint, session, jsonify, request, Response, session
 from config import *
 from error import UsageError
 from twython import Twython 
@@ -24,7 +24,6 @@ import db, redis
 import re
 import random
 api = Blueprint('/api', __name__)
-from app import loggedin
 
 QUERY_PARAM = 'q'
 MAX_ATTEMPTS = 10
@@ -34,6 +33,10 @@ HISTORY_ENDPOINT = 'user-history'
 STREAM_ENDPOINT = 'stream'
 
 sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
+
+
+def loggedin():
+    return session.get('username') is not None
 
 
 @api.errorhandler(UsageError)

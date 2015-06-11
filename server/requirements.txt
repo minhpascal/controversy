@@ -7,3 +7,4 @@ nltk
 redis
 scipy
 gensim
+flask

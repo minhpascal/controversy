@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-    api.py
+    spec.py
     ~~~~~~~
 
-    RESTful API
+    RESTful API specification + response.
     Twitter and article scraper, controversy call, and response.
 
     :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
@@ -13,22 +13,15 @@
 from flask import render_template, make_response, Blueprint, session, jsonify, request, Response, session
 from config import *
 from error import UsageError
-from twython import Twython 
 from collections import Counter
-from bs4 import BeautifulSoup
 from scoring import controversy
-import urllib, urllib2, cookielib, requests
+from content import article_search, twitter_search
 import datetime, time
 import json
 import db, redis
-import re
-import random
 api = Blueprint('/api', __name__)
 
 QUERY_PARAM = 'q'
-MAX_ATTEMPTS = 10
-MAX_TWEETS = 1000
-MAX_ARTICLES = 100
 HISTORY_ENDPOINT = 'user-history'
 STREAM_ENDPOINT = 'stream'
 
@@ -38,7 +31,7 @@ sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
 
 @api.errorhandler(UsageError)
 def handle_error(error):
-    response = jsonify(error.todict())
+    response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
 
@@ -67,7 +60,6 @@ def success(r):
 
 def make_date(t=None):
     """datetime or None -> sql-ready date-string."""
-
     f = '%Y-%m-%d'
     return time.strftime(f) if t is None else time.strftime(f, t)
 
@@ -92,139 +84,18 @@ def new_query(keyword):
         response.headers["Content-Type"] = "application/json"
         return response
 
-    arts = nyt_search(keyword)
+    arts = article_search(keyword)
     if len(arts) == 0:
         raise UsageError('no-articles', status_code=200)
 
     ranked = json.dumps(controversy({
-        'tweets' : tw_search(keyword),
+        'tweets' : twitter_search(keyword),
         'articles' : arts,
         'error' : 0
     }))
 
     sr.set(keyword, ranked)
     return justmime(ranked)
-
-
-def format_date(s):
-    return s.strftime('%Y%m%d')
-
-
-def nyt_search(keyword):
-    """Get articles based on keyword."""
-    #: tweets are < 10 days old; articles should match
-    today = datetime.date.today()
-    last_week = today - datetime.timedelta(days=10)
-
-    params = urllib.urlencode({
-        'q' : keyword,
-        'begin_date' : format_date(last_week),
-        'end_date' : format_date(today),
-        'api-key' : NYT_KEY,
-        'facet_field' : 'source'
-    })
-
-
-    response = urllib2.urlopen("http://api.nytimes.com/svc/search/v2/articlesearch.json?%s" % params)
-
-    return make_nyt_pretty(keyword, json.load(response))
-
-
-def make_nyt_pretty(keyword, json_response):
-    res = []
-    for article in json_response['response']['docs']:
-        if article['headline']['main'].lower() in ['test yourself', 'paid notice:']:
-            continue
-        has_multimedia = len(article['multimedia']) > 1
-        has_byline = article['byline']
-
-        strip = re.compile(r'(<!--.*?-->|<[^>]*>)') 
-        ab = strip.sub('', article['abstract'] or article['lead_paragraph'])
-        re.sub('[<>]', '', ab)
-
-        url = article['web_url']
-        full = get_full(url)
-        if not full:
-            continue
-        data = {
-                'url' : url,
-                'author' : article['byline']['original'] if has_byline else None,
-                'abstract' : ab,
-                'title' : article['headline']['main'],
-                'source' : article['source'],
-                'published' : make_date(time.strptime(article['pub_date'][:10], '%Y-%m-%d')),
-                'xlarge' : 'http://www.nytimes.com/%s' % article['multimedia'][1]['url'] if has_multimedia else None,
-                'full' : full
-        }
-
-        res.append(data)
-    return res
-
-
-def get_full(url):
-    """nyt url --> full article text."""
-    jar = cookielib.CookieJar()
-    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(jar))
-    opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
-    response = opener.open(urllib2.Request(url))
-    soup = BeautifulSoup(response.read())
-    body = soup.findAll('p', {'class' : ['story-body-text', 'story-content']})
-
-    res = " ".join(p.text for p in body) 
-    jar.clear()
-    return res
-
-
-def tw_search(keyword):
-    twitter = get_auth()
-    tweets = []
-    for i in xrange(MAX_ATTEMPTS):
-        if MAX_TWEETS < len(tweets):
-            break
-
-        res = twitter.search(q=keyword, count=100, lang="en") if i == 0 else twitter.search(q=keyword, include_entities='true', max_id=next_max)
-
-        for r in res['statuses']:
-            dirty = r['text']
-            clean = clean_tweet(dirty)
-            tweets.append({
-                'tweet' : dirty,
-                'clean' : clean, 
-                'author' : r['user']['screen_name'],
-                'followers' : r['user']['followers_count'],
-                'pimg' : r['user']['profile_image_url'],
-                'sentiment' : get_sentiment(clean)
-            })
-        try:
-            next_res = results['search_metadata']['next_results']
-            next_max = next_res.split('max_id=')[1].split('&')[0]
-        except:
-            break
-    return tweets
-
-
-def get_auth():
-    auth = Twython(API_KEY, API_SECRET, oauth_version = 2)
-    return Twython(API_KEY, access_token = auth.obtain_access_token())
-
-
-def clean_tweet(dirty):
-    return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", dirty.strip('#')).split())
-
-
-def get_sentiment(tweet):
-    """Get sentiment of a ( clean ) tweet. Will move to NLTK later."""
-    params = urllib.urlencode({
-        "api-key" : SENTIGEM_KEY,
-        "text" : tweet.encode('utf-8')
-    })
-    response = urllib2.urlopen("https://api.sentigem.com/external/get-sentiment?%s" % params)
-    res = json.load(response)
-    print('sentiment cost ==> %s' % res['cost'])
-    if res['cost'] != '0.000000':
-        raise UsageError('sentigem is charging us')
-
-    return {'negative':0, 'neutral':2, 'positive':4}[res['polarity']]
 
 
 @api.route('/%s' % HISTORY_ENDPOINT)

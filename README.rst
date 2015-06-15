@@ -16,7 +16,8 @@ Running for development
 * create MySQL db "controversy" with ``source schema.sql``
 * satisfy ``scipy`` `dependencies`_
 * ``pip install -r requirements.txt``
-* install package ``redis-server`` or ``redis``
+* install `Stanford CoreNLP`_
+* install package ``redis-server`` or ``redis``, depending on your system
 * ``python``
         - ``import nltk``
         - ``nltk.download('all')``
@@ -49,3 +50,4 @@ Ismini Lourentzou, Lisa Huang, Graham Dyer |---| ``{lourent2, xhuang62, gdyer2}@
 .. _a live instance: http://192.155.89.114/
 .. _dependencies: http://www.scipy.org/install.html
 .. _Learn more: https://github.com/gdyer/controversy/blob/master/documents/gdyer2_poster.pdf
+.. _Stanford CoreNLP: https://github.com/dasmith/stanford-corenlp-python#download-and-usage

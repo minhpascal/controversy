@@ -9,3 +9,5 @@ scipy
 gensim
 flask
 twilio
+pexpect
+unidecode

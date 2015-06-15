@@ -18,6 +18,6 @@ class UsageError(Exception):
         if status_code is not None:
             self.status_code = status_code
             
-    def todict(self):
+    def to_dict(self):
         rv = {'message' : self.message, 'error' : 1}
         return rv

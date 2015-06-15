@@ -9,13 +9,13 @@
     :license: BSD, see LICENSE for more details.
     :author: Graham Dyer
 """
-from flask import Flask, session, redirect, render_template, request, Blueprint, flash
+from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort
+from jinja2 import TemplateNotFound
 from functools import wraps
-import random
 from api import api
-import db
 from config import *
 from form import *
+import db
 
 
 app = Flask(__name__)
@@ -132,7 +132,10 @@ def logout():
 @require_login
 def serve_ang(path):
     unique = db.dump_user(session['username'])
-    return render_template('partials/%s' % path, unique=unique)
+    try:
+        return render_template('partials/%s' % path, unique=unique)
+    except TemplateNotFound:
+        return abort(404)
 
 
 @app.route("/")

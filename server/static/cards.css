@@ -92,7 +92,7 @@ div.card p.card-title {
 div.card p.url {
     padding:5px;
     border-top:1px solid #e5e5e5;
-    background-image:url('/static/url.png');
+    background-image:url('/static/img/url.png');
     background-repeat:no-repeat;
     padding:10px 0 0 30px;
     height:30px;

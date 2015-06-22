@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    spec.py
-    ~~~~~~~
+    api.py
+    ~~~~~~
 
-    RESTful API specification + response.
-    Twitter and article scraper, controversy call, and response.
+    RESTful API specification and response handle.
 
-    :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
+    :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
-    :author: Graham Dyer
 """
 from flask import render_template, make_response, Blueprint, session, jsonify, request, Response, session
 from config import *

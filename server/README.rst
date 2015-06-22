@@ -1,5 +1,5 @@
 Internal RESTful API docs
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 errors
 ------
@@ -37,7 +37,7 @@ response::
 								'tweet': 'It is a great day!',
 								'pimg': 'http://illinois.edu/assets/img/navigation/submenu_about.jpg',
 								'followers': 100000,
-								'clean': 'It is a great day!'
+								'clean_tweet': 'It is a great day!'
 						}
 					],
 					'text': 'Great results today!',
@@ -52,7 +52,6 @@ response::
 	     'error' : 0
     }
 
-As soon as ranking in Python is completed... three changes : tweets will go inside each article, list will be ranked, "confidence" property.
 
 ``["articles"][n]["xlarge"]``
         cover image of article

@@ -12,3 +12,4 @@ SENTIGEM_KEY = 'sgm key' # change
 ADMIN_PHONE = '+11234539000' # change
 TWILIO_SID = 'twilio id' # change
 TWILIO_AUTH_TOKEN = 'twilio auth token' # change
+DEBUG = True

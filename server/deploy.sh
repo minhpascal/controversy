@@ -4,17 +4,10 @@
 
 cd ~
 
-adduser gdyer
-adduser gdyer sudo
+adduser deployer 
+adduser deployer sudo
 
 sudo apt-get install -y git
-
-# g's vim settings
-wget https://gist.githubusercontent.com/gdyer/c823d676b6936bfdaaae/raw/01dccca5ae900db619f396be7c9b3f79e6ec3a7c/.vimrc
-mkdir -p ~/.vim/autoload ~/.vim/bundle
-curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-cd ~/.vim/bundle
-git clone https://github.com/hynek/vim-python-pep8-indent.git
 
 sudo apt-get update
 sudo apt-get install -y gunicorn supervisor nginx python python-pip python-virtualenv python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose redis-server mysql-server

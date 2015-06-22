@@ -5,7 +5,7 @@
 
     Proper error handling for RESTful API.
 
-    :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
+    :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
 """
 

@@ -5,9 +5,9 @@
 
     Adds score and relevant tweets to response.
 
-    :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
+    :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
-    :author: Ismini Lourentzou
+    :author: Ismini Lourentzou.
 """
 import math, nltk, re, string, scipy, heapq
 from gensim import corpora

@@ -3,11 +3,10 @@
     content.py
     ~~~~~~~~~~~
 
-    Interfaces with api_endpoints.
+    Interfaces with api endpoints (as defined in api.py).
 
-    :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
+    :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
-    :author: Graham Dyer
 """
 from bs4 import BeautifulSoup
 from config import *
@@ -15,6 +14,10 @@ from twython import Twython
 import re, json
 import time, datetime
 import urllib, urllib2, cookielib
+from sentiment import analyse
+from functools import partial
+from operator import is_not
+from flask import current_app
 
 import random
 
@@ -44,22 +47,18 @@ class Tweet(object):
 
 
     def _sentiment(self):
-        return random.choice([0, 2, 4])
-        """Will move to Stanford NLP shortly"""
-        params = urllib.urlencode({
-            "api-key" : SENTIGEM_KEY,
-            "text" : self.clean_tweet.encode('utf-8')
-        })
-        response = urllib2.urlopen("https://api.sentigem.com/external/get-sentiment?%s" % params)
-        res = json.loads(response)
-        return {'negative':0, 'neutral':2, 'positive':4}[res['polarity']]
+        if current_app.debug:
+            import random
+            return random.choice([0,2,4])
+        return analyse(self.clean_tweet)
 
 
 class Article(object):
     """A NYT article""" 
 
     def __init__(self, j):
-        self.json = j
+        self.lead = j['lead_paragraph']
+        self.abstract = j['abstract']
         self.title = j['headline']['main']
         self.source = j['source']
         self.byline = j['byline']['original'] if (j['byline']) else None
@@ -69,13 +68,12 @@ class Article(object):
         self.published = j['pub_date'][:10]
         self.full = self._full_text()
 
-    
-    def to_dict(self):
-        return self.__dict__
 
+    def to_dict(self):
+        return self.__dict__ if self.full is not None else None
 
     def _no_html_ab(self):
-        return BeautifulSoup(self.json['abstract'] or self.json['lead_paragraph']).getText()
+        return BeautifulSoup(self.abstract or self.lead).getText()
 
 
     def _full_text(self):
@@ -111,8 +109,7 @@ def article_search(keyword):
 
     response = urllib2.urlopen("http://api.nytimes.com/svc/search/v2/articlesearch.json?%s" % params)
 
-    
-    return map(lambda x: Article(x).to_dict(), json.loads(response.read())['response']['docs'])
+    return filter(partial(is_not, None), map(lambda x: Article(x).to_dict(), json.loads(response.read())['response']['docs']))
 
 
 def twitter_search(keyword):

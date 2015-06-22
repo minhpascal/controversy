@@ -5,18 +5,18 @@
 Controversy
 ~~~~~~~~~~~
 
-Joint Mining of news text and social media to discover controversial points in news. `Learn more`_.
+Joint Mining of news text and social media to discover controversial points in news.
 
 `A live instance`_.
 
 Running for development
 -----------------------
+
 * ``cd server``
 * ``mv sample-config.py config.py``, and change credentials
 * create MySQL db "controversy" with ``source schema.sql``
 * satisfy ``scipy`` `dependencies`_
 * ``pip install -r requirements.txt``
-* install `Stanford CoreNLP`_
 * install package ``redis-server`` or ``redis``, depending on your system
 * ``python``
         - ``import nltk``
@@ -27,27 +27,41 @@ Running for development
 Pending
 --------
 
-#. StanfordNLP sentiment
-#. stats for nerds with nvd3
+#. linguistic features added to score
+#. stats with matplotlib
         - average global sentiment of tweets vs time
         - average controversy score for a keyword vs time (this is the timeline feature spoken about in beginning of semester)
         - api calls vs time
         - trending queries
-#. cache full NYT articles (with SQL)
+#. web ui Firefox, Safari support and general clean-up; stability / bug fixes
+#. cache full NYT articles with SQL
+#. more than tweets using NYT `community API`_
 #. "show more" on results ui queries more than 10 articles without repeats
-#. "confidence" included in api response (a function of number of tweets)
-#. when should cached content should be considered too old? intelligent purge system based on frequency of keyword in queries
-#. use more than sentiment
 #. development of external api
-#. web ui Firefox, Safari support
+#. "confidence" included in api response, a function of number of tweets
+#. load balancing
+
+
+Running for deployment
+----------------------
+
+On 14.04 LTS |...|
+* ``wget`` the raw file for ``server/deploy.sh`` |---| cloning is discouraged
+* ``sudo . deploy.sh``
+    * a MySQL console will appear
+    * ``create database controversy;``
+    * ``use controversy;``
+    * ``source schema.sql;``
+* edit ``config.py`` with actual credentials
+
+
 
 -----
 
 .. image:: http://www.life.illinois.edu/newmark/_Media/uclogo_1867_horz_bold.gif
 
-Ismini Lourentzou, Lisa Huang, Graham Dyer |---| ``{lourent2, xhuang62, gdyer2}@illinois.edu`` |---| University of Illinois, Urbana-Champaign
+``|contributors|``: Ismini Lourentzou, Abhishek Sharma, Graham Dyer, ChengXiang Zhai |---| ``{lourent2, sharma51, gdyer2, czhai}@illinois.edu`` |---| University of Illinois, Urbana-Champaign
 
 .. _a live instance: http://192.155.89.114/
 .. _dependencies: http://www.scipy.org/install.html
-.. _Learn more: https://github.com/gdyer/controversy/blob/master/documents/gdyer2_poster.pdf
-.. _Stanford CoreNLP: https://github.com/dasmith/stanford-corenlp-python#download-and-usage
+.. _community API: http://developer.nytimes.com/docs/community_api/The_Community_API_v3/

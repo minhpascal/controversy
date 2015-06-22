@@ -3,27 +3,28 @@
     db.py
     ~~~~~
 
-    db functionality
-    :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang
-    :license: BSD, see LICENSE for more details.
-    :author: Graham Dyer
-"""
+    db functionality.
 
+    :copyright: (c) 2015 |contributors|.
+    :license: BSD, see LICENSE for more details.
+"""
 import pymysql as sql
 from config import *
 from pymysql import Error
 
+
 def get_conn():
     return sql.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME)
+
 
 def get_cursor():
     conn = get_conn()
     return conn.cursor(), conn
 
+
 def get_dict_cursor():
     conn = get_conn()
     return conn.cursor(sql.cursors.DictCursor), conn
-
 
 
 def verify_user(username, password):
@@ -36,6 +37,7 @@ def verify_user(username, password):
         Password = MD5(%s);''', (username, password,))
     return cur.fetchone() is not None
 
+
 def user_exists(username):
     cur, _ = get_cursor()
     cur.execute('''
@@ -44,6 +46,7 @@ def user_exists(username):
         WHERE
         Id = %s;''', (username,))
     return cur.fetchone() is not None
+
 
 def create_user(form):
     cur, _ = get_cursor()
@@ -54,6 +57,7 @@ def create_user(form):
         VALUES
         (%s, %s, %s, MD5(%s));''', (form['Name'], form['Id'], form['School'], form['Password'],))
     return _.commit()
+
 
 def dump_user(username):
     """
@@ -67,6 +71,7 @@ def dump_user(username):
         Id = %s;''', (username,))
     return cur.fetchone()
 
+
 def user_history(username):
     """
     get query history
@@ -79,6 +84,7 @@ def user_history(username):
         Originator = %s;''', (username,))
     return cur.fetchall()
 
+
 def histories():
     """
     get all queries
@@ -88,6 +94,7 @@ def histories():
         SELECT *
         FROM Histories''')
     return cur.fetchall()
+
 
 def unique_user_query(keyword, user):
     """
@@ -103,9 +110,10 @@ def unique_user_query(keyword, user):
         Term=%s;''', (user, keyword,))
     return cur.fetchone() is None
 
+
 def update_history(keyword, date, user):
     """
-    updates date for identical query ( per user ) in Histories table
+    updates date for identical query (per user) in Histories table
     """
     cur, _ = get_cursor()
     cur.execute('''
@@ -117,6 +125,7 @@ def update_history(keyword, date, user):
         AND
         Term=%s;''', (date, user, keyword,))
     _.commit()
+
 
 def append_history(keyword, date, user):
     """
@@ -134,4 +143,3 @@ def append_history(keyword, date, user):
         _.commit()
     except:
         return
-

@@ -5,9 +5,8 @@
 
     Controversy, joint mining of news text and social media to discover controversial points in news. Runs server.
 
-    :copyright: (c) 2015 Ismini Lourentzou, Graham Dyer, Lisa Huang.
+    :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
-    :author: Graham Dyer
 """
 from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort
 from jinja2 import TemplateNotFound
@@ -80,7 +79,7 @@ def login():
     else:
         username = request.form['username']
         password = request.form['password']
-        if not db.verify_user(username, password):
+        if not db.verify_user(username, password) and all(username, password):
             unique.update({
                 'login_details' : '''Authentication failed! Please <a href="register">get a free account</a> or try again.''',
                 'extra_class' : 'warning',
@@ -128,7 +127,7 @@ def logout():
     return redirect('/login')
 
 
-@app.route('/html/<path>')
+@app.route("/html/<path>")
 @require_login
 def serve_ang(path):
     unique = db.dump_user(session['username'])
@@ -151,4 +150,4 @@ def first_name(s):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=DEBUG)

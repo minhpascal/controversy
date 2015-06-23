@@ -7,7 +7,7 @@ Controversy
 
 Joint Mining of news text and social media to discover controversial points in news.
 
-`A live instance`_.
+`A live instance`_ and copied at `controversy.web.engr.illinois.edu`_
 
 Running for development
 -----------------------
@@ -66,3 +66,4 @@ On 14.04 LTS |...|
 .. _a live instance: http://192.155.89.114/
 .. _dependencies: http://www.scipy.org/install.html
 .. _community API: http://developer.nytimes.com/docs/community_api/The_Community_API_v3/
+.. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu

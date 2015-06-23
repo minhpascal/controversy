@@ -2,18 +2,15 @@
 """
     scoring.py
     ~~~~~~~~~~
-
     Adds score and relevant tweets to response.
-
-    :copyright: (c) 2015 |contributors|.
-    :license: BSD, see LICENSE for more details.
-    :author: Ismini Lourentzou.
+    :authors: Ismini Lourentzou, Graham Dyer.
 """
 import math, nltk, re, string, scipy, heapq
 from gensim import corpora
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from content import Tweet, Article
+
 
 stemmer = PorterStemmer()
 
@@ -33,6 +30,7 @@ class BM25:
         self.build_dictionary()
         self.tf_idf_generator()
 
+
     def build_dictionary(self):
         proc_data = []
         for i in xrange(0, len(self.fn_docs)):
@@ -41,6 +39,7 @@ class BM25:
             #: self.raw_data.append(self.fn_docs[i])
             proc_data.append(preprocess(tweet))
         self.dictionary.add_documents(proc_data)
+
 
     def tf_idf_generator(self, base=math.e):
         docTotalLen = 0.0
@@ -80,6 +79,7 @@ class BM25:
                 scores.append((score, idx))
         return sorted(scores, reverse=True) #: descending order
 
+
     def tf_idf(self):
         tfidf = []
         for doc in self.DocTF:
@@ -90,11 +90,13 @@ class BM25:
         #: print "tfidf:", tfidf
         return tfidf
 
+
     def items(self):
         #: return a list [(term_idx, term_desc),]
         it = self.dictionary.items()
         it.sort()
         return it
+
 
 def preprocess(file_content):
     tot_tokens = []

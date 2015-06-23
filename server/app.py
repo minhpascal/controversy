@@ -13,25 +13,27 @@ from jinja2 import TemplateNotFound
 from functools import wraps
 from api import api
 from config import *
-from form import *
-import db
+import db, forms
 
 
 app = Flask(__name__)
 app.register_blueprint(api, url_prefix='/api')
 app.secret_key = SECRET_KEY
+app.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
+app.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
+app.config['testing'] = DEBUG
 
 
 @app.errorhandler(500)
 def handle_500(error):
-    print(error)
     app.logger.exception(error)
-    from flask import jsonify
     import twilio
     from twilio.rest import TwilioRestClient
+    from flask import jsonify
+    from error import UsageError
     client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
-    client.messages.create(body="Problem with with controversy on Linode!", to=ADMIN_PHONE, from_="+19089982913")
-    return jsonify({ 'error' : 1, 'message' : 'our-fault' }), 500
+    client.messages.create(body="problem with Controversy on Linode!", to=ADMIN_PHONE, from_="+19089982913")
+    raise UsageError('our-fault', status_code = 500)
 
 
 def loggedin():
@@ -48,91 +50,43 @@ def require_login(view):
     return protected_view
 
 
-def genpage(title, unique, css=[], js=[], angular=''):
-    return render_template("%s.html" % title,
-        page =
-            {
-                "title" : title,
-                "custom_css" : map(lambda x: "%s.css" % x, css),
-                "custom_js" : map(lambda x: "%s.js" % x, js),
-                "angular" : angular
-            },
-        unique = unique
-    )
-
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
+@app.route('/login/<username>', methods=['GET', 'POST'])
+@app.route("/login", defaults={'username': None}, methods=['GET', 'POST'])
+def login(username):
     if loggedin():
         return redirect('/')
-    from_register = request.args.get('e')
-
-    unique = {
-        'login_details' : ('''Please log in or <a href='register'>create a free account</a>''' if not from_register else '''Thanks; log in with your new credentials!''')
-    }
-
-    if from_register:
-        unique['email'] = request.args.get('e')
-    if request.method == 'GET':
-        redirect_url = request.args.get('redirect', '/')
-        unique['redirect_url'] = redirect_url
-    else:
-        username = request.form['username']
-        password = request.form['password']
-        if not db.verify_user(username, password) and all(username, password):
-            unique.update({
-                'login_details' : '''Authentication failed! Please <a href="register">get a free account</a> or try again.''',
-                'extra_class' : 'warning',
-                'email' : request.form['username']
-            })
-        else:
-            session['username'] = username
-            return redirect('/')
-    return genpage("Login", unique, css=["login"])
+    
+    form = forms.Login()
+    if form.validate_on_submit():
+        session['username'] = form.username
+        session['user'] = db.dump_user(form.username)
+        return redirect('/')
+    return render_template('login.html', title = 'Login', form = form, css = ["login"], username = username or '')
 
 
 @app.route("/register", methods=['GET', 'POST'])
-def getaccount():
-    #: see form.py
-    unique = LOGIN
-
-    if request.method == 'POST':
-        m = None
-        if any(len(res) not in range(3,50) for res in request.form.values()):
-            m = 'Ensure proper inputs!'    
-        elif db.user_exists(request.form['Id']):
-            m = '''That user already exists; try <a href="../login?e=%s">logging in</a> if it's you!''' % (request.form['Id'])
-        elif ' ' not in request.form['Name']:
-            m  = 'Please enter your full name'
-        else:
-            db.create_user(request.form)
-            return redirect('login?e=%s' % request.form['Id'])
-        unique.update({
-                'register_message' : m,
-                'extra_class' : 'warning',
-                'name' : request.form['Name'],
-                'password' : request.form['Password'],
-                'school' : request.form['School']
-            })
-
-    #: get
-    unique['logged_in'] = loggedin()
-    return genpage('Register', unique, css=['login'])
+def register():
+    form = forms.Register()
+    if form.validate_on_submit():
+        flash("thanks, %s; please confirm your password" % form.name.data.split(' ')[0])
+        return redirect('login/%s' % form.username)
+    return render_template('register.html', title = 'Register', form = form, css = ['login'], logged_in = loggedin())
 
 
 @app.route("/logout")
 def logout():
+    u = session['username']
     session.pop('username', None)
-    flash("you were logged out")
+    session.pop('user', None)
+    flash("%s, you were logged out" % u)
     return redirect('/login')
 
 
 @app.route("/html/<path>")
 @require_login
 def serve_ang(path):
-    unique = db.dump_user(session['username'])
     try:
-        return render_template('partials/%s' % path, unique=unique)
+        return render_template('partials/%s' % path, user = session['user'])
     except TemplateNotFound:
         return abort(404)
 
@@ -140,8 +94,7 @@ def serve_ang(path):
 @app.route("/")
 @require_login
 def index():
-    unique = db.dump_user(session['username'])
-    return genpage('App', unique, css=['home', 'cards'], js=['home'], angular='Home')
+    return render_template('app.html', user = session['user'], css = ['home', 'cards'], js = ['home'], angular = 'Home')
 
 
 @app.template_filter('first_name')

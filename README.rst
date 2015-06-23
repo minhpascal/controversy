@@ -36,7 +36,7 @@ Pending
 #. web ui Firefox, Safari support and general clean-up; stability / bug fixes
 #. cache full NYT articles with SQL
 #. more than tweets using NYT `community API`_
-#. "show more" on results ui queries more than 10 articles without repeats
+#. "rank more" on results ui queries more than 10 articles without repeats
 #. development of external api
 #. "confidence" included in api response, a function of number of tweets
 #. load balancing
@@ -46,12 +46,13 @@ Running for deployment
 ----------------------
 
 On 14.04 LTS |...|
+
 * ``wget`` the raw file for ``server/deploy.sh`` |---| cloning is discouraged
 * ``sudo . deploy.sh``
-    * a MySQL console will appear
-    * ``create database controversy;``
-    * ``use controversy;``
-    * ``source schema.sql;``
+    - a MySQL console will appear
+    - ``create database controversy;``
+    - ``use controversy;``
+    - ``source schema.sql;``
 * edit ``config.py`` with actual credentials
 
 

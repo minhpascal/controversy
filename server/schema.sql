@@ -16,5 +16,3 @@ CREATE TABLE Histories (
         Performed VarChar(20) Not Null,
         Foreign Key (Originator) References Users(Id)
 );
-
--- tweets and articles are now stored in redis

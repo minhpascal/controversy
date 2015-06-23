@@ -10,3 +10,4 @@ gensim
 flask
 twilio
 textblob
+flask-wtf

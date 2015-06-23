@@ -2,11 +2,7 @@
 """
     content.py
     ~~~~~~~~~~~
-
     Interfaces with api endpoints (as defined in api.py).
-
-    :copyright: (c) 2015 |contributors|.
-    :license: BSD, see LICENSE for more details.
 """
 from bs4 import BeautifulSoup
 from config import *

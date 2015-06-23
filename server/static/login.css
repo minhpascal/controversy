@@ -20,6 +20,10 @@ form {margin-top:10px;}
     font-weight:700;
     margin: 20px 0 5px 0;
 }
+.g-recaptcha {
+    display: table;
+    margin: 0 auto;
+}
 #login-details {font-size:16px;}
 @media (max-width:520px) {
     .go {height:35px;}
@@ -33,4 +37,3 @@ form {margin-top:10px;}
 @media (max-width:330px) {
     #login {width:250px;}    
 }
-

@@ -2,11 +2,7 @@
 """
     db.py
     ~~~~~
-
-    db functionality.
-
-    :copyright: (c) 2015 |contributors|.
-    :license: BSD, see LICENSE for more details.
+    DB functionality.
 """
 import pymysql as sql
 from config import *
@@ -48,14 +44,14 @@ def user_exists(username):
     return cur.fetchone() is not None
 
 
-def create_user(form):
+def create_user(email, name, password, school):
     cur, _ = get_cursor()
     cur.execute('''
         INSERT INTO
         Users
         (Name, Id, School, Password)
         VALUES
-        (%s, %s, %s, MD5(%s));''', (form['Name'], form['Id'], form['School'], form['Password'],))
+        (%s, %s, %s, MD5(%s));''', (name, email, school, password,))
     return _.commit()
 
 

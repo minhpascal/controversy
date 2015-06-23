@@ -52,7 +52,7 @@ main {padding:6em 1em;}
     width:275px;
 }
 #search:focus, #top-search input:focus {border-bottom:1px dashed #a3a3a3;}
-.loading, .top-loading {background:url('/static/loading.gif') no-repeat;}
+.loading, .top-loading {background:url('/static/img/loading.gif') no-repeat;}
 .top-loading {
     background-position:98% 50%;
     background-size:20px 20px;

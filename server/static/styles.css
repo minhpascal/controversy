@@ -47,16 +47,14 @@ img {
     border-color:#F9F9F9;
 }
 footer {
-    margin-bottom:.5em;
+    margin: 5em 0 .5em 0;
     width:95%;
-    position:absolute;
     color:#B0B0B0;
     font-size:12px;
     text-align:center;
-    bottom:0;
 }
 #footer-content {padding-top:10px;}
-#message {
+#message, #error-message {
     position:fixed;
     font-size:90%;
     overflow:hidden;
@@ -68,6 +66,6 @@ footer {
     width:100%;
 }
 #message a {color:white;}
-@media (max-height:400px) {
-    footer {display:none;}
+#error-message {
+    background-color: #f0ad4e;
 }

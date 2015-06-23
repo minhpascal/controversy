@@ -4,9 +4,9 @@
     <span id=subheader>
       hotspots of news articles
     </span>
-    <span id=right-header title="{{ unique.Name }}&mdash;{{ unique.School }}">
+    <span id=right-header title="{{ user['Name'] }}&mdash;{{ user['School'] }}">
       <span class=non-essentials>
-        welcome back, {{ unique.Name|first_name }} &middot;
+        welcome back, {{ user['Name']|first_name }} &middot;
       </span>
       <a href="/logout">logout</a>
     </span>

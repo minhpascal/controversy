@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+    sentiment.py
+    ~~~~~~~~~~~~
+    Sentiment of a string.
+"""
 from textblob import TextBlob
 
 def analyse(tweet):

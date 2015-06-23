@@ -17,13 +17,14 @@ from content import article_search, twitter_search
 import datetime, time
 import json
 import db, redis
-api = Blueprint('/api', __name__)
+
 
 QUERY_PARAM = 'q'
 HISTORY_ENDPOINT = 'user-history'
 STREAM_ENDPOINT = 'stream'
 
 
+api = Blueprint('/api', __name__)
 sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
 
 

@@ -57,9 +57,12 @@ def success(r):
     return jsonify(r)
 
 
+def mysql_date():
+    return '%Y-%m-%d'
+
 def make_date(t=None):
     """datetime or None -> sql-ready date-string."""
-    f = '%Y-%m-%d'
+    f = mysql_date()
     return time.strftime(f) if t is None else time.strftime(f, t)
 
 
@@ -112,5 +115,11 @@ def trending():
     for k, v in freq.iteritems():
         freq[k] = (float(v) / s) * 100
     return success({
-        "trending" : freq
+        "trending" : freq,
+        "top-5" : sorted(freq, key = freq.get, reverse = True)[:5]
     })
+
+
+@api.route('/distributions')
+def distributions():
+    pass

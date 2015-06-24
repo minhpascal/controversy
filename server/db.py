@@ -81,6 +81,32 @@ def user_history(username):
     return cur.fetchall()
 
 
+def clear_queries(username):
+    """
+    clear a user's history
+    """
+    cur, _ = get_cursor()
+    cur.execute('''
+        DELETE FROM
+        Histories
+        WHERE
+        Originator = %s;''', (username,))
+    _.commit()
+
+
+def drop_account(username):
+    """
+    delete someone's account
+    """
+    clear_queries(username)
+    cur, _ = get_cursor()
+    cur.execute('''
+        DELETE FROM
+        Users
+        WHERE
+        Id = %s;''', (username,))
+    _.commit()
+
 def histories():
     """
     get all queries
@@ -88,7 +114,7 @@ def histories():
     cur, _ = get_dict_cursor()
     cur.execute('''
         SELECT *
-        FROM Histories''')
+        FROM Histories;''')
     return cur.fetchall()
 
 
@@ -139,3 +165,5 @@ def append_history(keyword, date, user):
         _.commit()
     except:
         return
+
+

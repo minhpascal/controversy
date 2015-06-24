@@ -29,7 +29,7 @@ class Register(Form):
             return False
 
         username = self.email.data
-        if ' ' not in self.name.data or any(map(lambda x: x.isdigit(), self.name.data)):
+        if ' ' not in self.name.data or any(map(lambda x: x.isdigit(), self.name.data)) or any(map(lambda x: len(x) < 2, self.name.data.split(' '))):
             self.name.errors.append("full name, please")
             return False
 
@@ -58,9 +58,11 @@ class Login(Form):
         username = self.email.data
         if not db.user_exists(username):
             self.email.errors.append('Unknown username!')
+            return False
 
         if not db.verify_user(username, self.password.data):
             self.password.errors.append('Invalid password!')
+            return False
 
         self.username = username
         return True

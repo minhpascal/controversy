@@ -46,5 +46,6 @@ supervisorctl reread
 supervisorctl update
 supervisorctl start controversy
 
-echo "\tyou must create the schema. Enter your MySQL password, and run: 'create database controversy;use controversy;source schema.sql'.\n\n After than, be sure to edit server/config.py with correct credentials"
+echo "\tEnter your MySQL password, then: CREATE DATABASE controversy; USE controversy; SOURCE schema.sql;
+\n\nAfterwards, be sure to edit server/config.py with correct credentials"
 mysql -p

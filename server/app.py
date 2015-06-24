@@ -11,8 +11,9 @@
 from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort
 from jinja2 import TemplateNotFound
 from functools import wraps
-from api import api
+from api import api, mysql_date
 from config import *
+from datetime import datetime
 import db, forms
 
 
@@ -74,6 +75,7 @@ def register():
 
 
 @app.route("/logout")
+@require_login
 def logout():
     u = session['username']
     session.pop('username', None)
@@ -82,6 +84,25 @@ def logout():
     return redirect('/login')
 
 
+@app.route("/account", methods=['GET', 'POST'])
+@require_login
+def account():
+    form = forms.Login()
+    if form.validate_on_submit():
+        db.drop_account(session['username'])
+        flash("Account destroyed with vengeance!")
+        return logout()
+
+    return render_template('account.html', user = session['user'], history = db.user_history(session['username']), css = ['home', 'account'], form = form)
+
+
+@app.route("/account/clear-queries")
+@require_login
+def clear_queries():
+    db.clear_queries(session['username'])
+    return redirect('account')
+
+    
 @app.route("/html/<path>")
 @require_login
 def serve_ang(path):
@@ -100,6 +121,11 @@ def index():
 @app.template_filter('first_name')
 def first_name(s):
     return s.split(' ')[0]
+
+
+@app.template_filter('pretty_date')
+def pretty_date(u):
+    return datetime.strptime(u, mysql_date()).strftime("%A, %d %B")
 
 
 if __name__ == "__main__":

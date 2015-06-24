@@ -107,7 +107,6 @@ def preprocess(file_content):
     file_content = re.sub('[%s]' % re.escape(string.punctuation), '', file_content)
     #: tokenization
     file_content = nltk.word_tokenize(file_content)
-    #: print "tokens before preprocessing: "+str(len(file_content))
     tot_tokens.append(len(file_content))
     #: stemming + count term frequency
     stemmed_Words = []
@@ -160,8 +159,6 @@ def controversy(data):
 
         data['articles'][article_index]['sentences'] = filtered
         data['articles'][article_index]['score'] = score
-
-
 
     data.pop('tweets', None)
     return data

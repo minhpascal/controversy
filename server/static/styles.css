@@ -66,6 +66,4 @@ footer {
     width:100%;
 }
 #message a {color:white;}
-#error-message {
-    background-color: #f0ad4e;
-}
+#error-message { background-color: #f0ad4e; }

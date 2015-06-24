@@ -1,26 +1,29 @@
 <header>
-  <span id=header-content>
-    <span id=header-title>Controversy</span>
-    <span id=subheader>
-      hotspots of news articles
+    <span id=header-content>
+        <span id=header-title>Controversy</span>
+        <span id=subheader>
+            hotspots of news articles
+        </span>
+        <span id=right-header title="{{ user['Name'] }} at {{ user['School'] }}">
+            <span class=non-essentials>
+                welcome back, {{ user['Name']|first_name }} &middot;
+            </span>
+            <a href="/account">account</a>
+            &middot;
+            <a href="/logout">logout</a>
+        </span>
     </span>
-    <span id=right-header title="{{ user['Name'] }}&mdash;{{ user['School'] }}">
-      <span class=non-essentials>
-        welcome back, {{ user['Name']|first_name }} &middot;
-      </span>
-      <a href="/logout">logout</a>
-    </span>
-  </span>
 </header>
 {% raw %}
 <main>
 <form ng-submit="submit()" id=home-search>
-  <input autocomplete=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
-  <p>
-  testing js
-  <input type=checkbox ng-model="testing_js" checked />
-  </p>
-  <input type=submit class=go ng-class="{'disabled' : !$root.can_query, 'loading' : $root.is_loading}" value="{{ button_value }}" /> 
+    <input autocomplete=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
+    <p>
+        <i ng-repeat="trend in trending" class=pointer ng-click="$root.keyword=trend">
+            {{ trend }} {{ $last ? '' : ', ' }}
+        </i>
+    </p>
+    <input type=submit class=go ng-class="{'disabled' : !$root.can_query, 'loading' : $root.is_loading}" value="{{ button_value }}" /> 
 </form>
 
 

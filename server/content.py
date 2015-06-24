@@ -33,14 +33,11 @@ class Tweet(object):
         self.pimg = j['user']['profile_image_url']
         self.sentiment = self._sentiment()
 
-
     def to_dict(self):
         return self.__dict__
 
-
     def _clean(self):
         return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", self.tweet.strip('#')).split())
-
 
     def _sentiment(self):
         if current_app.debug:
@@ -64,13 +61,11 @@ class Article(object):
         self.published = j['pub_date'][:10]
         self.full = self._full_text()
 
-
     def to_dict(self):
         return self.__dict__ if self.full is not None else None
 
     def _no_html_ab(self):
         return BeautifulSoup(self.abstract or self.lead).getText()
-
 
     def _full_text(self):
         """nyt url --> full article text."""

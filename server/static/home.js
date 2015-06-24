@@ -29,27 +29,25 @@ cApp.config(function ($routeProvider) {
     templateUrl : 'html/search.html',
     controller : 'SearchController'
   })
-
   .when('/results', {
     templateUrl : 'html/results.html',
     controller : 'ResultsController'
   })
-
   .when('/read/:article/:sentence', {
     templateUrl : 'html/tweets.html',
     controller : 'TweetsController'
   })
-
   .when('/read/:article', {
     templateUrl : 'html/read.html',
     controller : 'ReadController'
   })
-
   .when('/error', {
     templateUrl : 'html/error.html',
     controller : 'ErrorController'
   })
-
+  .otherwise({
+      redirectTo: '/'
+  });
 });
 
 cApp.controller('SearchController', function($scope, $http, $rootScope, $location) {
@@ -65,6 +63,14 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
     $rootScope.can_query = ($rootScope.keyword.length > 0) && ($rootScope.keyword.localeCompare($rootScope.last_query) != 0);
     SET_OPACITY(($rootScope.can_query) ? 0.5 : 1.0);
   }, true);
+
+  $http.get('/api/stream')
+    .success(function(res) {
+        $scope.trending = res['top-5'];
+    })
+    .error(function(res) {
+        $scope.trending = "< nuts, something's wrong >";
+    });
 
   $scope.clear = function() {
     $rootScope.json = $rootScope.error = $rootScope.keyword = $rootScope.last_query = null;

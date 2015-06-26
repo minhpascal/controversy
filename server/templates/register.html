@@ -5,27 +5,26 @@
     {% for field in form.errors %}
     <b>{{ field }}</b>&hellip;
     {% for error in form.errors[field] %}
-        {{ error|lower }}
+    {{ error|lower }}
     {% endfor %}
     {% endfor %}
 </div>
 {% endif %}
 <div id=login>
-        <p id=login-title>Controversy</p>
-        <span id=login-details>Contribute to our research: help us build a dataset for future usefullness!</span>
-        {% if logged_in == true %}
-        You're already <a href="/">logged in</a>, but feel free to create another account.
-        {% endif %}
-        <form method=POST>
-            {{ form.hidden_tag() }}
-            {{ form.name(class_="field", placeholder="full name") }}
-            {{ form.email(class_="field", placeholder="email (username)") }}
-            {{ form.password(class_="field", placeholder="simple password") }}
-            {{ form.school(class_="field", placeholder="institution") }}
-            <!-- uncomment for recaptcha validation: \{\{ form.recaptcha \}\} -->
-            <br>
-            <input class=go type=submit value=register />
-        </form>
+    <p id=login-title>Controversy</p>
+    <span id=login-details>Contribute to our research: help us build a dataset for future usefullness!</span>
+    {% if logged_in == true %}
+    You're already <a href="/">logged in</a>, but feel free to create another account.
+    {% endif %}
+    <form method=POST>
+        {{ form.hidden_tag() }}
+        {{ form.name(class_="field", autocomplete="words", placeholder="full name") }}
+        {{ form.email(class_="field", type="email", placeholder="email (username)") }}
+        {{ form.password(class_="field", placeholder="simple password") }}
+        {{ form.school(class_="field", placeholder="institution") }}
+        <!-- uncomment for recaptcha validation: \{\{ form.recaptcha \}\} -->
+        <br>
+        <input class=go type=submit value=register />
+    </form>
 </div>
 {% endblock %}
-

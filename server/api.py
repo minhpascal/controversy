@@ -8,7 +8,7 @@
     :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
 """
-from flask import render_template, make_response, Blueprint, session, jsonify, request, Response, session
+from flask import render_template, Blueprint, session, jsonify, request, Response, session
 from config import *
 from error import UsageError
 from collections import Counter
@@ -80,12 +80,6 @@ def query():
 
 
 def new_query(keyword):
-    if 'test' in request.args:
-        #: safe to remove make_response import when this is deleted
-        response = make_response(render_template('testing-response.json'))
-        response.headers["Content-Type"] = "application/json"
-        return response
-
     arts = article_search(keyword)
     if len(arts) == 0:
         raise UsageError('no-articles', status_code=200)

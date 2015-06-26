@@ -17,7 +17,7 @@
 {% raw %}
 <main>
 <form ng-submit="submit()" id=home-search>
-    <input autocomplete=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
+    <input autocomplete=off autocorrect=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
     <p>
         <i ng-repeat="trend in trending" class=pointer ng-click="$root.keyword=trend">
             {{ trend }} {{ $last ? '' : ', ' }}

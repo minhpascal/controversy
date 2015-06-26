@@ -15,11 +15,9 @@ from functools import partial
 from operator import is_not
 from flask import current_app
 
-import random
 
-MAX_ATTEMPTS = 10
-MAX_TWEETS = 1000
-MAX_ARTICLES = 100
+MAX_ATTEMPTS = 3
+MAX_COMMENTARY = 300
 
 
 class Tweet(object):
@@ -40,9 +38,9 @@ class Tweet(object):
         return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", self.tweet.strip('#')).split())
 
     def _sentiment(self):
-        if current_app.debug:
-            import random
-            return random.choice([0,2,4])
+        #if current_app.debug:
+        #    import random
+        #    return random.choice([0,2,4])
         return analyse(self.clean_tweet)
 
 
@@ -60,6 +58,7 @@ class Article(object):
         self.xlarge = 'http://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
         self.published = j['pub_date'][:10]
         self.full = self._full_text()
+        self._comments()
 
     def to_dict(self):
         return self.__dict__ if self.full is not None else None
@@ -69,6 +68,8 @@ class Article(object):
 
     def _full_text(self):
         """nyt url --> full article text."""
+        if 'Paid Notice:' in self.title:
+            return None
         jar = cookielib.CookieJar()
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(jar))
         opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
@@ -78,6 +79,14 @@ class Article(object):
         res = " ".join(p.text for p in body) 
         jar.clear()
         return res
+
+    def _comments(self):
+        params = urllib.urlencode({
+            'api-key' : NYT_COMMUNITY_KEY,
+            'url' : self.url
+        })
+        response = urllib2.urlopen("http://api.nytimes.com/svc/community/v3/user-content/url.json?%s" % params)
+        #print(json.loads(response.read()))
 
 
 def nyt_query_date(s):
@@ -108,10 +117,10 @@ def twitter_search(keyword):
     tweets = []
 
     for i in xrange(MAX_ATTEMPTS):
-        if MAX_TWEETS < len(tweets):
+        if MAX_COMMENTARY < len(tweets):
             break
 
-        response = twitter.search(q = keyword, count = 100, lang= "en") if i == 0 else twitter.search(q = keyword, include_entities = 'true', max_id = next_max)
+        response = twitter.search(q=keyword, count=100, lang="en") if i == 0 else twitter.search(q=keyword, include_entities='true', max_id=next_max)
          
         tweets += map(lambda x: Tweet(x).to_dict(), response['statuses'])
         try:
@@ -119,9 +128,11 @@ def twitter_search(keyword):
             next_max = next_res.split('max_id=')[1].split('&')[0]
         except:
             break
+
+    #s = sorted(tweets, key=lambda x: x['favorites'])[:int(len(tweets) * 0.1)]
     return tweets
 
 
 def get_auth():
-    auth = Twython(API_KEY, API_SECRET, oauth_version = 2)
+    auth = Twython(API_KEY, API_SECRET, oauth_version=2)
     return Twython(API_KEY, access_token = auth.obtain_access_token())

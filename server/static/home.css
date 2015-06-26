@@ -49,9 +49,9 @@ main {padding:6em 1em;}
 #search {
     margin-bottom:10px;
     width: 275px;
-    border: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
 }
-#search:focus, #top-search input:focus {border: 1px solid #a3a3a3;}
+#search:focus, #top-search input:focus {border-bottom: 1px solid #0266c8;}
 .loading, .top-loading {background:url('/static/img/loading.gif') no-repeat;}
 .top-loading {
     background-position:98% 50%;

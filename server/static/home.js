@@ -98,7 +98,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
       $location.path('/error');
     }
 
-    var call = '/api?q=' + $rootScope.keyword + ($scope.testing_js ? '&test=1' : '');
+    var call = '/api?q=' + $rootScope.keyword;
     console.log('querying ==> ' + call);
 
     $http.get(call).

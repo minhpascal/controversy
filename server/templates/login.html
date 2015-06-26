@@ -5,32 +5,34 @@
     {% for field in form.errors %}
     <b>{{ field }}</b>&hellip;
     {% for error in form.errors[field] %}
-        {{ error|lower }}
+    {{ error|lower }}
     {% endfor %}
     {% endfor %}
 </div>
 {% endif %}
 {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <div id=message>
-      {% for message in messages %}
-        {{ message }}
-        {% if not loop.last %}
-          &middot;
-        {% endif %}
-      {% endfor %}
-    </div>
-  {% endif %}
+{% if messages %}
+<div id=message>
+    {% for message in messages %}
+    {{ message }}
+    {% if not loop.last %}
+    &middot;
+    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
 {% endwith %}
 <div id=login>
-  <p id=login-title>Controversy</p>
-  <span id=login-details>Please login or <a href="register">create an account</a>.</span>
-  <form method=POST>
-    {{ form.hidden_tag() }}
-    {{ form.email(value=username, class_="field", placeholder="email (username)") }}
-    {{ form.password(class="field", placeholder="password") }}
-    <br>
-    <input class=go type=submit value="log in" />
-  </form>
+    <p id=login-title>Controversy</p>
+    <span id=login-details>
+        Please login or <a href="register">create an account</a>.
+    </span>
+    <form method=POST>
+        {{ form.hidden_tag() }}
+        {{ form.email(value=username, type="email", class_="field", placeholder="email (username)", required="required") }}
+        {{ form.password(class="field", placeholder="password", required="required") }}
+        <br>
+        <input class=go type=submit value="log in" />
+    </form>
 </div>
 {% endblock %}

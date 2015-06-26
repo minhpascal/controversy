@@ -2,7 +2,8 @@ CREATE TABLE Users (
         Id VarChar(50) Primary Key,
         Password VarChar(50) Not Null,
         School VarChar(50) Not Null,
-        Name VarChar(50) Not Null
+        Name VarChar(50) Not Null,
+        Token VarChar(50)
 );
 
 CREATE TABLE Queries (

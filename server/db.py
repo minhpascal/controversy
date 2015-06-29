@@ -49,9 +49,9 @@ def create_user(email, name, password, school):
     cur.execute('''
         INSERT INTO
         Users
-        (Name, Id, School, Password)
+        (Name, Id, School, Password, Logins)
         VALUES
-        (%s, %s, %s, MD5(%s));''', (name, email, school, password,))
+        (%s, %s, %s, MD5(%s), 0);''', (name, email, school, password,))
     return _.commit()
 
 

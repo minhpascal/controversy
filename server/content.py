@@ -29,6 +29,8 @@ class Tweet(object):
         self.author = j['user']['screen_name']
         self.followers = j['user']['followers_count']
         self.pimg = j['user']['profile_image_url']
+        print(j)
+        self.identifier = j['id']
         self.sentiment = self._sentiment()
 
     def to_dict(self):
@@ -97,7 +99,7 @@ def article_search(keyword):
     """Get articles based on keyword."""
     #: tweets are < 10 days old; articles should match
     today = datetime.date.today()
-    last_week = today - datetime.timedelta(days=10)
+    last_week = today - datetime.timedelta(days=11)
 
     params = urllib.urlencode({
         'q' : keyword,

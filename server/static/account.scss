@@ -1,0 +1,27 @@
+@import 'style';
+main { padding: 4em 1em; }
+ul {
+    margin: 10px 10px 4em 10px;
+    list-style: square;
+    li { margin-left: 20px; }
+    p {
+        float: right;
+        text-align: right;
+    }
+}
+h3 {
+    border-bottom: 1px dashed $grey;
+    padding: 5px;
+    font-variant: small-caps;
+    font-weight: 400;
+}
+form {
+    padding: 5px;
+    border: 1px solid #e9e9e9;
+    display: inline-block;
+    #bug b { color: $mad; }
+    input { color: $warn; }
+}
+@media (max-width: 650px) {
+    input { display: block; }
+}

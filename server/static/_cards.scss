@@ -1,0 +1,112 @@
+@import "_vars";
+%base {
+    margin: 0 auto;
+    width: 400px;
+    li {
+        @include column-break-inside(avoid);
+        list-style: none;
+    }
+}
+ul.articles {
+    @extend %base;
+    //@include column-fill(auto);
+    @include column-count(1);
+    @include column-gap(6px);
+    li {
+        width: 400px;
+        margin-bottom: 2em;    
+    }
+}
+ul.tweets {
+    @extend %base;
+    margin-top: 2em;
+    @include column-count(2);
+    @include column-gap(5px);
+    li {
+        width: 180px;
+        margin-bottom: 5px;
+    }
+}
+%base-card {
+    padding-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #efefef;
+    color: #444;
+    position: relative;
+    font-size: 14px;
+    @include border-radius(2px);
+}
+div.article {
+    @extend %base-card;
+    p {
+        padding: 5px;
+    }
+    p.title {
+        padding: 5px;
+        margin-top: 5px;
+        margin-bottom: 2px;
+        font-size: 28px;
+    }
+    p.url {
+        padding: 5px;
+        border-top: 1px solid #e5e5e5;
+        background-image: url('img/url.png');
+        background-repeat: no-repeat;
+        padding: 10px 0 0 30px;
+        height: 30px;
+        display: block;
+        margin-bottom: -10px;
+        a {
+            color: #04bff4;
+            text-decoration: none;
+            width: 385px;
+            display: block;
+            position: relative;
+        }
+    }
+    img { width: 100%; }
+}
+div.tweet {
+    @extend %base-card;
+    padding: 2px;
+    overflow: hidden;
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+div.mad { border: 1px solid $mad; }
+div.happy { border: 1px solid $happy; }
+div.hovering { color: #000; }
+div.no-hover {
+    color: #c3c3c3;
+    border: 1px solid #f9f9f9;
+}
+div.most-controversial { border: 2px solid $mad; }
+div.least-controversial { border: 2px solid $cool; }
+@media (min-width: 920px) {
+    ul.articles {
+        width: 850px; 
+        @include column-count(2);
+    }
+    ul.tweets {
+        width: 850px;
+        @include column-count(4);
+    }
+}
+@media (min-width: 1320px) {
+    ul.articles {
+        width: 1250px;
+        @include column-count(3);
+    }
+    ul.tweets {
+        width: 1250px;
+        @include column-count(6);
+    }
+}
+@media (max-width: 550px) {
+    ul.articles {
+        width: 320px;
+        li { width: 315px; }
+    }
+}

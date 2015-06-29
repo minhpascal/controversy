@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% if form.errors %}
-<div id=error-message>
+<div id=error>
     {% for field in form.errors %}
     <b>{{ field }}</b>&hellip;
     {% for error in form.errors[field] %}
@@ -11,8 +11,10 @@
 </div>
 {% endif %}
 <div id=login>
-    <p id=login-title>Controversy</p>
-    <span id=login-details>Contribute to our research: help us build a dataset for future usefullness!</span>
+    <h1>Controversy</h1>
+    <span id=details>
+        Contribute to our research: help us build a dataset for future usefullness!
+    </span>
     {% if logged_in == true %}
     You're already <a href="/">logged in</a>, but feel free to create another account.
     {% endif %}

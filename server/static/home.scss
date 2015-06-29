@@ -1,0 +1,133 @@
+@import 'style';
+@import 'cards';
+$header_height: 55px;
+$search_focus: #f1f8fb;
+$loading_src: 'img/loading.gif';
+footer { display: none; }
+header {
+    z-index: 1;
+    @include user-select(none);
+    cursor: default;
+    width: 100%;
+    height: $header_height;
+    line-height: $header_height;
+    background: #fff;
+    border-bottom: 1px solid #efefef;
+    position: fixed;
+    font-size: 14px;
+    a { text-decoration: none; }
+    >div {
+        padding: 0 15px 0 5px;
+        display: inline;
+        h1 {
+            text-align: left;
+            display: inline;
+            font-size: 25px;
+            opacity: 0.8;
+            font-variant: small-caps;
+        }
+        span#subtitle {
+            opacity: 0.4;
+            padding-left: 5px;
+        }
+        span#right-header {
+            float: right;
+            padding-right: 10px;
+        }
+        form { display: inline; }
+        >form input {
+            font-size: 16px;
+            padding: 6px 12px;
+            line-height: 1.5;
+            @include border-radius(2px);
+            border-bottom: 1px solid $grey;
+            margin: 0 auto;
+            height: 15px;
+            width: 30%;
+            &:focus {
+                border-bottom: 1px solid $search_focus;
+            }
+        }
+    }
+}
+.loading {
+    background: url($loading_src) no-repeat;
+    background-position: 98% 50%;
+    background-size: 20px 20px;
+}
+
+main {
+    padding: 6em 1em;
+    >form { 
+        margin-bottom: 10px; 
+        text-align: center;
+        input[type="text"] {
+            margin-bottom: 10px;
+            width: 275px;
+            border-bottom: 1px solid $grey;
+            &:focus { border-bottom: 1px solid $search_focus; }
+        }
+
+    }
+
+    ul.details {
+        @include column-break-inside(avoid);
+        list-style: none;
+        margin: 0 0 10px 0;
+        padding: 0;
+        li {
+            display: inline;
+            >span {
+                line-height: 25px;
+                @include border-radius(2px);
+                border: 1px solid $grey;
+                padding: 2px;
+            }
+        }
+
+    }
+
+    article {
+        text-align: justify;
+        a { text-decoration: none; } // controversial sentences
+    }
+
+    article + p { opacity: 0.6; } // NYT copyright
+    
+    mark {
+        line-height: 25px;
+        color: #2b6dad;
+        background-color: #f1f8fb;
+        @include border-radius(2px);
+        padding: 2px;
+    }
+
+    .loading {
+        padding: 10px 10px 10px 36px;
+        background-position: 10% 50%;
+    }
+    .disabled {
+        cursor: not-allowed;
+        background-color: #f9f9f9;
+        &:active {
+            color: #fff; 
+            background-color: #ce4884;
+        }
+    }
+}
+
+span.danger {
+    color: #fff;
+    background-color: $mad;
+    @include border-radius(2px);
+}
+
+@media (max-width: 600px) {
+    header>div h1 { font-size: 22px; }
+    header>div span#right-header { font-size: 12px; }
+    header>div span#subtitle { display: none; }
+}
+
+@media (max-width: 350px) {
+    .non-essentials { display: none; }
+}

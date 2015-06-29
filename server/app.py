@@ -14,6 +14,7 @@ from functools import wraps
 from api import api, mysql_date
 from config import *
 from datetime import datetime
+from hashlib import md5
 import db, forms
 
 
@@ -23,6 +24,11 @@ app.secret_key = SECRET_KEY
 app.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
 app.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
 app.config['testing'] = DEBUG
+
+
+def digest(static):
+    with open('static/%s' % static) as f:
+        return "%s?c=%s" % (static, md5(f.read()).hexdigest())
 
 
 @app.errorhandler(500)
@@ -62,16 +68,16 @@ def login(username):
         session['username'] = form.username
         session['user'] = db.dump_user(form.username)
         return redirect('/')
-    return render_template('login.html', title = 'Login', form = form, css = ["login"], username = username or '')
+    return render_template('login.html', title='Login', form=form, css=digest("login.css"), username=username or '')
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = forms.Register()
     if form.validate_on_submit():
-        flash("thanks, %s; please confirm your password" % form.name.data.split(' ')[0])
+        flash("thanks, %s; please confirm your password" % first_name(form.name.data))
         return redirect('login/%s' % form.username)
-    return render_template('register.html', title = 'Register', form = form, css = ['login'], logged_in = loggedin())
+    return render_template('register.html', title='Register', form=form, css=digest('login.css'), logged_in = loggedin())
 
 
 @app.route("/logout")
@@ -93,7 +99,7 @@ def account():
         flash("Account destroyed with vengeance!")
         return logout()
 
-    return render_template('account.html', user = session['user'], history = db.user_history(session['username']), css = ['home', 'account'], form = form)
+    return render_template('account.html', user=session['user'], history=db.user_history(session['username']), css=digest('account.css'), form=form)
 
 
 @app.route("/account/clear-queries")
@@ -107,7 +113,7 @@ def clear_queries():
 @require_login
 def serve_ang(path):
     try:
-        return render_template('partials/%s' % path, user = session['user'])
+        return render_template('partials/%s' % path, user=session['user'])
     except TemplateNotFound:
         return abort(404)
 
@@ -115,7 +121,15 @@ def serve_ang(path):
 @app.route("/")
 @require_login
 def index():
-    return render_template('app.html', user = session['user'], css = ['home', 'cards'], js = ['home'], angular = 'Home')
+    return render_template('app.html', user=session['user'], css=digest('app.css'), js=digest('home.js'), angular='Home')
+
+
+@app.route("/not-supported")
+def not_supported():
+    return '''
+        <title>Friend, we have some unfortunate news&hellip;</title>
+        <tt>IE versions <= 9 and Opera Mini are not supported.
+        Consider <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">upgrading IE</a> or switching to <a href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>. Opera Mini folks, you can use <a href="https://play.google.com/store/apps/details?id=com.android.chrome&hl=en">Chrome</a> on Android.</tt>'''
 
 
 @app.template_filter('first_name')
@@ -126,6 +140,7 @@ def first_name(s):
 @app.template_filter('pretty_date')
 def pretty_date(u):
     return datetime.strptime(u, mysql_date()).strftime("%A, %d %B")
+
 
 
 if __name__ == "__main__":

@@ -110,7 +110,7 @@ def trending():
         freq[k] = (float(v) / s) * 100
     return success({
         "trending" : freq,
-        "top-5" : sorted(freq, key = freq.get, reverse = True)[:5]
+        "top-5" : sorted(freq, key=freq.get, reverse=True)[:5]
     })
 
 

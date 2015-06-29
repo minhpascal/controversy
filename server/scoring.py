@@ -3,7 +3,7 @@
     scoring.py
     ~~~~~~~~~~
     Adds score and relevant tweets to response.
-    :authors: Ismini Lourentzou, Graham Dyer.
+    :authors: Ismini Lourentzou
 """
 import math, nltk, re, string, scipy, heapq
 from gensim import corpora

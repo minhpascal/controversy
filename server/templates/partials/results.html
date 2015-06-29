@@ -1,32 +1,31 @@
 <header ng-controller="SearchController">
-  <span id=header-content>
-    <form id=top-search ng-submit="submit()">
-      <input autocomplete=off type=text placeholder="keyword" ng-class="{ 'top-loading' : $root.is_loading }" ng-model="$root.keyword" />
-      <span ng-click="clear()" id=clear>&times;</span>
-    </form>
-
-    <span id=right-header>
-      <span class=non-essentials>
-        welcome back, {{ user['Name']|first_name }} &middot;
-      </span>
-      <a href="/logout">logout</a>
-    </span>
-  </span>
+    <div>
+        <form ng-submit="submit()">
+            <input autocomplete=off type=text placeholder="keyword" ng-class="{ 'top-loading' : $root.is_loading }" ng-model="$root.keyword" />
+            <span ng-click="clear()" id=clear>&times;</span>
+        </form>
+        <span id=right-header>
+            <span class=non-essentials>
+                welcome back, {{ user.Name|first_name }} &middot;
+            </span>
+            <a href="/logout">logout</a>
+        </span>
+    </div>
 </header>
 
 {% raw %}
 <main>
-<ul class=cards ng-show="json" ng-style="$root.results_style">
-  <li ng-repeat="article in json.articles|orderBy:'score':true track by $index">
-    <div class=card ng-class="{ 'most-controversial' : $first, 'least-controversial' : $last }">
-      <p class=card-title ng-bind-html="($index+1) + '. ' + article.title"></p>
-      <img class=full ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
-      <p ng-bind-html="article.abstract"></p>
-      <p class=url>
-        <a href="#read/{{ $index }}">Read the full article</a>
-      </p>
+<ul class=articles ng-show="json" ng-style="$root.results_style">
+    <li ng-repeat="article in json.articles|orderBy:'score':true track by $index">
+    <div class=article ng-class="{ 'most-controversial' : $first, 'least-controversial' : $last }">
+        <p class=title ng-bind-html="($index+1) + '. ' + article.title"></p>
+        <img ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
+        <p ng-bind-html="article.abstract"></p>
+        <p class=url>
+            <a href="#read/{{ $index }}">Read the full article</a>
+        </p>
     </div>
-  </li>
+    </li>
 </ul>
 </main>
 {% endraw %}

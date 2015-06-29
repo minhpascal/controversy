@@ -11,19 +11,27 @@
 Controversy &middot; hotspots of news articles</title>
 <meta name="description" content="Hotspots of news articles: joint mining of news text and social media to discover controversial points in news. " />
 <meta name="viewport" id="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />
+
+<!--[if lte IE 9]>
+<script>
+    window.location.replace("/not-supported");
+</script>
+<![endif]-->
+<script>
+if(!!window['operamini']) {
+    window.location.replace("/not-supported");
+}
+</script>
 <link rel=stylesheet href="//fonts.googleapis.com/css?family=Lato" />
-<link rel=stylesheet href="{{ url_for('static', filename='styles.css') }}" />
-{% for stylesheet in css %}
-<link rel=stylesheet href="{{ url_for('static', filename=stylesheet+'.css') }}" />
-{% endfor %}
+<link rel=stylesheet href="static/{{ css }}" />
 {% block content %}{% endblock %}
 
 <footer>
-    <span id="footer-content">
+    <p>
         Joint Mining of News Text and Social Media to Discover Controversial Points in News
         <br>
         Ismini Lourentzou, Abhishek Sharma, Graham Dyer, ChengXiang Zhai &mdash; <tt>{lourent2, sharma51, gdyer2, czhai}@illinois.edu</tt> &mdash; University of Illinois, Urbana-Champaign
-    </span>
+    </p>
 </footer>
 
 {% if angular is defined %}
@@ -32,9 +40,6 @@ Controversy &middot; hotspots of news articles</title>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular-sanitize.min.js"></script>
 {% endif %}
 {% if js is defined %}
-{% for script in js %}
-<script src="{{ url_for('static', filename=script+'.js') }}"></script>
-{% endfor %}
+<script src="static/{{ js }}"></script>
 {% endif %}
-
 </html>

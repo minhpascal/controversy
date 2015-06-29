@@ -60,7 +60,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
   $scope.$watch(function() {
     return $rootScope.keyword;
   }, function() {
-    $rootScope.can_query = ($rootScope.keyword.length > 0) && ($rootScope.keyword.localeCompare($rootScope.last_query) != 0);
+    $rootScope.can_query = ($rootScope.keyword && $rootScope.keyword.length > 0) && ($rootScope.keyword.localeCompare($rootScope.last_query) != 0);
     SET_OPACITY(($rootScope.can_query) ? 0.5 : 1.0);
   }, true);
 
@@ -184,7 +184,7 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
 
     return corpus;
   };
-
+  
 });
 
 
@@ -205,8 +205,8 @@ cApp.controller('TweetsController', function($scope, $rootScope, $location, $rou
   $scope.change = function(i) {
     $scope.sentenceIndex += i;
     $location.path('read/' + $scope.articleIndex + '/' + $scope.sentenceIndex);
-    $location.hash('header-content');
-    anchorSmoothScroll.scrollTo('header-content');
+    $location.hash('right-header');
+    anchorSmoothScroll.scrollTo('right-header');
   };
 
   $scope.hoverIn = function(pimg) {

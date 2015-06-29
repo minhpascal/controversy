@@ -3,6 +3,7 @@ CREATE TABLE Users (
         Password VarChar(50) Not Null,
         School VarChar(50) Not Null,
         Name VarChar(50) Not Null,
+        Logins smallint,
         Token VarChar(50)
 );
 

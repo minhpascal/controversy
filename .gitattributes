@@ -1,2 +1,2 @@
-server/static/*.css linguist-vendored
 server/templates/* linguist-vendored
+server/static/*.css linguist-vendored

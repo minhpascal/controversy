@@ -1,7 +1,7 @@
 @import 'style';
 @import 'cards';
 $header_height: 55px;
-$search_focus: #f1f8fb;
+$search_focus: $cool;
 $loading_src: 'img/loading.gif';
 footer { display: none; }
 header {

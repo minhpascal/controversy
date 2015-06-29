@@ -39,7 +39,7 @@ def handle_500(error):
     from flask import jsonify
     from error import UsageError
     client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
-    client.messages.create(body="problem with Controversy on Linode!", to=ADMIN_PHONE, from_="+19089982913")
+    client.messages.create(body="problem on Linode: %s" % repr(error), to=ADMIN_PHONE, from_="+19089982913")
     raise UsageError('our-fault', status_code = 500)
 
 

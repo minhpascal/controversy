@@ -7,7 +7,7 @@ Controversy
 
 Joint Mining of news text and social media to discover controversial points in news.
 
-`A live instance`_ and copied at `controversy.web.engr.illinois.edu`_
+`A live instance`_. It appears controversy|...|nois.edu is having some cross-origin problems |---| working on a resolution a.o. June 29th. In the meantime, please just use the IP.
 
 Running for development
 -----------------------
@@ -27,34 +27,18 @@ Running for development
 Pending
 --------
 
+#. ui problems with Firefox on results page
+#. cross-origin nonsense referenced above
 #. linguistic features added to score
 #. stats with matplotlib
         - average global sentiment of tweets vs time
         - average controversy score for a keyword vs time (this is the timeline feature spoken about in beginning of semester)
         - api calls vs time
         - trending queries
-#. web ui Firefox, Safari support and general clean-up; stability / bug fixes
-#. cache full NYT articles with SQL
 #. more than tweets using NYT `community API`_
 #. "rank more" on results ui queries more than 10 articles without repeats
 #. development of external api
 #. "confidence" included in api response, a function of number of tweets
-#. load balancing
-
-
-Running for deployment
-----------------------
-
-On 14.04 LTS |...|
-
-* ``wget`` the raw file for ``server/deploy.sh`` |---| cloning is discouraged
-* ``sudo . deploy.sh``
-    - a MySQL console will appear
-    - ``create database controversy;``
-    - ``use controversy;``
-    - ``source schema.sql;``
-* edit ``config.py`` with actual credentials
-
 
 
 -----

@@ -1,62 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
 <header>
-    <span id=header-content>
-        <span id=header-title>Controversy</span>
-        <span id=subheader>
-            hotspots of news articles
-        </span>
-        <span id=right-header title="{{ user['Name'] }} at {{ user['School'] }}">
-            <span class=non-essentials>
-                welcome back, {{ user['Name']|first_name }} &middot;
-            </span>
-            <a href="/">home</a>
-            &middot;
-            <a href="/logout">logout</a>
-        </span>
-    </span>
+	<div>
+		<h1>Controversy</h1>
+		<span id=subheader>
+			hotspots of news articles
+		</span>
+		<span id=right-header title="{{ user['Name'] }} at {{ user['School'] }}">
+			<span class=non-essentials>
+				welcome back, {{ user['Name']|first_name }} &middot;
+			</span>
+			<a href="/">home</a>
+			&middot;
+			<a href="/logout">logout</a>
+		</span>
+	</div>
 </header>
 <main>
 
 
 <h3>Query history</h3>
 <ul>
-    {% if history|length %}
-    {{ user['Name']|first_name }}, you search for &hellip;
-    {% for query in history %}
-    <li>
-        <b>{{ query['Term'] }}</b> on {{ query['Performed']|pretty_date }}
-    </li>
-    {% endfor %}
-    <p>
-        <i>&hellip; and that's all we know</i><br>
-        however, we forget things, especially when you <a href="account/clear-queries">clear your history</a>, so no guarantees
-    </p>
-    {% else %}
-    &hellip; nothing yet. May we interest you in <a href="../">a try</a>?
-    {% endif %}
+	{% if history|length %}
+	{{ user['Name']|first_name }}, you search for &hellip;
+	{% for query in history %}
+	<li>
+	<b>{{ query['Term'] }}</b> on {{ query['Performed']|pretty_date }}
+	</li>
+	{% endfor %}
+	<p>
+	<i>&hellip; and that's all we know</i><br>
+	however, we forget things, especially when you <a href="account/clear-queries">clear your history</a>, so no guarantees
+	</p>
+	{% else %}
+	&hellip; nothing yet. May we interest you in <a href="../">a try</a>?
+	{% endif %}
 </ul>
 
 
 <h3>Drop account</h3>
 <p>This account is owned by <b>{{ user['Name'] }}</b> who goes by <b>{{ user['Id'] }}</b> and is ostensibly associated with <b>{{ user['School'] }}</b>.</p>
 <p>We'll preserve your contributions to trending queries (which are anonymous), but you're welcome to close your account:</p>
-
-<form method=POST>
-    {{ form.hidden_tag() }}
-    {{ form.email.label }} {{ form.email(value=user['Id']) }}
-    {{ form.password.label }} {{ form.password(placeholder="confirm your password") }}
-    <button type=submit>close account &rarr;</button>
-    {% if form.errors %}
-    <div id=bug>
-        {% for field in form.errors %}
-        {% for error in form.errors[field] %}
-        <b>{{ error|lower }}</b>
-        {% endfor %}
-        {% endfor %}
-    </div>
-    {% endif %}
-</form>
+<span>
+	<form method=POST>
+		{{ form.hidden_tag() }}
+		{{ form.email.label }} {{ form.email(value=user['Id']) }}
+		{{ form.password.label }} {{ form.password(placeholder="confirm your password") }}
+		<button type=submit>close account &rarr;</button>
+		{% if form.errors %}
+		<div id=bug>
+			{% for field in form.errors %}
+			{% for error in form.errors[field] %}
+			<b>{{ error|lower }}</b>
+			{% endfor %}
+			{% endfor %}
+		</div>
+		{% endif %}
+	</form>
+</span>
 
 </p>
 

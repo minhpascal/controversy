@@ -7,7 +7,7 @@ Controversy
 
 Joint Mining of news text and social media to discover controversial points in news.
 
-`A live instance`_. It appears controversy|...|nois.edu is having some cross-origin problems |---| working on a resolution a.o. June 29th. In the meantime, please just use the IP.
+`A live instance`_. `controversy.web.engr.illinois.edu`_ will redirect there.
 
 Running for development
 -----------------------
@@ -28,7 +28,6 @@ Pending
 --------
 
 #. ui problems with Firefox on results page
-#. cross-origin nonsense referenced above
 #. linguistic features added to score
 #. stats with matplotlib
         - average global sentiment of tweets vs time

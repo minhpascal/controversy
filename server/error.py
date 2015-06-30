@@ -2,11 +2,7 @@
 """
     error.py
     ~~~~~~~
-
     Proper error handling for RESTful API.
-
-    :copyright: (c) 2015 |contributors|.
-    :license: BSD, see LICENSE for more details.
 """
 
 class UsageError(Exception):

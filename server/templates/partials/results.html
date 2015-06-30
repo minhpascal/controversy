@@ -16,13 +16,13 @@
 {% raw %}
 <main>
 <ul class=articles ng-show="json" ng-style="$root.results_style">
-    <li ng-repeat="article in json.articles|orderBy:'score':true track by $index">
+    <li ng-repeat="article in json.articles">
     <div class=article ng-class="{ 'most-controversial' : $first, 'least-controversial' : $last }">
         <p class=title ng-bind-html="($index+1) + '. ' + article.title"></p>
         <img ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
         <p ng-bind-html="article.abstract"></p>
         <p class=url>
-            <a href="#read/{{ $index }}">Read the full article</a>
+            <a href="#results/{{ $index }}">Read the full article</a>
         </p>
     </div>
     </li>

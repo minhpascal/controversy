@@ -123,7 +123,8 @@ def controversy(data):
 
     #: for every article
     for article_index in xrange(len(data['articles'])):
-        score = 0
+        score = 0 #: note that vanilla "score" is entropy
+        #ratio_score = 0 #: ratio score, of course
         query = tokenizer.tokenize(data['articles'][article_index]['full'])
         sentences = [];
 
@@ -140,7 +141,7 @@ def controversy(data):
                 relevant_tweets.append(data['tweets'][doc_index])
 
             #: find entropy of sentiment
-            sentiments = dict((x,(sentiments.count(x)/float(len(sentiments)))) for x in set(sentiments)).values()
+            sentiments = dict((x,(sentiments.count(x) / float(len(sentiments)))) for x in set(sentiments)).values()
             entropy = scipy.stats.entropy(sentiments, base=2)
             score += entropy
 
@@ -150,8 +151,8 @@ def controversy(data):
                 'entropy' : entropy
             })
 
-        #: get 5% of setences
-        n = int(math.ceil(len(sentences) * 0.05))
+        #: get 6% of setences
+        n = int(math.ceil(len(sentences) * 0.06))
         #: create a list of n largest entropy values
         nlargest = heapq.nlargest(n, map(lambda x : x['entropy'], sentences))
         filtered = filter(lambda x : any(x['entropy'] >= i for i in nlargest) and len(x['tweets']) > 1, sentences)
@@ -161,4 +162,5 @@ def controversy(data):
         data['articles'][article_index]['score'] = score
 
     data.pop('tweets', None)
-    return data
+    #: sort in order of decreasing entropy (most controversial --> least)
+    return {'error' : 0, 'articles' : sorted(data['articles'], key=lambda x: x['score'], reverse=True)}

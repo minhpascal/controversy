@@ -65,5 +65,5 @@ div#message {
 }
 div#error {
     @extend div#message;
-    background-color: $warn;
+    background-color: #d43f3a;
 }

@@ -3,11 +3,11 @@ Twython
 beautifulsoup4
 requests
 requests_oauthlib
-nltk
 redis
-scipy
 gensim
 flask
 twilio
 textblob
 flask-wtf
+nltk
+scipy

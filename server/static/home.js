@@ -1,6 +1,6 @@
 var cApp = angular.module('Home', ['ngRoute', 'ngSanitize']);
 var ERROR_MESSAGES = {
-  'no-articles' : 'Despite our best efforts, we simply could not find any articles with that keyword. May we interest you in another try?',
+  'no-articles' : 'Despite our best efforts, we simply could not find any recently published English articles with that keyword. May we interest you in another try?',
   'our-fault' : 'Well, this is akward; we messed up. Please file a bug at github.com/gdyer/controversy/issues.',
   'not-logged-in' : 'A server update was just pushed! Please refresh the page and log in again.',
   'no-page' : 'Holy guacamole! We couldn\'t find that article or page (and we\'re not sure if it had anything to do with avocados or a diety).',
@@ -33,11 +33,11 @@ cApp.config(function ($routeProvider) {
     templateUrl : 'html/results.html',
     controller : 'ResultsController'
   })
-  .when('/read/:article/:sentence', {
+  .when('/results/:article/:sentence', {
     templateUrl : 'html/tweets.html',
     controller : 'TweetsController'
   })
-  .when('/read/:article', {
+  .when('/results/:article', {
     templateUrl : 'html/read.html',
     controller : 'ReadController'
   })
@@ -104,6 +104,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
     $http.get(call).
       success(function(res) {
         $rootScope.json = res;
+	console.log(res);
         $rootScope.is_loading = false;  
         if (res['error']) {
           handleError(res['message']);
@@ -179,7 +180,7 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
     }).join('|'), 'gi');
     corpus = corpus.replace(re, function(matched) {
       i++; 
-      return "<b><a href='#read/" + $routeParams.article + '/' + i + "'>" + matched + "</a></b>";
+      return "<b><a href='#results/" + $routeParams.article + '/' + i + "'>" + matched + "</a></b>";
     });
 
     return corpus;

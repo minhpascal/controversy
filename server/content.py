@@ -21,7 +21,9 @@ MAX_COMMENTARY = 300
 
 
 class Tweet(object):
-    """A tweet"""
+    """A tweet
+       holds basic attributes and finds sentiment
+    """
 
     def __init__(self, j):
         self.tweet = j['text']
@@ -29,7 +31,6 @@ class Tweet(object):
         self.author = j['user']['screen_name']
         self.followers = j['user']['followers_count']
         self.pimg = j['user']['profile_image_url']
-        print(j)
         self.identifier = j['id']
         self.sentiment = self._sentiment()
 
@@ -47,7 +48,9 @@ class Tweet(object):
 
 
 class Article(object):
-    """A NYT article""" 
+    """A NYT article
+       holds basic attibutes and gets full text 
+    """ 
 
     def __init__(self, j):
         self.lead = j['lead_paragraph']
@@ -60,17 +63,16 @@ class Article(object):
         self.xlarge = 'http://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
         self.published = j['pub_date'][:10]
         self.full = self._full_text()
-        self._comments()
 
     def to_dict(self):
-        return self.__dict__ if self.full is not None else None
+        return self.__dict__ if (self.full is not None and len(self.full)) != 0 else None
 
     def _no_html_ab(self):
         return BeautifulSoup(self.abstract or self.lead).getText()
 
     def _full_text(self):
         """nyt url --> full article text."""
-        if 'Paid Notice:' in self.title:
+        if 'Paid Notice:' in self.title or 'video/multimedia' in self.url:
             return None
         jar = cookielib.CookieJar()
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(jar))
@@ -110,7 +112,6 @@ def article_search(keyword):
     })
 
     response = urllib2.urlopen("http://api.nytimes.com/svc/search/v2/articlesearch.json?%s" % params)
-
     return filter(partial(is_not, None), map(lambda x: Article(x).to_dict(), json.loads(response.read())['response']['docs']))
 
 
@@ -123,15 +124,12 @@ def twitter_search(keyword):
             break
 
         response = twitter.search(q=keyword, count=100, lang="en") if i == 0 else twitter.search(q=keyword, include_entities='true', max_id=next_max)
-         
         tweets += map(lambda x: Tweet(x).to_dict(), response['statuses'])
         try:
             next_res = results['search_metadata']['next_results']
             next_max = next_res.split('max_id=')[1].split('&')[0]
         except:
             break
-
-    #s = sorted(tweets, key=lambda x: x['favorites'])[:int(len(tweets) * 0.1)]
     return tweets
 
 

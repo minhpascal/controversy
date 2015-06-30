@@ -60,6 +60,7 @@ def success(r):
 def mysql_date():
     return '%Y-%m-%d'
 
+
 def make_date(t=None):
     """datetime or None -> sql-ready date-string."""
     f = mysql_date()
@@ -74,9 +75,7 @@ def query():
         db.append_history(q, make_date(), u)
     else:
         db.update_history(q, make_date(), u)
-
-    cached = sr.get(q)
-    return justmime(cached) if cached else new_query(q)
+    return justmime(sr.get(q)) if sr.exists(q) else new_query(q)
 
 
 def new_query(keyword):
@@ -87,7 +86,6 @@ def new_query(keyword):
     ranked = json.dumps(controversy({
         'tweets' : twitter_search(keyword),
         'articles' : arts,
-        'error' : 0
     }))
 
     sr.set(keyword, ranked)
@@ -104,6 +102,11 @@ def history():
 @api.route('/%s' % STREAM_ENDPOINT)
 def trending():
     hist = map(lambda x : x['Term'], db.histories())
+    if not hist:
+            return jsonify({
+                    "trending" : None,
+                    "top-5": None
+        })
     freq = Counter(hist)
     s = reduce(lambda x,y : x + y, freq.values())
     for k, v in freq.iteritems():

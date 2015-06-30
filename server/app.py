@@ -8,13 +8,14 @@
     :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
 """
-from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort
+from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort, url_for
 from jinja2 import TemplateNotFound
 from functools import wraps
 from api import api, mysql_date
 from config import *
 from datetime import datetime
 from hashlib import md5
+from urllib import unquote
 import db, forms
 
 
@@ -26,9 +27,10 @@ app.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
 app.config['testing'] = DEBUG
 
 
+# from Yishen Chen: github.com/dsrcl
 def digest(static):
     with open('static/%s' % static) as f:
-        return "%s?c=%s" % (static, md5(f.read()).hexdigest())
+        return "%s?c=%s" % (url_for('static', filename=static), md5(f.read()).hexdigest())
 
 
 @app.errorhandler(500)
@@ -126,8 +128,7 @@ def index():
 
 @app.route("/not-supported")
 def not_supported():
-    return '''
-        <title>Friend, we have some unfortunate news&hellip;</title>
+    return '''<title>Friend, we have some unfortunate news&hellip;</title>
         <tt>IE versions <= 9 and Opera Mini are not supported.
         Consider <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">upgrading IE</a> or switching to <a href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>. Opera Mini folks, you can use <a href="https://play.google.com/store/apps/details?id=com.android.chrome&hl=en">Chrome</a> on Android.</tt>'''
 
@@ -140,7 +141,6 @@ def first_name(s):
 @app.template_filter('pretty_date')
 def pretty_date(u):
     return datetime.strptime(u, mysql_date()).strftime("%A, %d %B")
-
 
 
 if __name__ == "__main__":

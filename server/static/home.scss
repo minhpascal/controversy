@@ -78,7 +78,7 @@ main {
         li {
             display: inline;
             >span {
-                line-height: 25px;
+                line-height: 30px;
                 @include border-radius(2px);
                 border: 1px solid $grey;
                 padding: 2px;
@@ -118,7 +118,8 @@ main {
 
 span.danger {
     color: #fff;
-    background-color: $mad;
+    background-color: #d43f3a;
+    padding: 2px;
     @include border-radius(2px);
 }
 
@@ -127,7 +128,10 @@ span.danger {
     header>div span#right-header { font-size: 12px; }
     header>div span#subtitle { display: none; }
 }
-
-@media (max-width: 350px) {
+@media (max-width: 520px) {
     .non-essentials { display: none; }
+}
+
+@media (max-width: 385px) {
+    nav { display: block; }
 }

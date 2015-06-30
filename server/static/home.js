@@ -158,7 +158,7 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
 
   $scope.change = function(i) {
     $scope.articleIndex += i;
-    $location.path('read/' + $scope.articleIndex);
+    $location.path('results/' + $scope.articleIndex);
     $location.hash('header-content');
     anchorSmoothScroll.scrollTo('header-content');
   };
@@ -205,7 +205,7 @@ cApp.controller('TweetsController', function($scope, $rootScope, $location, $rou
 
   $scope.change = function(i) {
     $scope.sentenceIndex += i;
-    $location.path('read/' + $scope.articleIndex + '/' + $scope.sentenceIndex);
+    $location.path('results/' + $scope.articleIndex + '/' + $scope.sentenceIndex);
     $location.hash('right-header');
     anchorSmoothScroll.scrollTo('right-header');
   };

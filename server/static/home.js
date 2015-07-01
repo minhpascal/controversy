@@ -159,8 +159,8 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
   $scope.change = function(i) {
     $scope.articleIndex += i;
     $location.path('results/' + $scope.articleIndex);
-    $location.hash('header-content');
-    anchorSmoothScroll.scrollTo('header-content');
+    $location.hash('right-header');
+    anchorSmoothScroll.scrollTo('right-header');
   };
 
   var value = $window.innerWidth;

@@ -68,6 +68,17 @@ def dump_user(username):
     return cur.fetchone()
 
 
+def logged_in(user):
+    """increment user's login count
+    """
+    cur, _ = get_cursor()
+    cur.execute('''
+        UPDATE Users
+        SET Logins = Logins + 1
+        WHERE Id = %s''', user)
+    return _.commit()
+
+
 def user_history(username):
     """
     get query history
@@ -165,5 +176,6 @@ def append_history(keyword, date, user):
         _.commit()
     except:
         return
+
 
 

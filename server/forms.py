@@ -4,7 +4,7 @@
     ~~~~~~~
     Forms referenced in app.
 """
-from flask_wtf import Form, RecaptchaField
+from flask_wtf import Form#, RecaptchaField
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
 from config import CAPTCHA_PUBLIC, CAPTCHA_PRIVATE
@@ -65,4 +65,5 @@ class Login(Form):
             return False
 
         self.username = username
+        db.logged_in(username)
         return True

@@ -1,0 +1,14 @@
+<!doctype html>
+<html style="font-family: monospace;">
+<!--[if gt IE 9]>
+<script>
+    window.location.replace("/");
+</script>
+<![endif]-->
+<title>Some bad news</title>
+<h1>your browser isn't supported</h1>
+<img src="{{ url_for('static', filename='img/not-supported.jpg') }}" />
+<h4>
+You're either using IE &le; 9 or Opera Mini (or you manually navigated to this page). Opera Mini folks on iOS or Android can use Chrome or Safari. IE folks can <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">upgrade</a> or <a href="https://www.google.com/chrome/browser/desktop/index.html">install Chrome</a>.
+</h4>
+</html>

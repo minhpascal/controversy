@@ -1,0 +1,49 @@
+$grey: #d9d9d9; // well, grey
+$mad: #f90101; // red
+$warn: #edb43a; // yellow
+$happy: #00933b; // green
+$cool: #0266c8; // blue
+@mixin box-shadow($top, $left, $blur, $color) {
+    -webkit-box-shadow: 0 $top $left $blur $color;
+    -moz-box-shadow: 0 $top $left $blur $color;
+    -ms-box-shadow: 0 $top $left $blur $color;
+    box-shadow: 0 $top $left $blur $color;
+}
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+@mixin transition($d) {
+    -webkit-transition: all $d ease-in-out 0s;
+    -moz-transition: all $d ease-in-out 0s;
+    -ms-transition: all $d ease-in-out 0s;
+    transition: all $d ease-in-out 0s;
+}
+@mixin user-select($s) {
+    -webkit-user-select: $s;
+    -moz-user-select: $s;
+    -ms-user-select: $s;
+}
+@mixin column-break-inside($s) {
+    -webkit-column-break-inside: $s;
+    -moz-column-break-inside: $s;
+    -ms-column-break-inside: $s;
+    column-break-inside: $s;
+}
+@mixin column-fill($s) {
+    -webkit-column-fill: $s;
+    -moz-column-fill: $s;
+    column-fill: $s;
+}
+@mixin column-count($s) {
+    -webkit-column-count: $s;
+    -moz-column-count: $s;
+    column-count: $s;
+}
+@mixin column-gap($s) {
+    -webkit-column-gap: $s;
+    -moz-column-gap: $s;
+    column-gap: $s;
+}

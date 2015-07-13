@@ -1,0 +1,28 @@
+# source: http://www.espressoenglish.net/extreme-adjectives-in-english/
+EXTREME_LEXICON = [
+    "furious",
+    "awful",
+    "terrible",
+    "horrible",
+    "huge",
+    "gigantic",
+    "giant",
+    "spotless",
+    "freezing",
+    "packed",
+    "filthy",
+    "hilarious",
+    "wonderful",
+    "fantastic",
+    "excellent",
+    "boiling",
+    "starving",
+    "fascinating",
+    "ancient",
+    "gorgeous",
+    "terrifying",
+    "tiny",
+    "astounding",
+    "exhausted",
+    "hideous"
+]

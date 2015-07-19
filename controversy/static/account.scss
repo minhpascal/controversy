@@ -25,6 +25,10 @@ form {
 	color: $warn;
     }
 }
+dd:last-child {
+    opacity: 0.8;
+    font-style: italic;
+}
 @media (max-width: 650px) {
     input { display: block; }
 }

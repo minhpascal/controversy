@@ -68,7 +68,23 @@
 
 <h3>A note about privacy</h3>
 <p>While we do encrypt passwords (one-way hash), as of summer 2015, we don't use SSL as you browse the site. This means a nasty person on your WiFi network could easily snatch your (plaintext) email, name, and password as they're being sent to our server. That's why we encourage you to use a simple password, like an English word.</p>
+
+<h3>About</h3>
+<p>This is <b>Controversy</b>, version {{ version }}.
+<p>Found a bug? <a href="https://github.com/gdyer/controversy/issues/new">Please file a report</a>.</p>
+{% if issues|length %}
+<dl>
+Known bugs&hellip;
+{% for i in issues %}
+<dt>{{ i.number }} <b>{{ i.title }}</b>
+<dd>{{ i.body }}
+<dd>{{ i.assignee.login }} was assigned on {{ i.created_at.strftime('%A, %d %B') }}. <a href="{{ i.html_url }}">View on GitHub</a>.
+{% endfor %}
+</dl>
+{% endif %}
+
 </main>
+
 
 
 {% endblock %}

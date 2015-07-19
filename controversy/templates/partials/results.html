@@ -16,7 +16,7 @@
 {% raw %}
 <main>
 <ul class=articles ng-show="json" ng-style="$root.results_style">
-    <li ng-repeat="article in json.articles">
+    <li ng-repeat="article in json">
     <div class=article ng-class="{ 'most-controversial' : $first, 'least-controversial' : $last }">
         <p class=title ng-bind-html="($index+1) + '. ' + article.title"></p>
         <img ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />

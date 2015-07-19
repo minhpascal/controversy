@@ -13,14 +13,14 @@ errors
 other error
         same, except with a ``200``. ex: no articles exist for the queryterm
 
-keyword rank
+article rank
 ------------
 
-``/api?q=hippo`` or with ``&test=1`` for manufactured sentiment data::
+``/api?q=hippo``::
 
 
     {
-	     'articles': [
+	     'result': [
 		    {
 			'xlarge': 'http://www.nytimes.com/images/2015/03/31/world/31IRAQ/31IRAQ-articleLarge.jpg',
 			'title': "Islamic State's Grip on City Appears Firmer Than Iraqis Acknowledge",
@@ -57,8 +57,10 @@ keyword rank
 	     'error' : 0
     }
 
+Right now: where ``["result"][i]["score"]`` is the entropy score.
 
-Where ``["articles"][i]["score"]`` is the entropy score, ``["articles"][i]["ratio_score"]`` is the ratio score, and ``["articles"][i]["visual_score"]`` is a combination of the two |---|
+Intention: where ``["result"][i]["score"]`` is the entropy score, ``["result"][i]["ratio_score"]`` is the ratio score, and ``["result"][i]["visual_score"]`` is a combination of the two. Right now, only the entropy score is used for presentation purposes.
+
 
 
 user search-history
@@ -115,6 +117,13 @@ Where ``['result']['trending']`` is a key-value pair list where the key is the q
 	{
 		"error": 0,
 		"result": {
-				
-		}
+			"EntropyScore": 517.303,
+			"RatioScore": 0.423695,
+			"Performed": 2015-07-12
+		},
+		...
 	}
+
+``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's `an example`_.
+
+.. _an example: https://github.com/gdyer/controversy/raw/master/documents/sample-trend.png

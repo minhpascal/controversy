@@ -4,6 +4,8 @@
     ~~~~~~~~~~
     Adds score and relevant tweets to response.
     :authors: Ismini Lourentzou, Graham Dyer
+
+    *to be optimized soon*
 """
 import math, nltk, re, string, scipy, heapq
 from gensim import corpora
@@ -33,7 +35,7 @@ class BM25:
 
     def build_dictionary(self):
         proc_data = []
-        for i in xrange(0, len(self.fn_docs)):
+        for i in xrange(len(self.fn_docs)):
             tweet = self.fn_docs[i]['clean_tweet']
             #: sentiment = self.fn_docs[i]["sentiment"]
             #: self.raw_data.append(self.fn_docs[i])
@@ -44,7 +46,7 @@ class BM25:
     def tf_idf_generator(self, base=math.e):
         docTotalLen = 0.0
         #: print (self.dictionary.token2id)
-        for i in xrange(0, len(self.fn_docs)):
+        for i in xrange(len(self.fn_docs)):
             tweet = self.fn_docs[i]['clean_tweet']
             doc = preprocess(tweet)
             docTotalLen += len(doc)
@@ -132,6 +134,8 @@ def controversy(data):
         for sentence in query:
             scores = bm25.bm25_score(preprocess(sentence))
             sentiments = []
+            cap_rule = []
+            extreme_rule = []
             relevant_tweets = []
             negative_tweet_count = 0
             positive_tweet_count = 0
@@ -149,8 +153,8 @@ def controversy(data):
 
             #: find entropy of sentiment
             sentiments = dict((x,(sentiments.count(x) / float(len(sentiments)))) for x in set(sentiments)).values()
-            entropy = scipy.stats.entropy(sentiments, base=2)
-            score += entropy
+            entropy_sentiment = scipy.stats.entropy(sentiments, base=2)
+            score += entropy_sentiment
            
             #: smaller ratio ==> more controversial
             try:
@@ -162,7 +166,7 @@ def controversy(data):
             sentences.append({
                 'tweets' : relevant_tweets,
                 'text' : sentence,
-                'entropy' : entropy,
+                'entropy' : entropy_sentiment,
                 'ratio' : sentence_level_ratio
             })
 
@@ -179,4 +183,4 @@ def controversy(data):
 
     data.pop('tweets', None)
     #: sort in order of decreasing entropy (most controversial --> least)
-    return {'error' : 0, 'articles' : sorted(data['articles'], key=lambda x: x['score'], reverse=True)}
+    return {'error' : 0, 'result' : sorted(data['articles'], key=lambda x: x['score'], reverse=True)}

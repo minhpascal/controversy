@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-    app.py
-    ~~~~~~
+    Controversy --- app.py 
+    ~~~~~~~~~~~~~~~~~~~~~~
 
-    Controversy, joint mining of news text and social media to discover controversial points in news. Runs server.
+    Controversy: joint mining of news text and social media to discover controversial points in news. Runs server.
 
+    :version: v0.2
     :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
 """
@@ -16,6 +17,7 @@ from config import *
 from datetime import datetime
 from hashlib import md5
 import db, forms
+from github import Github
 
 
 app = Flask(__name__)
@@ -24,6 +26,7 @@ app.secret_key = SECRET_KEY
 app.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
 app.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
 app.config['testing'] = DEBUG
+app.config['version'] = 'v0.2'
 
 
 # from Yishen Chen: github.com/dsrcl
@@ -41,7 +44,7 @@ def handle_500(error):
     from error import UsageError
     client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
     client.messages.create(body="problem on Linode: %s" % repr(error), to=ADMIN_PHONE, from_="+19089982913")
-    raise UsageError('our-fault', status_code = 500)
+    raise UsageError('our-fault', status_code=500)
 
 
 def loggedin():
@@ -100,7 +103,10 @@ def account():
         flash("Account destroyed with vengeance!")
         return logout()
 
-    return render_template('account.html', user=session['user'], history=db.user_history(session['username']), css=digest('account.css'), form=form)
+    gh = Github('gdyer', GH_PASSWORD)
+    user = gh.get_user()
+    issues = list(user.get_repo('controversy').get_issues())
+    return render_template('account.html', user=session['user'], history=db.user_history(session['username']), css=digest('account.css'), form=form, version=app.config['version'], issues=issues)
 
 
 @app.route("/account/clear-queries")

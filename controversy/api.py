@@ -93,7 +93,7 @@ def new_query(keyword):
     sr.set(keyword, ranked_dump)
     #: expire cache in 60 * 60 * 24 = 86400 seconds
     sr.expire(keyword, 86400)
-    keyword_score = sum(a['score'] for a in ranked['articles'])
+    keyword_score = sum(a['score'] for a in ranked['result'])
     print(make_date())
     db.append_queries(keyword, keyword_score, make_date())
     return justmime(ranked_dump)

@@ -18,7 +18,7 @@ cApp.run(function($rootScope) {
     }
   }
   $rootScope.article = function(index) {
-    return ($rootScope.json) ? $rootScope.json['articles'][index] : null;
+    return ($rootScope.json) ? $rootScope.json[index] : null;
   };
 });
 
@@ -64,20 +64,20 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
   }, true);
 
   function broken(m) {
-  	$scope.trending = m || "<dagnabbit! trending queries are unavailable>";
+  	$scope.trending = m || "<trending queries are unavailable>";
   }
   
 
   $http.get('/api/trend')
     .success(function(res) {
 	if (res['error']) {
-		bad_news_bears;	
+		broken();	
 		return;
 	}
         $scope.trending = res['result']['top-5'];
     })
     .error(function(res) {
-	    bad_news_bears()
+	    broken();
     });
 
   $scope.clear = function() {
@@ -118,7 +118,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
           return;
         }
         $rootScope.can_query = true;
-        $scope.button_value = 'query';
+     	$scope.button_value = 'query';
         if ($location.path() == '/results') {
           SET_OPACITY(1.0);
         } else {
@@ -132,6 +132,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
 });
 
 cApp.controller('ResultsController', function($scope, $rootScope, $location) {
+  console.log($rootScope.json);
   if (!$rootScope.json) {
     $location.path('/');
     return;
@@ -160,7 +161,7 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
   }
 
   $scope.article = $rootScope.article($scope.articleIndex);
-  $scope.nextExists = $scope.articleIndex < $rootScope.json['articles'].length - 1;
+  $scope.nextExists = $scope.articleIndex < $rootScope.json.length - 1;
   $scope.previousExists = $scope.articleIndex != 0;
 
   $scope.change = function(i) {

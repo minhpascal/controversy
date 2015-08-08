@@ -111,7 +111,7 @@ main {
         background-color: #f9f9f9;
         &:active {
             color: #fff; 
-            background-color: #ce4884;
+            background-color: $warn;
         }
     }
 }

@@ -71,7 +71,7 @@ class Article(object):
         return self.__dict__ if (self.full is not None and len(self.full)) != 0 else None
 
     def _no_html_ab(self):
-        return BeautifulSoup(self.abstract or self.lead).getText()
+        return BeautifulSoup(self.abstract or self.lead, 'html.parser').getText()
 
     def _full_text(self):
         """nyt url --> full article text."""
@@ -81,7 +81,7 @@ class Article(object):
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(jar))
         opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
         response = opener.open(urllib2.Request(self.url))
-        soup = BeautifulSoup(response.read())
+        soup = BeautifulSoup(response.read(), 'lxml')
         body = soup.findAll('p', {'class' : ['story-body-text', 'story-content']})
         res = " ".join(p.text for p in body) 
         jar.clear()

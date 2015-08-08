@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-    form.py
-    ~~~~~~~
+    forms.py
+    ~~~~~~~~
     Forms referenced in app.
 """
 from flask_wtf import Form#, RecaptchaField
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
-from config import CAPTCHA_PUBLIC, CAPTCHA_PRIVATE
 import db
 
 

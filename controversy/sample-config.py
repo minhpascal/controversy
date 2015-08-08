@@ -15,4 +15,5 @@ TWILIO_AUTH_TOKEN = 'twilio auth key' # change
 ADMIN_PHONE = '+1911' # change
 CAPTCHA_PUBLIC = 'reCAPTCHA key' # change
 CAPTCHA_PRIVATE = 'reCAPTCHA secret key' # change
+GH_PASSWORD = 'your gh password assuming you have a repo named controversy' # change
 DEBUG = True

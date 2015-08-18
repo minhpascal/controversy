@@ -35,4 +35,10 @@
         <input class=go type=submit value="log in" />
     </form>
 </div>
+<script>
+if (navigator.appName == 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)))
+{
+	window.location.replace('not-supported');
+}
+</script>
 {% endblock %}

@@ -81,7 +81,7 @@ class Article(object):
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(jar))
         opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
         response = opener.open(urllib2.Request(self.url))
-        soup = BeautifulSoup(response.read(), 'lxml')
+        soup = BeautifulSoup(response.read(), 'html.parser')
         body = soup.findAll('p', {'class' : ['story-body-text', 'story-content']})
         res = " ".join(p.text for p in body) 
         jar.clear()

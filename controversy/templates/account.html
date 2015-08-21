@@ -21,7 +21,7 @@
 				{% if user['Logins'] > 1 %}
 				welcome back, {{ user['Name']|first_name }} &middot;
 				{% else %}
-				welcome, {{ user['Name']|first_name }}!
+				welcome, {{ user['Name']|first_name }}! &middot;
 				{% endif %}
 			</span>
 			<a href="/">home</a>

@@ -28,12 +28,7 @@ Pending
 --------
 
 * slight problems with Firefox on results page
-* stats with matplotlib
-        - average global sentiment of tweets vs time
-        - average controversy score for a keyword vs time (this is the timeline feature spoken about in beginning of semester)
-        - trending queries
 * "rank more" on results ui queries more than 10 articles without repeats
-* development of external api
 * (confidence included in api response, a function of number of tweets)
 * (more than tweets using NYT `community API`_)
 
@@ -44,7 +39,7 @@ Pending
 
 Ismini Lourentzou, Abhishek Sharma, Graham Dyer, ChengXiang Zhai |---| ``{lourent2, sharma51, gdyer2, czhai}@illinois.edu`` |---| University of Illinois, Urbana-Champaign (``|contributors|``)
 
-.. _a live instance: http://192.155.89.114/
+.. _a live instance: controversy.2pitau.org
 .. _dependencies: http://www.scipy.org/install.html
 .. _community API: http://developer.nytimes.com/docs/community_api/The_Community_API_v3/
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu

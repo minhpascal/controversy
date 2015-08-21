@@ -39,7 +39,7 @@ Pending
 
 Ismini Lourentzou, Abhishek Sharma, Graham Dyer, ChengXiang Zhai |---| ``{lourent2, sharma51, gdyer2, czhai}@illinois.edu`` |---| University of Illinois, Urbana-Champaign (``|contributors|``)
 
-.. _a live instance: controversy.2pitau.org
+.. _a live instance: http://controversy.2pitau.org
 .. _dependencies: http://www.scipy.org/install.html
 .. _community API: http://developer.nytimes.com/docs/community_api/The_Community_API_v3/
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu

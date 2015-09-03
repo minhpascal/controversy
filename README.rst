@@ -27,19 +27,22 @@ Running for development
 Pending
 --------
 
-todo
-====
+Method improvements
+===================
+
+A few approaches |...|
+
+#. Use the NYT `community API`_ primarily (perhaps interspersed with tweets) and switch to a better IR model (than BM25). Benefits: keep pieces of the structure currenty implemented. Caveats: none, just that it's imperative BM25 is a *baseline* compared to a newer model. Looking for candidates. I'm reading Svore, Burges: `A Machine Learning Approach for Improved BM25 Retrieval`_.
+#. Use machine learning on #1 to find exactly which features of social content best predict controversy. Benefits: potential for extreme accuracy. Caveats: would need to build a new dataset via programs like Mechanical Turk and highlighting platform through which turkers could review *full* articles and make a determination on each sentence's controversy (as a boolean). The new dataset would allow us to check our |---| equally new |---| model.
+#. Use neural networks to organize collections of social content and their relationships to sentences (see Irsoy, Cardie: `Opinion Mining with Deep Recurrent Neural Networks`_). Benefits: potentially more accuracy. Caveats: longer implementation, added complexity.
+
+demo todo
+=========
 
 * slight problems with Firefox on results page
-* "rank more" on results ui queries more than 10 articles without repeats
 * follow user keywords to find trends
 * compare controversy keyboard plots
-* (confidence included in api response, a function of number of tweets)
-* (more than tweets using NYT `community API`_)
-
-
-questions
-=========
+* (confidence included in api response, a function of number of social content used / article)
 
 Now, sentiment entropy is what's used to rank articles in the UI. It also filters sentences, which are then scored by ratio and other entropy scores. How should the UI reflect the different scoring approaches?
 
@@ -54,3 +57,5 @@ Ismini Lourentzou, Abhishek Sharma, Graham Dyer, ChengXiang Zhai |---| ``{louren
 .. _dependencies: http://www.scipy.org/install.html
 .. _community API: http://developer.nytimes.com/docs/community_api/The_Community_API_v3/
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu
+.. _Opinion Mining with Deep Recurrent Neural Networks: http://www.cs.cornell.edu/~oirsoy/files/emnlp14drnt.pdf
+.. _A Machine Learning Approach for Improved BM25 Retrieval`: http://research.microsoft.com/pubs/101323/LearningBM25MSRTechReport.pdf

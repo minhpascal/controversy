@@ -27,10 +27,21 @@ Running for development
 Pending
 --------
 
+todo
+====
+
 * slight problems with Firefox on results page
 * "rank more" on results ui queries more than 10 articles without repeats
+* follow user keywords to find trends
+* compare controversy keyboard plots
 * (confidence included in api response, a function of number of tweets)
 * (more than tweets using NYT `community API`_)
+
+
+questions
+=========
+
+Now, sentiment entropy is what's used to rank articles in the UI. It also filters sentences, which are then scored by ratio and other entropy scores. How should the UI reflect the different scoring approaches?
 
 
 -----

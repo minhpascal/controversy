@@ -1,14 +1,14 @@
 <header ng-controller="SearchController">
     <div>
         <form ng-submit="submit()">
-            <input autocomplete=off type=text placeholder="keyword" ng-class="{ 'top-loading' : $root.is_loading }" ng-model="$root.keyword" />
+            <input autocomplete=off type=text placeholder="keyword" ng-class="{ 'top_loading' : $root.is_loading }" ng-model="$root.keyword" />
             <span ng-click="clear()" id=clear>&times;</span>
         </form>
         <span id=right-header>
             <span class=non-essentials>
                 welcome back, {{ user.Name|first_name }} &middot;
             </span>
-            <a href="/logout">logout</a>
+            <a ng-click="clear()">home</a>
         </span>
     </div>
 </header>
@@ -18,11 +18,11 @@
 <ul class=articles ng-show="json" ng-style="$root.results_style">
     <li ng-repeat="article in json">
     <div class=article ng-class="{ 'most-controversial' : $first, 'least-controversial' : $last }">
-        <p class=title ng-bind-html="($index+1) + '. ' + article.title"></p>
+        <a href="#results/{{ $index }}" class=title ng-bind-html="($index+1) + '. ' + article.title"></a>
         <img ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
         <p ng-bind-html="article.abstract"></p>
         <p class=url>
-            <a href="#results/{{ $index }}">Read the full article</a>
+	<a href="#results/{{ $index }}">Read the full article {{ article.sentiment_entropy}}</a>
         </p>
     </div>
     </li>

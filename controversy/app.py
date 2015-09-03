@@ -5,7 +5,6 @@
 
     Controversy: joint mining of news text and social media to discover controversial points in news. Runs server.
 
-    :version: v0.2
     :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
 """
@@ -32,7 +31,7 @@ app.config['version'] = 'v0.2'
 # from Yishen Chen: github.com/dsrcl
 def digest(static):
     with open('static/%s' % static) as f:
-        return "%s?c=%s" % (url_for('static', filename=static), md5(f.read()).hexdigest())
+        return "%s?v=%s" % (url_for('static', filename=static), md5(f.read()).hexdigest())
 
 
 @app.errorhandler(500)

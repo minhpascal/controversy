@@ -1,2 +1,1 @@
-controversy/templates/* linguist-vendored
-controversy/static/*.css linguist-vendored
+*.html linguist-vendored

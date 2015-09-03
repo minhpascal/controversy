@@ -2,3 +2,4 @@ config.py
 *.pyc
 venv
 *.sass-cache
+*.css

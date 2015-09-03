@@ -9,15 +9,15 @@
             controversial sentence &middot; closely related social content
         </span>
         <span id=right-header>
-            <span ng-show="previousExists" ng-click="change(-1)">
+            <a ng-show="previousExists" ng-click="change(-1)" title="previous controversial sentence">
                 &lArr; previous
-            </span>
+            </a>
             <span ng-show="previousExists && nextExists">
                 &middot;
             </span>
-            <span ng-show="nextExists" ng-click="change(1)">
+            <a ng-show="nextExists" ng-click="change(1)" title="next controversial sentence">
                 next &rArr;
-            </span>
+            </a>
         </span>
     </div>
 </header>

@@ -6,13 +6,13 @@
         <span ng-bind-html="article.title | limitTo: lim"></span>
         {{ article.title.length > lim ? '&hellip;' : ''}}
         <span id=right-header>
-            <a ng-show="previousExists" ng-click="change(-1)">
+            <a ng-show="previousExists" ng-click="change(-1)" title="more controversial article">
                 &lArr; previous
             </a>
             <span ng-show="previousExists && nextExists">
                 &middot;
             </span>
-            <a ng-show="nextExists" ng-click="change(1)">
+            <a ng-show="nextExists" ng-click="change(1)" title="less controversial article">
                 next &rArr;
             </a>
         </span>

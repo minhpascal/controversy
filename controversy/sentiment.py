@@ -13,8 +13,10 @@ def analyse(tweet):
     #: [0, 4]
     return (blob.sentiment.polarity + 1) * 2
 
+
 def is_negative(val):
     return val < 1.75
+
 
 def is_positive(val):
     return val > 2.25

@@ -32,8 +32,7 @@ Method improvements
 
 A few approaches |...|
 
-#. Use the NYT `community API`_ primarily (perhaps interspersed with tweets) and switch to a better IR model (than BM25). Benefits: keep pieces of the structure currenty implemented. Caveats: none, just that it's imperative BM25 is a *baseline* compared to a newer model. Looking for candidates. I'm reading Svore, Burges: `A Machine Learning Approach for Improved BM25 Retrieval`_.
-#. Use machine learning on #1 to find exactly which features of social content best predict controversy. Benefits: potential for extreme accuracy. Caveats: would need to build a new dataset via programs like Mechanical Turk and highlighting platform through which turkers could review *full* articles and make a determination on each sentence's controversy (as a boolean). The new dataset would allow us to check our |---| equally new |---| model.
+#. Use the NYT `community API`_ primarily (perhaps interspersed with tweets) and switch to a better IR model (than BM25). Benefits: keep pieces of the structure currenty implemented. Caveats: none, just that it's imperative BM25 is a *baseline* compared to a newer model. Looking for candidates. I'm reading Svore, Burges: `A Machine Learning Approach for Improved BM25 Retrieval`_. If a better model is implemented, use a service like Mechanical Turk and build a highlighting platform through which turkers could review *full* articles and make a determination on each sentence's controversy (as a boolean). The new dataset would allow us to check our |---| equally new |---| model.
 #. Use neural networks to organize collections of social content and their relationships to sentences (see Irsoy, Cardie: `Opinion Mining with Deep Recurrent Neural Networks`_). Benefits: potentially more accuracy. Caveats: longer implementation, added complexity.
 
 demo todo

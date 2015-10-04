@@ -1,0 +1,17 @@
+<header ng-controller="SearchController">
+	<div>
+		<a href="#results">&larr; back to results</a>
+		<span id=right-header>
+			<span class=non-essentials>
+				welcome back, {{ user.Name|first_name }} &middot;
+			</span>
+			<a ng-click="clear()">home</a>
+		</span>
+	</div>
+</header>
+
+{% raw %}
+<main ng-controller="TrendController">
+<img ng-src="/api/trend/{{ $root.keyword }}.png" />
+</main>
+{% endraw %}

@@ -3,7 +3,7 @@
     <div>
         <a href="#results">&larr; all articles</a>
         &middot;
-        <span ng-bind-html="article.title | limitTo: lim"></span>
+	<span title="{{ article.title }}" ng-bind-html="article.title | limitTo: lim"></span>
         {{ article.title.length > lim ? '&hellip;' : ''}}
         <span id=right-header>
             <a ng-show="previousExists" ng-click="change(-1)" title="more controversial article">

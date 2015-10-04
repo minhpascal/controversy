@@ -1,9 +1,9 @@
 var cApp = angular.module('Home', ['ngRoute', 'ngSanitize']);
 var ERROR_MESSAGES = {
 	'no-articles' : 'Despite our best efforts, we simply could not find any recently published English articles with that keyword. May we interest you in another try?',
-	'our-fault' : 'Well, this is akward; we messed up. Please file a bug at github.com/gdyer/controversy/issues.',
-	'not-logged-in' : 'You logged out in another window or a server update was just pushed! Please refresh the page and log in again.',
-	'failed-to-parse' : 'There was a malformed article result that broke this response. Please try a differt keyword and file a bug at github.com/gdyer/controversy/issues.'
+	'our-fault' : 'Well, this is akward; we messed up. File or see known bugs from ``account`` (link is on the search page).',
+	'not-logged-in' : 'You logged out in another window or a server update was just pushed! Please refresh the page, and log in again.',
+	'failed-to-parse' : 'There was a malformed article result that broke this response. Please try a differt keyword and file a bug from ``account`` (link is on the search page).'
 };
 
 cApp.run(function($rootScope) {
@@ -14,7 +14,7 @@ cApp.run(function($rootScope) {
 		var e = code in ERROR_MESSAGES;
 		$rootScope.error = {
 			'message' : (e) ? ERROR_MESSAGES[code] : ERROR_MESSAGES['our-fault'],
-	'code' : (e) ? code : 'our-fault'
+			'code' : (e) ? code : 'our-fault'
 		}
 	}
 	$rootScope.article = function(index) {
@@ -43,6 +43,10 @@ cApp.config(function ($routeProvider) {
 	.when('/error', {
 		templateUrl : 'html/error.html',
 		controller : 'ErrorController'
+	})
+	.when('/trends/:keyword', {
+		templateUrl : 'html/trend.html',
+		controller : 'TrendController'
 	})
 	.otherwise({
 		redirectTo: '/'
@@ -82,6 +86,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
 
 	$scope.clear = function() {
 		$rootScope.json = $rootScope.error = $rootScope.keyword = $rootScope.last_query = null;
+		$rootScope.is_loading = false;
 		$location.path('/');
 	}
 
@@ -131,7 +136,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
 	};
 });
 
-cApp.controller('ResultsController', function($scope, $rootScope, $location, $window) {
+cApp.controller('ResultsController', function($scope, $rootScope, $location, $window, $http) {
 	$window.scrollTo(0, 0);
 	if (!$rootScope.json) {
 		$location.path('/');
@@ -141,15 +146,30 @@ cApp.controller('ResultsController', function($scope, $rootScope, $location, $wi
 	$scope.readArticle = function(index) {
 		$rootScope.article(index);
 	}
+	$scope.$watch(function () { return $rootScope.keyword; },
+		function (value) {
+			if (!$rootScope.keyword) return;
+			$http.get('/api/trend/' + $rootScope.keyword)
+			.success(function(res) {
+				if (res['error'] || res['result'].length < 4) {
+					$scope.keyword_trend = null;
+					$scope.trend_available = false;
+					return;
+				}
+				$scope.keyword_trend = $rootScope.keyword;
+				$scope.trend_available = true;
+			})
+			.error(function(res) {
+				return;
+			});
+		}
+	);
+
 });
 
 cApp.controller('ErrorController', function($scope, $rootScope, $location) {
-	$scope.goHome = function() {
-		$location.path('/');
-	};
-
 	if (!$rootScope.error) {
-		$scope.goHome();
+		$location.path('/');
 	}
 });
 
@@ -173,7 +193,6 @@ cApp.controller('ReadController', function($scope, $rootScope, $location, $route
 
 	var value = $window.innerWidth;
 	$scope.lim = 130;
-
 	if (value < 500)
 		$scope.lim = 20;
 	else if (value < 600)
@@ -227,4 +246,14 @@ cApp.controller('TweetsController', function($scope, $rootScope, $location, $rou
 		this.hovering = false;
 		$scope.globalHover = false;
 	};
+});
+
+
+cApp.controller('TrendController', function($rootScope, $location, $window) {
+	if (!$rootScope.keyword) {
+		$location.path('/');
+		return;
+	}
+
+	$window.scrollTo(0, 0);
 });

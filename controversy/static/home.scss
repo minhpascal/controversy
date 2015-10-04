@@ -1,7 +1,7 @@
 @import 'style';
 @import 'cards';
-$header_height: 55px;
-$search_focus: #61748c;
+$search_focus: #f1f8fb;
+$search_focus_text: #2b6dad;
 $loading_src: 'img/loading.gif';
 footer { display: none; }
 header {
@@ -16,7 +16,7 @@ header {
 	position: fixed;
 	font-size: 14px;
 	>div {
-		a { font-weight: 700; }
+		a:active, a:hover { border-bottom: none; }
 		padding: 0 15px 0 5px;
 		display: inline;
 		h1 {
@@ -45,8 +45,8 @@ header {
 			height: 15px;
 			width: 30%;
 			&:focus {
-				border-bottom: 1px solid $search_focus;
-			}
+				background-color: $search_focus;
+				color: $search_focus_text; }
 		}
 
 	}
@@ -74,7 +74,9 @@ main {
 			margin-bottom: 10px;
 			width: 275px;
 			border-bottom: 1px solid $grey;
-			&:focus { border-bottom: 1px solid $search_focus; }
+			&:focus {
+				color: $search_focus_text;
+				background-color: $search_focus; }
 		}
 
 	}
@@ -90,8 +92,7 @@ main {
 				line-height: 30px;
 				@include border-radius(2px);
 				border: 1px solid $grey;
-				padding: 2px;
-			}
+				padding: 2px; }
 		}
 
 	}
@@ -101,9 +102,7 @@ main {
 		a { 
 			background-color: #eee;
 			font-weight: 700; // controversy sentences
-			&:hover, &:active {
-				color: #800;
-			}
+			&:hover, &:active { color: #800; }
 		}
 	}
 
@@ -122,8 +121,7 @@ main {
 		background-color: #f9f9f9;
 		&:active {
 			color: #fff; 
-			background-color: $warn;
-		}
+			background-color: $warn; }
 	}
 }
 
@@ -131,8 +129,7 @@ span.danger {
 	color: #fff;
 	background-color: #d43f3a;
 	padding: 2px;
-	@include border-radius(2px);
-}
+	@include border-radius(2px); }
 
 @media (max-width: 600px) {
 	header>div h1 { font-size: 22px; }
@@ -141,6 +138,7 @@ span.danger {
 }
 @media (max-width: 520px) {
 	.non-essentials { display: none; }
+	input[type='text'].top_loading { height: 40px; }
 }
 
 @media (max-width: 385px) {

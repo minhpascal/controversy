@@ -1,7 +1,7 @@
 <header ng-controller="SearchController">
     <div>
         <form ng-submit="submit()">
-            <input autocomplete=off type=text placeholder="keyword" ng-class="{ 'top_loading' : $root.is_loading }" ng-model="$root.keyword" />
+		<input autocomplete=off type=text placeholder="keyword" ng-class="{ 'top_loading' : $root.is_loading }" ng-model="$root.keyword" ng-model-options="{ debounce: 500 }" />
             <span ng-click="clear()" id=clear>&times;</span>
         </form>
         <span id=right-header>
@@ -15,6 +15,9 @@
 
 {% raw %}
 <main>
+<p ng-show="trend_available" id=trend_available>
+	<a href="#trends/{{ keyword_trend }}">controversy trend statistics are available for "{{ keyword_trend }}"</a>
+</p>
 <ul class=articles ng-show="json" ng-style="$root.results_style">
     <li ng-repeat="article in json">
     <div class=article ng-class="{ 'most-controversial' : $first, 'least-controversial' : $last }">
@@ -22,10 +25,11 @@
         <img ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
         <p ng-bind-html="article.abstract"></p>
         <p class=url>
-	<a href="#results/{{ $index }}">Read the full article {{ article.sentiment_entropy}}</a>
+		<a href="#results/{{ $index }}">Read the full article {{ article.sentiment_entropy}}</a>
         </p>
     </div>
     </li>
 </ul>
+
 </main>
 {% endraw %}

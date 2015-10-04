@@ -3,6 +3,7 @@ $mad: #f90101; // red
 $warn: #edb43a; // yellow
 $happy: #00933b; // green
 $cool: #0266c8; // blue
+$header_height: 55px;
 @mixin box-shadow($top, $left, $blur, $color) {
     -webkit-box-shadow: 0 $top $left $blur $color;
     -moz-box-shadow: 0 $top $left $blur $color;

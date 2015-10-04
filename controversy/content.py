@@ -13,7 +13,6 @@ import urllib, urllib2, cookielib
 from sentiment import analyse, is_positive, is_negative
 from functools import partial
 from operator import is_not
-from flask import current_app
 
 
 MAX_ATTEMPTS = 7
@@ -43,9 +42,6 @@ class Tweet(object):
         return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", self.tweet.strip('#')).split())
 
     def _sentiment(self):
-        #if current_app.debug:
-        #    import random
-        #    return random.choice([0,2,4])
         return analyse(self.clean_tweet)
 
 

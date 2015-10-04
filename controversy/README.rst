@@ -11,7 +11,7 @@ errors
 ``UsageError``
         ``error`` will be ``1``, ``message`` will have an error message, ``400`` status code
 other error
-        same, except with a ``200``. ex: no articles exist for the queryterm
+        same, except with a ``200``. e.g.: no articles exist for the queryterm
 
 article rank
 ------------
@@ -25,8 +25,8 @@ article rank
 			'xlarge': 'http://www.nytimes.com/images/2015/03/31/world/31IRAQ/31IRAQ-articleLarge.jpg',
 			'title': "Islamic State's Grip on City Appears Firmer Than Iraqis Acknowledge",
 			'url': 'http://www.nytimes.com/2015/03/31/world/middleeast/un-leader-warns-iraq-not-to-mistreat-civilians-after-liberation-from-isis.html',
-			'full': 'ISIS has declared war on all three-legged hippos, a genus unique to the Middle East and Swaziland. Multiple Islamic State agents have been found dead in the Gigolo Lake, a small lake in Southwest Swaziland. Officials familar with the region are investigating. No hippo casualties have been reported, although a two legged hippo was found. Locals do not believe the two-legged genus frequents the area (this species is generally only found in Northwest Mozambique) and believe ISIS is involved. Ted Cruz and John McCain have shut down congress until Obama (1) prove he goes to chruch at least 4 times a day and (2) sends a minimum of 2 million US marines to Swaziland. Rob Nordland, reporting from Mbabane.',
-			'abstract': 'Interesting results today',
+			'full': '<the full article>'
+			'abstract': '<the article\'s abstract',
 			'author': 'By ROD NORDLAND',
 			'source': 'The New York Times',
 			'score': 0.0,
@@ -62,6 +62,8 @@ Right now: where ``["result"][i]["score"]`` is the entropy score.
 Intention: where ``["result"][i]["score"]`` is the entropy score, ``["result"][i]["ratio_score"]`` is the ratio score, and ``["result"][i]["visual_score"]`` is a combination of the two. Right now, only the entropy score is used for presentation purposes.
 
 
+.. image:: http://i.dailymail.co.uk/i/pix/2009/08/24/article-1208479-0627718E000005DC-357_634x378.jpg
+
 
 user search-history
 -------------------
@@ -93,14 +95,14 @@ trends
 			"top-5": {
 				"obama",
 				"republican",
-				"democratic primary"
+				"democratic primary",
 				"mitt romney",
 				"chris christie"
 			},
 			"trending": {
 				"obama": 19.23
 				"republican": 16.66,
-				"democratic primary"
+				"democratic primary": 15.314159265358,
 				"mitt romney": 14.2321,
 				"chris christie": 4.95,
 				"global warming": 4.05
@@ -126,4 +128,4 @@ Where ``['result']['trending']`` is a key-value pair list where the key is the q
 
 ``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's `an example`_.
 
-.. _an example: https://github.com/gdyer/controversy/raw/master/documents/sample-trend.png
+.. _an example: ../documents/sample-trend.png

@@ -8,23 +8,18 @@ div#login {
     form { margin-top: 10px; }
     div.g-recaptcha {
         display: table;
-        margin: 0 auto;
-    }
+        margin: 0 auto; }
     span#details { font-size: 16px; }
     h1 {
         font-size: 26px;
         font-variant: small-caps;
-        margin: 20px 0 5px 0;
-    }
-    a {
-    	font-weight: 700;
-    }
+        margin: 20px 0 5px 0; }
 }
 @media (max-width: 520px)  {
     div#login {
         width: 350px;
-        h1 { font-size: 20px; }
-        span#details { font-size: 12px; }
+        h1 { font-size: 22px; }
+        span#details { font-size: 14px; }
     }
 }
 @media (max-width: 390px) {

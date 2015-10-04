@@ -16,7 +16,6 @@ from config import *
 from datetime import datetime
 from hashlib import md5
 import db, forms
-from github import Github
 
 
 app = Flask(__name__)
@@ -102,10 +101,14 @@ def account():
         flash("Account destroyed with vengeance!")
         return logout()
 
-    gh = Github('gdyer', GH_PASSWORD)
-    user = gh.get_user()
-    issues = list(user.get_repo('controversy').get_issues())
-    return render_template('account.html', user=session['user'], history=db.user_history(session['username']), css=digest('account.css'), form=form, version=app.config['version'], issues=issues)
+    return render_template('account.html',
+                           user=session['user'],
+                           angular='Account',
+                           js='static/account.js',
+                           history=db.user_history(session['username']),
+                           css=digest('account.css'),
+                           form=form,
+                           version=app.config['version'])
 
 
 @app.route("/account/clear-queries")
@@ -127,7 +130,11 @@ def serve_ang(path):
 @app.route("/")
 @require_login
 def index():
-    return render_template('app.html', user=session['user'], css=digest('app.css'), js=digest('home.js'), angular='Home')
+    return render_template('app.html',
+            user=session['user'],
+            css=digest('app.css'),
+            js=digest('home.js'),
+            angular='Home')
 
 
 @app.route("/not-supported")

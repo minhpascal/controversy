@@ -174,7 +174,7 @@ def controversy(data):
         n = int(math.ceil(len(sentences) * 0.06))
         # create a list of n largest sentiment entropy values (recall greater entropy ==> more controversial)
         nlargest = heapq.nlargest(n, map(lambda x : x['sentiment_entropy'], sentences))
-        # notice this is just filtering by entropy sentiment
+        # notice this is just filtering by sentiment entropy
         filtered = filter(lambda x : any(x['sentiment_entropy'] >= i for i in nlargest) and len(x['tweets']) > 1, sentences)
 
 
@@ -185,4 +185,9 @@ def controversy(data):
 
     data.pop('tweets', None)
     # sort in order of decreasing entropy (most controversial --> least)
-    return {'error' : 0, 'result' : sorted(data['articles'], key=lambda x: x['entropy_sentiment_score'], reverse=True)}
+    return {
+        'error': 0, 
+        'result': sorted(data['articles'],
+                         key=lambda x: x['entropy_sentiment_score'],
+                         reverse=True)
+    }

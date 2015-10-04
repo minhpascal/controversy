@@ -7,7 +7,7 @@
 import pymysql as sql
 from config import *
 from pymysql import Error
-
+import time
 
 def get_conn():
     return sql.connect(host=DB_HOST, port=DB_PORT, user=DB_USER, passwd=DB_PASSWORD, db=DB_NAME)
@@ -21,6 +21,16 @@ def get_cursor():
 def get_dict_cursor():
     conn = get_conn()
     return conn.cursor(sql.cursors.DictCursor), conn
+
+
+def mysql_date():
+    return '%Y-%m-%d'
+
+
+def make_date(t=None):
+    """datetime or None -> sql-ready date-string."""
+    f = mysql_date()
+    return time.strftime(f) if t is None else time.strftime(f, t)
 
 
 def verify_user(username, password):

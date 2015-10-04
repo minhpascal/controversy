@@ -55,7 +55,6 @@ header {
 		background-position: 98% 50%;
 		background-size: 20px 20px;
 	}
-
 }
 
 main {
@@ -94,7 +93,6 @@ main {
 				border: 1px solid $grey;
 				padding: 2px; }
 		}
-
 	}
 
 	article {
@@ -107,15 +105,12 @@ main {
 	}
 
 	article + p { opacity: 0.6; } // NYT copyright
-
 	mark {
 		line-height: 25px;
 		color: #2b6dad;
 		background-color: #f1f8fb;
 		@include border-radius(2px);
-		padding: 2px;
-	}
-
+		padding: 2px; }
 	.disabled {
 		cursor: not-allowed;
 		background-color: #f9f9f9;
@@ -133,14 +128,13 @@ span.danger {
 
 @media (max-width: 600px) {
 	header>div h1 { font-size: 22px; }
-	header>div span#right-header { font-size: 12px; }
+	header>div span#right-header, header>div >a { font-size: 12px; }
 	header>div span#subtitle { display: none; }
 }
 @media (max-width: 520px) {
 	.non-essentials { display: none; }
 	input[type='text'].top_loading { height: 40px; }
 }
-
 @media (max-width: 385px) {
 	nav { display: block; }
 }

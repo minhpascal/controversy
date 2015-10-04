@@ -128,4 +128,4 @@ Where ``['result']['trending']`` is a key-value pair list where the key is the q
 
 ``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's `an example`_.
 
-.. _an example: ../documents/sample-trend.png
+.. _an example: ../documents/fake-trend.png

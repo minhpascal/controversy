@@ -12,12 +12,12 @@ from flask import render_template, Blueprint, session, jsonify, request, Respons
 from config import *
 from error import UsageError
 from collections import Counter
-from scoring import controversy
-from content import article_search, twitter_search
+from querier import new_query
 import stats
-import datetime, time
+import datetime
 import json
-import db, redis
+import db 
+import redis
 
 
 QUERY_PARAM = 'q'
@@ -59,44 +59,15 @@ def success(r):
     })
 
 
-def mysql_date():
-    return '%Y-%m-%d'
-
-
-def make_date(t=None):
-    """datetime or None -> sql-ready date-string."""
-    f = mysql_date()
-    return time.strftime(f) if t is None else time.strftime(f, t)
-
-
 @api.route('/')
 def query():
     q = request.args[QUERY_PARAM]
     u = session['username']
     if db.unique_user_query(q, u):
-        db.append_history(q, make_date(), u)
+        db.append_history(q, db.make_date(), u)
     else:
-        db.update_history(q, make_date(), u)
-    return justmime(sr.get(q)) if sr.exists(q) else new_query(q)
-
-
-def new_query(keyword):
-    arts = article_search(keyword)
-    if len(arts) == 0:
-        raise UsageError('no-articles', status_code=200)
-
-    ranked = controversy({
-        'tweets' : twitter_search(keyword),
-        'articles' : arts,
-    })
-    ranked_dump = json.dumps(ranked)
-    sr.set(keyword, ranked_dump)
-    #: expire cache in 60 * 60 * 24 = 86400 seconds
-    sr.expire(keyword, 86400)
-    keyword_score = sum(a['entropy_sentiment_score'] for a in ranked['result'])
-    print(make_date())
-    db.append_queries(keyword, keyword_score, make_date())
-    return justmime(ranked_dump)
+        db.update_history(q, db.make_date(), u)
+    return justmime(sr.get(q)) if sr.exists(q) else justmime(new_query(q))
 
 
 @api.route('/user-history')

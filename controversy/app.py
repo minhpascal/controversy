@@ -3,7 +3,9 @@
     Controversy --- app.py 
     ~~~~~~~~~~~~~~~~~~~~~~
 
-    Controversy: joint mining of news text and social media to discover controversial points in news. Runs server.
+    Controversy: joint mining of news text and social media to discover controversial points in news.
+    
+    Runs server.
 
     :copyright: (c) 2015 |contributors|.
     :license: BSD, see LICENSE for more details.
@@ -11,11 +13,12 @@
 from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort, url_for
 from jinja2 import TemplateNotFound
 from functools import wraps
-from api import api, mysql_date
+from api import api
 from config import *
 from datetime import datetime
 from hashlib import md5
-import db, forms
+import db
+import forms
 
 
 app = Flask(__name__)
@@ -149,7 +152,7 @@ def first_name(s):
 
 @app.template_filter('pretty_date')
 def pretty_date(u):
-    return datetime.strptime(u, mysql_date()).strftime("%A, %d %B")
+    return datetime.strptime(u, db.mysql_date()).strftime("%A, %d %B")
 
 
 if __name__ == "__main__":

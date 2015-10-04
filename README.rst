@@ -60,7 +60,7 @@ Please use Python 2.7.x
 
 .. _IEEE Big Data 2015: #
 .. _PURE Conference 2015: http://ocha.2pitau.org/pdf/pure.pdf
-.. _API sepc: controversy/README.rst
+.. _API spec: controversy/README.rst
 .. _controversy.2pitau.org: http://controversy.2pitau.org
 .. _dependencies: http://www.scipy.org/install.html
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu

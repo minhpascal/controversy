@@ -13,6 +13,8 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from content import Tweet, Article
 from lexicon_extreme import is_extreme
+from functools import partial
+from operator import is_not
 
 
 stemmer = PorterStemmer()
@@ -136,13 +138,12 @@ def controversy(articles, tweets):
 
     # for every article matching the keyword
     for article_index in xrange(article_count):
-
         dict_art = articles[article_index].to_dict()
         if (dict_art is None):
             continue
 
         ranked_articles[article_index] = dict_art
-        score, sentiment_score, linguistic_score = 0, 0, 0 # (entropy) score of the entire article
+        sentiment_score, linguistic_score = 0, 0 # (entropy) score of the entire article
         sentences = [] # scores & metadata for each sentence
         query = tokenizer.tokenize(articles[article_index].full)
 
@@ -167,10 +168,9 @@ def controversy(articles, tweets):
             sentence_sentiment_score = score_entropy(sentiments)
             sentiment_score += sentence_sentiment_score
 
-            sentence_linguistic_score = score_entropy(extremes) # will add all-caps soon
+            # TODO: all-caps will be added shortly
+            sentence_linguistic_score = score_entropy(extremes)
             linguistic_score += sentence_linguistic_score
-
-            score += (sentence_sentiment_score + sentence_linguistic_score)
 
             sentences.append({
                 'tweets': relevant_tweets,
@@ -181,22 +181,23 @@ def controversy(articles, tweets):
             })
 
         # 6% of the sentence count
-        n = int(math.ceil(len(sentences) * 0.06))
+        n = int(math.ceil(len(sentences) * 0.15))
         # n largest (top 6%) scores (recall greater entropy ==> more controversial)
-        nlargest = heapq.nlargest(n, map(lambda x : x['score'], sentences))
+        nlargest = heapq.nlargest(n, map(lambda x: x['score'], sentences))
         # only provide controversial sentences with "enough" related tweets
         filtered = filter(lambda x: any(x['score'] >= i for i in nlargest) and len(x['tweets']) > 5, sentences)
 
-        print(ranked_articles[article_index])
-        ranked_articles[article_index]['sentences'] = filtered
-        ranked_articles[article_index]['score'] = score
+        ranked_articles[article_index].update({
+            'sentences': filtered,
+            'linguistic_score': linguistic_score,
+            'sentiment_score': sentiment_score,
+            'score': linguistic_score + sentiment_score
+        })
 
-    with open('tmp.json', 'w') as f:
-        import json
-        f.write(json.dumps(ranked_articles))
-
+    ranked_articles = filter(lambda x: 'score' in x, ranked_articles)
 
     # sort in order of decreasing entropy (most controversial --> least)
+    print(ranked_articles[0].keys())
     return sorted(ranked_articles,
                   key=lambda x: x['score'],
                   reverse=True)

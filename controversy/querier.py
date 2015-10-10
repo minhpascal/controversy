@@ -15,13 +15,16 @@ def new_query(keyword):
     if len(articles) == 0:
         raise UsageError('no-articles', status_code=200)
 
-    ranked = controversy(
-            articles,
-            twitter_search(keyword))
+    scored = controversy(articles, twitter_search(keyword))
+    ranked = {
+        'result': scored,
+        'ok': 1
+    }
+
     ranked_dump = json.dumps(ranked)
     sr.set(keyword, ranked_dump)
     # expire cache in 60 * 60 * 24 = 86400 seconds
     sr.expire(keyword, 86400)
-    keyword_score = sum(a['entropy_sentiment_score'] for a in ranked['result'])
+    keyword_score = sum(a['score'] for a in scored)
     db.append_queries(keyword, keyword_score)
     return ranked_dump

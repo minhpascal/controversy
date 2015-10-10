@@ -2,6 +2,7 @@
 """
     db.py
     ~~~~~
+
     DB functionality.
 """
 import pymysql as sql

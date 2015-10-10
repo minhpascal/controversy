@@ -9,7 +9,6 @@ CREATE TABLE Users (
 
 CREATE TABLE Queries (
         Term VarChar(100),
-	RatioScore float,
 	EntropyScore float NOT NULL,
         Performed TIMESTAMP 
 );

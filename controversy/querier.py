@@ -11,18 +11,17 @@ def new_query(keyword):
     """Provide ``keyword`` for content retrieval,
     scoring, cache, and history entry.
     """
-    arts = article_search(keyword)
-    if len(arts) == 0:
+    articles = article_search(keyword)
+    if len(articles) == 0:
         raise UsageError('no-articles', status_code=200)
 
-    ranked = controversy({
-        'tweets' : twitter_search(keyword),
-        'articles' : arts,
-    })
+    ranked = controversy(
+            articles,
+            twitter_search(keyword))
     ranked_dump = json.dumps(ranked)
     sr.set(keyword, ranked_dump)
-    #: expire cache in 60 * 60 * 24 = 86400 seconds
+    # expire cache in 60 * 60 * 24 = 86400 seconds
     sr.expire(keyword, 86400)
     keyword_score = sum(a['entropy_sentiment_score'] for a in ranked['result'])
-    db.append_queries(keyword, keyword_score, db.make_date())
+    db.append_queries(keyword, keyword_score)
     return ranked_dump

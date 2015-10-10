@@ -2,16 +2,17 @@
 """
     scoring.py
     ~~~~~~~~~~
-    Adds score and relevant tweets to response.
-    :authors: Ismini Lourentzou, Graham Dyer
 
-    *to be optimized soon*
+    Scores controversy given articles and tweets corpora.
+
+    :authors: Ismini Lourentzou, Graham Dyer
 """
 import math, nltk, re, string, scipy, heapq
 from gensim import corpora
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from content import Tweet, Article
+from lexicon_extreme import is_extreme
 
 
 stemmer = PorterStemmer()
@@ -36,7 +37,7 @@ class BM25:
     def build_dictionary(self):
         proc_data = []
         for i in xrange(len(self.fn_docs)):
-            tweet = self.fn_docs[i]['clean_tweet']
+            tweet = self.fn_docs[i].clean_tweet
             # sentiment = self.fn_docs[i]["sentiment"]
             # self.raw_data.append(self.fn_docs[i])
             proc_data.append(preprocess(tweet))
@@ -47,7 +48,7 @@ class BM25:
         docTotalLen = 0.0
         # print (self.dictionary.token2id)
         for i in xrange(len(self.fn_docs)):
-            tweet = self.fn_docs[i]['clean_tweet']
+            tweet = self.fn_docs[i].clean_tweet
             doc = preprocess(tweet)
             docTotalLen += len(doc)
             self.DocLen.append(len(doc))
@@ -119,75 +120,83 @@ def preprocess(file_content):
     return stemmed_Words
 
 
-def controversy(data):
-    bm25 = BM25(data["tweets"], delimiter=' ')
+def score_entropy(li):
+    """Get entropy of list ``li``.
+    """
+    ret = map(lambda x: li.count(x) / float(len(li)), li)
+    return scipy.stats.entropy(ret, base=2)
+
+
+
+def controversy(articles, tweets):
+    bm25 = BM25(tweets, delimiter=' ')
     tokenizer = nltk.data.load('nltk:tokenizers/punkt/english.pickle')
+    article_count = len(articles)
+    ranked_articles = [{}] * article_count
 
-    # for every article
-    for article_index in xrange(len(data['articles'])):
-        entropy_sentiment_score = 0 # note that vanilla "score" is entropy
-        ratio_sentiment_score = 0 # ratio score, of course
-        query = tokenizer.tokenize(data['articles'][article_index]['full'])
-        sentences = []
+    # for every article matching the keyword
+    for article_index in xrange(article_count):
 
-        # for every sentence
+        dict_art = articles[article_index].to_dict()
+        if (dict_art is None):
+            continue
+
+        ranked_articles[article_index] = dict_art
+        score, sentiment_score, linguistic_score = 0, 0, 0 # (entropy) score of the entire article
+        sentences = [] # scores & metadata for each sentence
+        query = tokenizer.tokenize(articles[article_index].full)
+
+        # for every sentence in the article
         for sentence in query:
             scores = bm25.bm25_score(preprocess(sentence))
-            sentiments = []
-            cap_rule = []
-            extreme_rule = []
-            relevant_tweets = []
-            negative_tweet_count = 0
-            positive_tweet_count = 0
+            sentiments, extremes, relevant_tweets = [], [], []
 
-            # for every relevant tweet
+            # for every tweet relevant to the sentence
             for tweet in scores:
+                # get the index of the relevant tweet
                 doc_index = tweet[1]
-                sentiments.append(data['tweets'][doc_index]['sentiment'])
-                if data['tweets'][doc_index]['is_positive']:
-                    positive_tweet_count += 1
-                elif data['tweets'][doc_index]['is_negative']:
-                    negative_tweet_count += 1
-            
-                relevant_tweets.append(data['tweets'][doc_index])
+                relevant_tweet = tweets[doc_index]
+                sentiments.append(relevant_tweet.sentiment)
 
-            # find entropy of sentiment
-            sentiments = dict((x,(sentiments.count(x) / float(len(sentiments)))) for x in set(sentiments)).values()
-            entropy_sentiment = scipy.stats.entropy(sentiments, base=2)
-            entropy_sentiment_score += entropy_sentiment
-           
-            # smaller ratio ==> more controversial
-            try:
-                sentence_level_ratio = abs((negative_tweet_count / float(positive_tweet_count + negative_tweet_count)) - 0.5) 
-            except ZeroDivisionError:
-                sentence_level_ratio = 0
-            ratio_sentiment_score += sentence_level_ratio
+                extreme_words_count = reduce(lambda x, y: is_extreme(x) + is_extreme(y), relevant_tweet.clean_tweet.split(' '))
+                extremes.append(extreme_words_count)
+
+                relevant_tweets.append(relevant_tweet.to_dict())
+
+            #sentiments = dict((x, (sentiments.count(x) / float(len(sentiments)))) for x in set(sentiments)).values()
+            sentence_sentiment_score = score_entropy(sentiments)
+            sentiment_score += sentence_sentiment_score
+
+            sentence_linguistic_score = score_entropy(extremes) # will add all-caps soon
+            linguistic_score += sentence_linguistic_score
+
+            score += (sentence_sentiment_score + sentence_linguistic_score)
 
             sentences.append({
-                'tweets' : relevant_tweets,
-                'text' : sentence,
-                'sentiment_entropy' : entropy_sentiment,
-                'sentiment_ratio' : sentence_level_ratio
+                'tweets': relevant_tweets,
+                'text': sentence,
+                'score': linguistic_score + sentiment_score,
+                'linguistic_score': linguistic_score,
+                'sentiment_score': sentiment_score
             })
 
         # 6% of the sentence count
         n = int(math.ceil(len(sentences) * 0.06))
-        # create a list of n largest sentiment entropy values (recall greater entropy ==> more controversial)
-        nlargest = heapq.nlargest(n, map(lambda x : x['sentiment_entropy'], sentences))
-        # notice this is just filtering by sentiment entropy
-        filtered = filter(lambda x : any(x['sentiment_entropy'] >= i for i in nlargest) and len(x['tweets']) > 1, sentences)
+        # n largest (top 6%) scores (recall greater entropy ==> more controversial)
+        nlargest = heapq.nlargest(n, map(lambda x : x['score'], sentences))
+        # only provide controversial sentences with "enough" related tweets
+        filtered = filter(lambda x: any(x['score'] >= i for i in nlargest) and len(x['tweets']) > 5, sentences)
+
+        print(ranked_articles[article_index])
+        ranked_articles[article_index]['sentences'] = filtered
+        ranked_articles[article_index]['score'] = score
+
+    with open('tmp.json', 'w') as f:
+        import json
+        f.write(json.dumps(ranked_articles))
 
 
-
-        data['articles'][article_index]['sentences'] = filtered
-        data['articles'][article_index]['entropy_sentiment_score'] = entropy_sentiment_score
-        data['articles'][article_index]['ratio_sentiment_score'] = ratio_sentiment_score
-
-    data.pop('tweets', None)
     # sort in order of decreasing entropy (most controversial --> least)
-    return {
-        'error': 0, 
-        'result': sorted(data['articles'],
-                         key=lambda x: x['entropy_sentiment_score'],
-                         reverse=True)
-    }
+    return sorted(ranked_articles,
+                  key=lambda x: x['score'],
+                  reverse=True)

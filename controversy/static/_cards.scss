@@ -87,6 +87,7 @@ div.article {
 }
 div.tweet {
 	@extend %base-card;
+	@include transition(0.4s);
 	padding: 2px;
 	overflow: hidden;
 	a {
@@ -98,8 +99,7 @@ div.happy { border: 1px solid $happy; }
 div.hovering { color: #000; }
 div.no-hover {
 	color: #c3c3c3;
-	border: 1px solid #f9f9f9;
-}
+	border: 1px solid #f9f9f9; }
 div.most-controversial { border: 2px solid $mad; }
 div.least-controversial { border: 2px solid $cool; }
 

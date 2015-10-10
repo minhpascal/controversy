@@ -53,19 +53,16 @@ header {
 	input[type='text'].top_loading {
 		background: url($loading_src) no-repeat;
 		background-position: 98% 50%;
-		background-size: 20px 20px;
-	}
+		background-size: 20px 20px; }
 }
 
 main {
+	padding: 6em 1em;
 	input.loading {
 		background: url($loading_src) no-repeat;
 		background-size: 20px 20px;
 		padding: 10px 10px 10px 36px;
-		background-position: 10% 50%;
-
-	}
-	padding: 6em 1em;
+		background-position: 10% 50%; }
 	>form { 
 		margin-bottom: 10px; 
 		text-align: center;
@@ -119,20 +116,19 @@ main {
 			background-color: $warn; }
 	}
 }
-
 span.danger {
 	color: #fff;
 	background-color: #d43f3a;
 	padding: 2px;
 	@include border-radius(2px); }
-
-@media (max-width: 600px) {
+figcaption { margin:10px 0 10px 0; }
+@media (max-width: 700px) {
 	header>div h1 { font-size: 22px; }
 	header>div span#right-header, header>div >a { font-size: 12px; }
-	header>div span#subtitle { display: none; }
+	.non-essentials { display: none; }
 }
 @media (max-width: 520px) {
-	.non-essentials { display: none; }
+	span.danger { display: block; }
 	input[type='text'].top_loading { height: 40px; }
 }
 @media (max-width: 385px) {

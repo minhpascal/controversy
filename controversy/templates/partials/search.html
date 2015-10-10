@@ -1,29 +1,33 @@
 <header>
-    <div>
-        <h1>Controversy</h1>
-        <span id=subtitle>
-            hotspots of news articles
-        </span>
-        <span id=right-header title="{{ user['Name'] }} at {{ user['School'] }}">
-            <span class=non-essentials>
-                welcome back, {{ user['Name']|first_name }} &middot;
-            </span>
-            <a href="/account">account</a>
-            &middot;
-            <a href="/logout">logout &rarr;</a>
-        </span>
-    </div>
+	<div>
+		<h1>Controversy</h1>
+		<span id=subtitle class=non-essentials>
+			hotspots of news articles
+		</span>
+		<span id=right-header title="{{ user['Name'] }} at {{ user['School'] }}">
+			<span class=non-essentials>
+				welcome{% if user.Logins > 0 %} back{% endif %}, {{ user.Name|first_name }} &middot;
+
+			</span>
+			<a href="/account">account</a>
+			&middot;
+			<a href="/logout">logout &rarr;</a>
+		</span>
+	</div>
 </header>
 {% raw %}
 <main>
 <form ng-submit="submit()">
-    <input autocomplete=off autocorrect=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
-    <p>
-    <i ng-repeat="trend in trending" class=pointer ng-click="$root.keyword=trend">
-        {{ trend }} {{ $last ? '' : ', ' }}
-    </i>
-    </p>
-    <input type=submit ng-class="{'disabled' : !$root.can_query, 'loading' : $root.is_loading}" value="{{ button_value }}" /> 
+	<input autocomplete=off autocorrect=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
+	<p>
+	<i ng-repeat="trend in trending" class=pointer ng-click="$root.keyword=trend">{{ trend }} {{ $last ? '' : ', ' }}</i>
+	</p>
+	<input type=submit ng-class="{'disabled' : !$root.can_query, 'loading' : $root.is_loading}" value="{{ button_value }}" /> 
+{% endraw %}
+	{% if user.Logins < 1 %}
+	<p>
+	<em>uncached queries take about 20-30 seconds</em>
+	</p>
+	{% endif %}
 </form>
 </main>
-{% endraw %}

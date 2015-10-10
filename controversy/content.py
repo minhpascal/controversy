@@ -2,7 +2,11 @@
 """
     content.py
     ~~~~~~~~~~~
+
     Interfaces with api endpoints (as defined in api.py).
+
+    This module gets, well, content for scoring.
+    Namely, it fetches NYTimes articles (metadata & full-text) and tweets based on a keyword.
 """
 from bs4 import BeautifulSoup
 from config import *
@@ -17,6 +21,8 @@ from operator import is_not
 
 MAX_ATTEMPTS = 7
 MAX_COMMENTARY = 500
+
+
 
 
 class Tweet(object):
@@ -48,7 +54,7 @@ class Tweet(object):
 
 class Article(object):
     """A NYT article
-       holds basic attibutes and gets full text 
+       holds basic attibutes and gets full-text 
     """ 
 
     def __init__(self, j):
@@ -79,7 +85,7 @@ class Article(object):
         response = opener.open(urllib2.Request(self.url))
         soup = BeautifulSoup(response.read(), 'html.parser')
         body = soup.findAll('p', {'class' : ['story-body-text', 'story-content']})
-        res = " ".join(p.text for p in body) 
+        res = ' '.join(p.text for p in body) 
         jar.clear()
         return res
 
@@ -98,7 +104,7 @@ def nyt_query_date(s):
 
 def article_search(keyword):
     """Get articles based on keyword."""
-    #: tweets are < 10 days old; articles should match
+    # tweets are < 10 days old; articles should match
     today = datetime.date.today()
     last_week = today - datetime.timedelta(days=11)
 
@@ -111,7 +117,9 @@ def article_search(keyword):
     })
 
     response = urllib2.urlopen("http://api.nytimes.com/svc/search/v2/articlesearch.json?%s" % params)
-    return filter(partial(is_not, None), map(lambda x: Article(x).to_dict(), json.loads(response.read())['response']['docs']))
+    # an Article will be None if it doesn't have body text (thus the partial)
+    # return an array of Article objects that have a body text
+    return filter(partial(is_not, None), map(lambda x: Article(x), json.loads(response.read())['response']['docs']))
 
 
 def twitter_search(keyword):
@@ -123,11 +131,12 @@ def twitter_search(keyword):
             break
 
         response = twitter.search(q=keyword, count=100, lang="en") if i == 0 else twitter.search(q=keyword, include_entities='true', max_id=next_max)
-        tweets += map(lambda x: Tweet(x).to_dict(), response['statuses'])
+        tweets += map(lambda x: Tweet(x), response['statuses'])
         try:
             next_res = results['search_metadata']['next_results']
             next_max = next_res.split('max_id=')[1].split('&')[0]
         except:
+            # there are no more tweets
             break
     return tweets
 

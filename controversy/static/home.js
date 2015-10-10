@@ -1,7 +1,7 @@
 var cApp = angular.module('Home', ['ngRoute', 'ngSanitize']);
 var ERROR_MESSAGES = {
 	'no-articles' : 'Despite our best efforts, we simply could not find any recently published English articles with that keyword. May we interest you in another try?',
-	'our-fault' : 'Well, this is akward; we messed up. File or see known bugs from ``account`` (link is on the search page).',
+	'our-fault' : 'Well, this is akward; we messed up. Check current bugs. We were automatically sent an SMS about this error, but please report it if it\'s an unknown problem.',
 	'not-logged-in' : 'You logged out in another window or a server update was just pushed! Please refresh the page, and log in again.',
 	'failed-to-parse' : 'There was a malformed article result that broke this response. Please try a differt keyword and file a bug from ``account`` (link is on the search page).'
 };
@@ -171,6 +171,15 @@ cApp.controller('ErrorController', function($scope, $rootScope, $location) {
 	if (!$rootScope.error) {
 		$location.path('/');
 	}
+
+	$scope.goHome = function() {
+		$location.path('/');
+	};
+
+	$scope.goToAccount = function() {
+	console.log('goAccount!');
+		window.location.href = 'account#?bug';
+	};
 });
 
 cApp.controller('ReadController', function($scope, $rootScope, $location, $routeParams, $window) {

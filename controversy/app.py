@@ -7,8 +7,9 @@
     
     Runs server.
 
-    :copyright: (c) 2015 |contributors|.
-    :license: BSD, see LICENSE for more details.
+    :version: 0.3
+    :copyright: (c) 2015 I Lourentzou, G Dyer, A Sharma, C Zhai. Some rights reserved.
+    :license: CC BY-NC-SA 4.0, see LICENSE for more details.
 """
 from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort, url_for
 from jinja2 import TemplateNotFound
@@ -17,6 +18,8 @@ from api import api
 from config import *
 from datetime import datetime
 from hashlib import md5
+from dateutil.relativedelta import relativedelta
+import time
 import db
 import forms
 
@@ -27,7 +30,7 @@ app.secret_key = SECRET_KEY
 app.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
 app.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
 app.config['testing'] = DEBUG
-app.config['version'] = 'v0.2'
+app.config['version'] = 'v0.3'
 
 
 # from Yishen Chen: github.com/dsrcl
@@ -150,10 +153,28 @@ def first_name(s):
     return s.split(' ')[0]
 
 
+def clean_rd(rd):
+    """relativedelta --> nice string
+    """
+    attrs = ['years', 'months', 'days', 'hours', 'minutes', 'seconds']
+    res = []
+    res_append = res.append
+    for a in attrs:
+        if getattr(rd, a) and getattr(rd, a) > 1:
+            res_append('%d %s' % (getattr(rd, a), a))
+    return res[0] if len(res) else 'a second'
+
+
 @app.template_filter('pretty_date')
 def pretty_date(u):
-    return datetime.strptime(u, db.mysql_date()).strftime("%A, %d %B")
+    """mysql timestamp --> nice strftime + " ... ago"
+    """
+    now = datetime.fromtimestamp(time.time())
+    then_secs = (u - datetime(1970, 1, 1)).total_seconds()
+    then = datetime.fromtimestamp(then_secs)
+    delta = clean_rd(relativedelta(now, then))
+    return '%s ago' % delta, then.strftime('%A, %d %B')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4040, debug=DEBUG)

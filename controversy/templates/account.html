@@ -13,7 +13,7 @@
 <header>
 	<div>
 		<h1>Controversy</h1>
-		<span id=subheader class=non-essentials>
+		<span id=subtitle class=non-essentials>
 			hotspots of news articles
 		</span>
 		<span id=right-header title="{{ user['Name'] }} at {{ user['School'] }}">
@@ -26,7 +26,7 @@
 			</span>
 			<a href="/">home</a>
 			&middot;
-			<a href="/logout">logout</a>
+			<a href="/logout">logout &rarr;</a>
 		</span>
 	</div>
 </header>
@@ -36,15 +36,18 @@
 <h3>Query history</h3>
 <ul>
 	{% if history|length %}
-	{{ user['Name']|first_name }}, you search for &hellip;
+	{{ user['Name']|first_name }}, you searched for &hellip;
 	{% for query in history %}
 	<li>
-	<b>{{ query['Term'] }}</b> on {{ query['Performed']|pretty_date }}
+	{% with %}
+	{% set pd = query['Performed']|pretty_date %}
+	"<b>{{ query['Term'] }}</b>" {{ pd[0] }} <small>(on {{ pd[1] }})</small>
+	{% endwith %}
 	</li>
 	{% endfor %}
 	<p>
 	<i>&hellip; and that's all we know</i><br>
-	however, we forget things, especially when you <a href="account/clear-queries">clear your history</a>, so no guarantees
+	however, we forget things, especially when you <a href="account/clear-queries">clear your history</a>
 	</p>
 	{% else %}
 	&hellip; nothing yet. May we interest you in <a href="../">a try</a>?
@@ -58,7 +61,7 @@
 <span>
 	<form method=POST>
 		{{ form.hidden_tag() }}
-		{{ form.email.label }} {{ form.email(value=user['Id']) }}
+		{{ form.email.label }} {{ form.email(value=user.Id) }}
 		{{ form.password.label }} {{ form.password(placeholder="confirm your password") }}
 		<button type=submit>close account &rarr;</button>
 	</form>
@@ -66,24 +69,27 @@
 
 </p>
 
-<h3>A note about privacy</h3>
-<p>While we do encrypt passwords (one-way hash), as of summer 2015, we don't use SSL as you browse the site. This means a nasty person on your WiFi network could easily snatch your (plaintext) email, name, and password as they're being sent to our server. That's why we encourage you to use a simple password, like an English word.</p>
+<h3>Usage notes</h3>
+<p>We encrypt passwords with a one-way hash and cannot even see your password ourselves. As of fall 2015, we force SSL as you browse the site. This means your connection, namely the data we exchange, is private by default. We'd like the thank StartSSL for providing this service for free. This server is hosted by Linode, whom has also been a joy to work with.</p>
+<p>We'd like to thank the NSF and NIH for supporting this work.</p>
 
-<h3>About</h3>
-<p>This is <b>Controversy</b>, version {{ version }}. Available <a href="http://github.com/gdyer/controversy">on GitHub</a>.</p>
-<p>Found a bug? <a href="https://github.com/gdyer/controversy/issues/new">Please file a report</a>.</p>
-<ul ng-controller="IssuesController">
-	Known bugs&hellip;
-	{% raw %}
-	<img ng-src="/static/img/small-loading.gif" ng-show="!issues_loaded" />
-	<em ng-show="!issues && issues_loaded">no bugs found</em>
-	<li ng-show="issues && issues_loaded" ng-repeat="i in issues">
+<h3 name=bugs id=bugs>About / Bugs</h3>
+<p>This is <b>Controversy</b>, version {{ version }}. Available <a target=_blank href="http://github.com/gdyer/controversy">on GitHub</a>.</p>
+<div>
+	<p>Found a bug? <a target=_blank href="https://github.com/gdyer/controversy/issues/new">Please file a report</a>.</p>
+	<ul ng-controller="IssuesController" class=issues_list>
+		Known problems &hellip;
+		{% raw %}
+		<img ng-src="/static/img/small-loading.gif" ng-show="!issues_loaded" />
+		<em ng-show="!issues && issues_loaded">no bugs found</em>
+		<li ng-show="issues && issues_loaded" ng-repeat="i in issues">
 		<dl>
 			<dt>{{ i.number }} <b>{{ i.title }}</b></dt>
-			<dd>{{ i.body }}<br>{{ i.assignee.login }} was assigned on {{ i.created_at | date:'medium'}}. <a href="{{ i.html_url }}">View on GitHub</a>.</dd>
+			<dd>{{ i.body || 'no details provided' }}<br>{{ i.assignee.login || 'no one'}} was assigned on {{ i.created_at | date:'medium'}}. <small><a target=_blank href="{{ i.html_url }}">View on GitHub</a></small>.</dd>
 		</dl>
-	</li>
-	{% endraw %}
-</ul>
+		</li>
+		{% endraw %}
+	</ul>
+</div>
 </main>
 {% endblock %}

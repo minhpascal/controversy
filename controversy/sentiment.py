@@ -2,9 +2,10 @@
 """
     sentiment.py
     ~~~~~~~~~~~~
+
     Sentiment of a string.
 
-    The paper referenced SentiStrength, although we've switched to TextBlob
+    The paper referenced SentiStrength, although we've switched to TextBlob.
 """
 from textblob import TextBlob
 

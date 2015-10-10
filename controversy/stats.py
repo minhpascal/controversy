@@ -11,6 +11,7 @@ from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
 
 
+
 def keyword_trend(keyword, x, y):
     """plot x vs y
     """
@@ -19,7 +20,7 @@ def keyword_trend(keyword, x, y):
     ax.set_title('"%s" controversy vs. time' % keyword)
     ax.set_ylabel('controversy entropy-based score')
     ax.set_xlabel('time')
-    ax.plot_date(x, y, fmt='bo-')
+    ax.plot_date(x, y, fmt='bo-', normed=True)
     ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
     fig.autofmt_xdate()
     canvas = FigureCanvasAgg(fig)

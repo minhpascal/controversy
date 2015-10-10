@@ -23,16 +23,6 @@ def get_dict_cursor():
     return conn.cursor(sql.cursors.DictCursor), conn
 
 
-def mysql_date():
-    return '%Y-%m-%d'
-
-
-def make_date(t=None):
-    """datetime or None -> sql-ready date-string."""
-    f = mysql_date()
-    return time.strftime(f) if t is None else time.strftime(f, t)
-
-
 def verify_user(username, password):
     cur, _ = get_cursor()
     cur.execute('''
@@ -149,22 +139,20 @@ def unique_user_query(keyword, user):
     return cur.fetchone() is None
 
 
-def update_history(keyword, date, user):
+def update_history(keyword, user):
     """updates date for identical query (per user) in Histories table
     """
     cur, _ = get_cursor()
     cur.execute('''
         UPDATE Histories
-        SET
-        Performed=%s
+        SET Performed=Performed
         WHERE
-        Originator=%s
-        AND
-        Term=%s;''', (date, user, keyword,))
+        Originator=%s AND
+        Term=%s;''', (user, keyword))
     _.commit()
 
 
-def append_history(keyword, date, user):
+def append_history(keyword, user):
     """adds new entry in Histories table
     """
     cur, _ = get_cursor()
@@ -172,16 +160,14 @@ def append_history(keyword, date, user):
         INSERT INTO
         Histories (
         Term,
-        Originator,
-        Performed) VALUES (%s, %s, %s);''', (keyword, user, date,))
-
+        Originator) VALUES (%s, %s);''', (keyword, user))
     try:
         _.commit()
     except:
         return
 
 
-def append_queries(keyword, escore, date):
+def append_queries(keyword, escore):
     """adds new entry (perhaps a duplicate) to Queries table
 
     Not user-associated. See Histories for user-based history.
@@ -191,9 +177,8 @@ def append_queries(keyword, escore, date):
         INSERT INTO
         Queries (
         Term,
-        EntropyScore,
-        Performed
-        ) VALUES (%s, %s, %s)''', (keyword, str(escore), date,))
+        EntropyScore
+        ) VALUES (%s, %s)''', (keyword, str(escore)))
     _.commit()
 
 

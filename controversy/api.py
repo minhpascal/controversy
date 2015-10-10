@@ -4,15 +4,11 @@
     ~~~~~~
 
     RESTful API specification and response handle.
-
-    :copyright: (c) 2015 |contributors|.
-    :license: BSD, see LICENSE for more details.
 """
 from flask import render_template, Blueprint, session, jsonify, request, Response, session, make_response, abort
-from config import *
 from error import UsageError
 from collections import Counter
-from querier import new_query
+from querier import new_query, sr
 import stats
 import datetime
 import json
@@ -22,7 +18,6 @@ import redis
 
 QUERY_PARAM = 'q'
 api = Blueprint('/api', __name__)
-sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
 
 
 @api.errorhandler(UsageError)
@@ -52,7 +47,7 @@ def justmime(r, status=200):
 
 
 def success(r):
-    #: not used by main api
+    # not used by main api; see ``querier``
     return jsonify({
         'error' : 0,
         'result' : r
@@ -64,9 +59,9 @@ def query():
     q = request.args[QUERY_PARAM]
     u = session['username']
     if db.unique_user_query(q, u):
-        db.append_history(q, db.make_date(), u)
+        db.append_history(q, u)
     else:
-        db.update_history(q, db.make_date(), u)
+        db.update_history(q, u)
     return justmime(sr.get(q)) if sr.exists(q) else justmime(new_query(q))
 
 
@@ -79,6 +74,8 @@ def history():
 
 @api.route('/trend')
 def trending():
+    """Trending keywords in demo
+    """
     hist = map(lambda x : x['Term'], db.histories())
     if not hist:
             return jsonify({
@@ -97,12 +94,14 @@ def trending():
 
 @api.route('/trend/<k>')
 def keyword_trend(k):
+    """JSON for historical score of keyword ``k``
+    """
     return success(db.keyword_trend(k))
 
 
 @api.route('/trend/<k>.png')
 def keyword_trend_png(k):
-    """Return a PNG from stats in request
+    """PNG from ``stats`` for historical score of keyword ``k``
     """
     db_resp = db.keyword_trend(k)
     if len(db_resp) < 2:

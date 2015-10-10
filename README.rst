@@ -1,7 +1,7 @@
 .. |---| unicode:: U+2014 .. em dash
 .. |->| unicode:: U+2192 .. to
 .. |...| unicode:: U+2026 .. ldots
-.. |cs| image:: https://ocha.2pitau.org/img/biography/cs.small.jpg
+.. |cs| image:: http://ocha.2pitau.org/img/biography/cs.small.jpg
 
 Controversy
 ~~~~~~~~~~~~

@@ -7,15 +7,18 @@ Controversy
 
 Joint mining of news text and social media to discover controversial points in news.
 
-.. image:: http://ocha.2pitau.org/img/biography/uiuc.jpg
+.. image:: http://ocha.2pitau.org/img/biography/uiuc.gif
+	:target: http://cs.illinois.edu
 
-Ismini Lourentzou, Graham Dyer, Abhishek Sharma, ChengXiang Zhai |---| ``{lourent2, gdyer2, sharma51, czhai}@illinois.edu`` |---| University of Illinois, Urbana-Champaign
-
-----
-
-Live \@ `controversy.2pitau.org`_ or `controversy.web.engr.illinois.edu`_.
-
-Publications: full paper in progress, `IEEE Big Data 2015`_, `PURE Conference 2015`_.
++---------------------------------------+-------------------------------+-------------------------------------------------------------------+
+| Live demo                             | Publications                  | Authors                                                           |
++=======================================+===============================+===================================================================+
+| `controversy.2pitau.org`_             | `IEEE Big Data 2015`_         | Ismini Lourentzou, Graham Dyer, Abhishek Sharma, ChengXiang Zhai  |
++---------------------------------------+-------------------------------+-------------------------------------------------------------------+
+| `controversy.web.engr.illinois.edu`_  | `UIUC PURE Conference 2015`_  | Graham Dyer (mentee), Ismini Lourentzou (mentor)                  |
++---------------------------------------+-------------------------------+-------------------------------------------------------------------+
+|                                       | (full paper in progress)      | ?                                                                 |
++---------------------------------------+-------------------------------+-------------------------------------------------------------------+
 
 
 Pending
@@ -23,19 +26,18 @@ Pending
 
 We're currently preparing this server for a demo during **IEEE Big Data 2015 on October 29th**.
 
-We're also working on a full paper, which will add variables to our scoring function and improve BM25's accuracy for mapping article sentences to tweets.
-
-
 Demo todo
 =========
 
 * slight problems with Firefox on results page
-* re-run analysis daily for every keyword entered. show this to the user
+* Safari problem on Tweets page
+* transition when hovering over tweets
+* show user their graphs 
 * most controversial keywords on search page (not just trending)
-* potentially most controversial articles too, independent of keyword
-* (compare controversy keyboard plots)
-
-Now, sentiment entropy is what's used to rank articles in the UI. It also filters sentences, which are then scored by ratio and other entropy scores. How should the UI reflect the different scoring approaches?
+* average same-day points in matplotlib
+* normalize the graph between 0 and 1 (not comparable yet)
+* more than NYTimes, Reuters, and AP. CNN is next
+* tokenizer needs to remove acronyms
 
 
 Running for development
@@ -58,9 +60,9 @@ Please use Python 2.7.x
 
 
 
-.. _IEEE Big Data 2015: #
-.. _PURE Conference 2015: http://ocha.2pitau.org/pdf/pure.pdf
-.. _API spec: controversy/README.rst
+.. _IEEE Big Data 2015: http://ocha.2pitau.org/pdf/big-data-2015.pdf
+.. _UIUC PURE Conference 2015: http://ocha.2pitau.org/pdf/pure.pdf
 .. _controversy.2pitau.org: http://controversy.2pitau.org
-.. _dependencies: http://www.scipy.org/install.html
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu
+.. _API spec: controversy/README.rst
+.. _dependencies: http://www.scipy.org/install.html

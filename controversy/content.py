@@ -65,7 +65,7 @@ class Article(object):
         self.byline = j['byline']['original'] if (j['byline']) else None
         self.abstract = self._no_html_ab()
         self.url = j['web_url']
-        self.xlarge = 'http://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
+        self.xlarge = 'https://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
         self.published = j['pub_date'][:10]
         self.full = self._full_text()
 

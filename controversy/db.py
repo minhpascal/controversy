@@ -188,7 +188,7 @@ def keyword_trend(keyword):
     """
     cur, _ = get_dict_cursor()
     cur.execute('''
-        SELECT EntropyScore, RatioScore, Performed
+        SELECT EntropyScore, Performed
         FROM 
         Queries
         WHERE

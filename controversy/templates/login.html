@@ -25,9 +25,11 @@
 <div id=login>
     <h1>Controversy</h1>
     <span id=details>
-	    Please login or <a href="register">create a free account</a>. Accounts created before Oct. 10 11pm central were deleted in a database upgrade.
+	    Please login or <a href="register">create a free account</a>. Accounts created before Oct. 10 11pm central were deleted in a database upgrade. {{ brw }}
     </span>
-    <form method=POST>
+    <p><noscript><tt>this demo requires javascript</tt></noscript></p>
+    <p id=no_connection style="display:none"><tt>we couldn't load a library from Google's CDN. please check your connectivity or allow googleapis connections.</tt></p>
+    <form style="display:none" method=POST>
         {{ form.hidden_tag() }}
         {{ form.email(value=username, type="email", class_="field", placeholder="email (username)", required="required") }}
         {{ form.password(class="field", placeholder="password", required="required") }}
@@ -36,9 +38,20 @@
     </form>
 </div>
 <script>
-if (navigator.appName == 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/)))
-{
+if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
 	window.location.replace('not-supported');
 }
+document.getElementsByTagName('form')[0].style.display = 'block';
 </script>
+{% if not brw %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+if (!window.jQuery) {
+	document.getElementById('no_connection').style.display = 'block';
+	document.getElementsByTagName('form')[0].style.display = 'none';
+}
+var brw = (/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())) ? 'chrome' : 'default';
+$.ajax({url: '/set_brw?brw=' + brw});
+</script>
+{% endif %}
 {% endblock %}

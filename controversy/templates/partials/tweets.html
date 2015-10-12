@@ -1,34 +1,34 @@
 {% raw %}
 <header>
-    <div>
-        <a href="#results/{{ articleIndex }}">
-            &larr; article
-        </a>
-        <span class=non-essentials>
-            &middot;
-            controversial sentence &middot; closely related social content
-        </span>
-        <span id=right-header>
-            <a ng-show="previousExists" ng-click="change(-1)" title="previous controversial sentence">
-                &lArr; previous
-            </a>
-            <span ng-show="previousExists && nextExists">
-                &middot;
-            </span>
-            <a ng-show="nextExists" ng-click="change(1)" title="next controversial sentence">
-                next &rArr;
-            </a>
-        </span>
-    </div>
+	<div>
+		<a href="#results/{{ articleIndex }}">
+			&larr; article
+		</a>
+		<span class=non-essentials>
+			&middot;
+			controversial sentence &middot; closely related social content
+		</span>
+		<span id=right-header>
+			<a ng-show="previousExists" ng-click="change(-1)" title="previous controversial sentence">
+				&lArr; previous
+			</a>
+			<span ng-show="previousExists && nextExists">
+				&middot;
+			</span>
+			<a ng-show="nextExists" ng-click="change(1)" title="next controversial sentence">
+				next &rArr;
+			</a>
+		</span>
+	</div>
 </header>
 <main>
 <mark>{{ sentence.text }}</mark>
 <ul class=tweets>
-    <li ng-repeat="tweet in sentence.tweets">
-    <div class=tweet ng-mouseenter="hoverIn()" ng-mouseleave="hoverOut()" ng-class="{ 'happy' : tweet.sentiment > 3, 'mad' : tweet.sentiment < 2, 'hovering' : hovering, 'no-hover' : (!hovering && globalHover)}" title="@{{ tweet.author }} has {{ tweet.followers }} followers. Sentiment wise, 4 being very positive and 0 being very negative, this tweet is a {{ tweet.sentiment }}">
-        {{ tweet.tweet }}
-    </div> 
-    </li>
+	<li ng-repeat="tweet in sentence.tweets">
+	<div class=tweet ng-mouseenter="hoverIn()" ng-mouseleave="hoverOut()" ng-class="{ 'happy' : tweet.sentiment > 3, 'mad' : tweet.sentiment < 2, 'hovering' : hovering, 'no-hover' : (!hovering && globalHover)}">
+		{{ tweet.tweet }}
+	</div> 
+	</li>
 </ul>
 </main>
 {% endraw %}

@@ -14,6 +14,10 @@ Controversy &middot; hotspots of news articles</title>
 
 <link rel=stylesheet href="//fonts.googleapis.com/css?family=Open+Sans:400,700" />
 <link rel=stylesheet href="{{ css }}" />
+<!-- styles for UA "{{ brw }}" -->
+{% if added_styles is not none %}
+<link rel=stylesheet href="{{ added_styles }}" />
+{% endif %}
 {% block content %}{% endblock %}
 
 <footer>

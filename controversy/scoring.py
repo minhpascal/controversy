@@ -129,6 +129,11 @@ def score_entropy(li):
     return scipy.stats.entropy(ret, base=2)
 
 
+def score_caps(clean_tw):
+    """Score caps rule for cleaned tweet (see ``content.py``)
+    """
+    pass 
+
 
 def controversy(articles, tweets):
     bm25 = BM25(tweets, delimiter=' ')
@@ -197,7 +202,6 @@ def controversy(articles, tweets):
     ranked_articles = filter(lambda x: 'score' in x, ranked_articles)
 
     # sort in order of decreasing entropy (most controversial --> least)
-    print(ranked_articles[0].keys())
     return sorted(ranked_articles,
                   key=lambda x: x['score'],
                   reverse=True)

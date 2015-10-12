@@ -1,9 +1,9 @@
 var cApp = angular.module('Home', ['ngRoute', 'ngSanitize']);
 var ERROR_MESSAGES = {
-	'no-articles' : 'Despite our best efforts, we simply could not find any recently published English articles with that keyword. May we interest you in another try?',
-	'our-fault' : 'Well, this is akward; we messed up. Check current bugs. We were automatically sent an SMS about this error, but please report it if it\'s an unknown problem.',
+	'no-articles' : 'Despite our best efforts, we could not find any recently published English articles with that keyword. May we interest you in another try?',
+	'our-fault' : 'Well, this is awkward; we messed up. Check current bugs. We were automatically sent an SMS about this error, but please report it if it\'s an unknown problem.',
 	'not-logged-in' : 'You logged out in another window or a server update was just pushed! Please refresh the page, and log in again.',
-	'failed-to-parse' : 'There was a malformed article result that broke this response. Please try a differt keyword and file a bug from ``account`` (link is on the search page).'
+	'failed-to-parse' : 'There was a malformed article result that broke this response. Please try a different keyword, and file a bug.'
 };
 
 cApp.run(function($rootScope) {
@@ -79,6 +79,8 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
 			return;
 		}
 		$scope.trending = res['result']['top-5'];
+		$scope.traffic_dist = res['result']['trending'];
+		$scope.controversial = res['result']['controversial'];
 	})
 	.error(function(res) {
 		broken();

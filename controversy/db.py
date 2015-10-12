@@ -194,3 +194,16 @@ def keyword_trend(keyword):
         WHERE
         Term = %s''', keyword)
     return cur.fetchall()
+
+
+def most_controversial():
+    """get the most controversial terms
+    stored in db
+    """
+    cur, _ = get_dict_cursor()
+    cur.execute('''
+        SELECT Term, EntropyScore
+        FROM Queries
+        ORDER BY EntropyScore DESC
+        LIMIT 5''')
+    return cur.fetchall()

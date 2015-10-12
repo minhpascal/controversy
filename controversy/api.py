@@ -88,6 +88,7 @@ def trending():
         freq[k] = (float(v) / s) * 100
     return success({
         "trending" : freq,
+        "controversial": db.most_controversial(),
         "top-5" : sorted(freq, key=freq.get, reverse=True)[:5]
     })
 

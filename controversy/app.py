@@ -33,7 +33,6 @@ app.config['testing'] = DEBUG
 app.config['version'] = 'v0.3'
 
 
-# from Yishen Chen: github.com/dsrcl
 def digest(static):
     with open('static/%s' % static) as f:
         return "%s?v=%s" % (url_for('static', filename=static), md5(f.read()).hexdigest())
@@ -76,8 +75,21 @@ def login(username):
         session['username'] = form.username
         session['user'] = db.dump_user(form.username)
         return redirect('/')
-    return render_template('login.html', title='Login', form=form, css=digest("login.css"), username=username or '')
+    return render_template('login.html',
+                           title='Login',
+                           brw=session.get('brw'),
+                           form=form,
+                           css=digest('login.css'),
+                           username=username or '')
 
+
+@app.route("/set_brw")
+def set_brw():
+    if not 'brw' in request.args:
+        return 'no'
+
+    session['brw'] = request.args['brw']
+    return 'yes'
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -85,7 +97,11 @@ def register():
     if form.validate_on_submit():
         flash("thanks, %s; please confirm your password" % first_name(form.name.data))
         return redirect('login/%s' % form.username)
-    return render_template('register.html', title='Register', form=form, css=digest('login.css'), logged_in = loggedin())
+    return render_template('register.html',
+                           title='Register',
+                           form=form,
+                           css=digest('login.css'),
+                           logged_in = loggedin())
 
 
 @app.route("/logout")
@@ -136,8 +152,12 @@ def serve_ang(path):
 @app.route("/")
 @require_login
 def index():
+    brw = session.get('brw')
+    added = digest('chrome.css') if brw == 'chrome' else 'default'
     return render_template('app.html',
             user=session['user'],
+            brw=brw,
+            added_styles=added,
             css=digest('app.css'),
             js=digest('home.js'),
             angular='Home')

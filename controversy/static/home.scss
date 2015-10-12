@@ -77,6 +77,12 @@ main {
 
 	}
 
+	.featured_keywords {
+		small {
+			color: #aaa;
+			font-family: monospace; }
+	}
+
 	ul.details {
 		@include column-break-inside(avoid);
 		list-style: none;

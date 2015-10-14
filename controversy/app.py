@@ -38,6 +38,12 @@ def digest(static):
         return "%s?v=%s" % (url_for('static', filename=static), md5(f.read()).hexdigest())
 
 
+def get_added_styles():
+    webkit = digest('webkit.css') if session.get('webkit') == 'webkit' else None
+    safari = digest('safari.css') if session.get('safari') == 'safari' else None
+    return (webkit, safari)
+
+
 @app.errorhandler(500)
 def handle_500(error):
     app.logger.exception(error)
@@ -77,19 +83,30 @@ def login(username):
         return redirect('/')
     return render_template('login.html',
                            title='Login',
-                           brw=session.get('brw'),
+                           safari=session.get('safari'),
+                           webkit=session.get('webkit'),
                            form=form,
                            css=digest('login.css'),
                            username=username or '')
 
 
-@app.route("/set_brw")
-def set_brw():
-    if not 'brw' in request.args:
+@app.route("/set_webkit")
+def set_webkit():
+    if request.args.get('webkit') not in {'default', 'webkit'}:
         return 'no'
 
-    session['brw'] = request.args['brw']
+    session['webkit'] = request.args['webkit']
     return 'yes'
+
+
+@app.route("/set_safari")
+def set_safari():
+    if request.args.get('safari') not in {'default', 'safari'}:
+        return 'no'
+
+    session['safari'] = request.args['safari']
+    return 'yes'
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -122,7 +139,7 @@ def account():
         db.drop_account(session['username'])
         flash("Account destroyed with vengeance!")
         return logout()
-
+    webkit, safari = get_added_styles()
     return render_template('account.html',
                            user=session['user'],
                            angular='Account',
@@ -140,7 +157,7 @@ def clear_queries():
     return redirect('account')
 
     
-@app.route("/html/<path>")
+@app.route("/partial/<path>")
 @require_login
 def serve_ang(path):
     try:
@@ -152,12 +169,14 @@ def serve_ang(path):
 @app.route("/")
 @require_login
 def index():
-    brw = session.get('brw')
-    added = digest('chrome.css') if brw == 'chrome' else 'default'
+    """all pages for the app are loaded through here.
+    Angular handles partials, which are rendered 
+    """
+    webkit, safari = get_added_styles()
     return render_template('app.html',
             user=session['user'],
-            brw=brw,
-            added_styles=added,
+            safari=safari,
+            webkit=webkit,
             css=digest('app.css'),
             js=digest('home.js'),
             angular='Home')

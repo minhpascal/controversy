@@ -77,12 +77,6 @@ main {
 
 	}
 
-	.featured_keywords {
-		small {
-			color: #aaa;
-			font-family: monospace; }
-	}
-
 	ul.details {
 		@include column-break-inside(avoid);
 		list-style: none;
@@ -101,9 +95,10 @@ main {
 	article {
 		text-align: justify;
 		a { 
+			color: #000;
 			background-color: #eee;
-			font-weight: 700; // controversy sentences
-			&:hover, &:active { color: #800; }
+			font-weight: 700; // controversial sentences
+			&:hover, &:active { color: #61748C; }
 		}
 	}
 

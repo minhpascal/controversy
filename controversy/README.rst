@@ -1,7 +1,7 @@
 .. |---| unicode:: U+2014 .. em dash
 
-Internal API spec
-~~~~~~~~~~~~~~~~~
+API spec
+~~~~~~~~
 
 You must be logged in to query any of these endpoints.
 
@@ -60,9 +60,6 @@ article rank
 Right now: where ``["result"][i]["score"]`` is the entropy score.
 
 Intention: where ``["result"][i]["score"]`` is the entropy score, ``["result"][i]["ratio_score"]`` is the ratio score, and ``["result"][i]["visual_score"]`` is a combination of the two. Right now, only the entropy score is used for presentation purposes.
-
-
-.. image:: http://i.dailymail.co.uk/i/pix/2009/08/24/article-1208479-0627718E000005DC-357_634x378.jpg
 
 
 user search-history
@@ -126,6 +123,6 @@ Where ``['result']['trending']`` is a key-value pair list where the key is the q
 		...
 	}
 
-``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's `an example`_.
+``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's `a fabricated example`_.
 
-.. _an example: ../documents/fake-trend.png
+.. _a fabricated example: ../documents/fake-trend.png

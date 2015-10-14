@@ -12,3 +12,4 @@ flask-wtf
 nltk
 gensim
 scipy
+matplotlib

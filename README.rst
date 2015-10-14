@@ -1,23 +1,22 @@
 .. |---| unicode:: U+2014 .. em dash
 .. |->| unicode:: U+2192 .. to
 .. |...| unicode:: U+2026 .. ldots
-.. |cs| image:: http://ocha.2pitau.org/img/biography/cs.small.jpg
+.. |ui| image:: http://ocha.2pitau.org/img/biography/ui.jpg
 
 Controversy
 ~~~~~~~~~~~~
 
 Joint mining of news text and social media to discover controversial points in news.
 
-+---------------------------------------+-------------------------------+-----------------------------------------------------------------------------+
-| Live demo                             | Publications                  | Authors                                                                     |
-+=======================================+===============================+=============================================================================+
-| `controversy.2pitau.org`_             | `IEEE Big Data 2015`_         | |cs| Ismini Lourentzou, Graham Dyer, Abhishek Sharma, ChengXiang Zhai       |
-+---------------------------------------+-------------------------------+-----------------------------------------------------------------------------+
-| `controversy.web.engr.illinois.edu`_  | `UIUC PURE Conference 2015`_  | |cs| Graham Dyer (mentee), Ismini Lourentzou (mentor)                       |
-+---------------------------------------+-------------------------------+-----------------------------------------------------------------------------+
-|                                       | (full paper in progress)      | ?                                                                           |
-+---------------------------------------+-------------------------------+-----------------------------------------------------------------------------+
-
++---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
+| Live demo                             | Publications                  | Authors                                                                               |
++=======================================+===============================+=======================================================================================+
+| `controversy.2pitau.org`_             | `IEEE Big Data 2015`_         | Ismini Lourentzou |ui|, Graham Dyer |ui|, Abhishek Sharma |ui|, ChengXiang Zhai |ui|  |
++---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
+| `controversy.web.engr.illinois.edu`_  | `UIUC PURE Conference 2015`_  | Graham Dyer |ui| (mentee), Ismini Lourentzou |ui| (mentor)                            |
++---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
+|  `controversy.2pitau.org`_            | (full paper in progress)      | ?                                                                                     |
++---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
 
 Pending
 --------
@@ -28,8 +27,6 @@ Demo todo
 =========
 
 * all-caps scoring variable
-* slight problems with Firefox on results page
-* Safari problem on Tweets page
 * show user their graphs 
 * most controversial keywords on search page (not just trending)
 * average same-day points in matplotlib
@@ -45,16 +42,28 @@ If you'd like to reproduce our results, we encourage you to use the demo or look
 
 Please use Python 2.7.x
 
-#. ``$ cd controversy``
-#. ``$ mv sample-config.py config.py``, and change credentials
-#. create MySQL DB called "controversy" with ``source schema.sql``
+If you're on a fresh machine or don't use git, Python, or MySQL much, read the two paragraphs below before proceeding.
+
+#. ``$ git clone https://github.com/gdyer/controversy``
+#. ``$ cd controversy/controversy``
+#. ``$ mv config.py.default config.py``, and change credentials where marked as ``REQUIRED``. You'll need to register for NYTimes' `Article Search API`_ and `Twitter's API`_.
+#. create a MySQL database called "controversy" with ``source schema.sql``
+#. install redis, run ``redis-server``. Leave with ``<Ctrl>+C`` only if on Debian/Ubuntu. Otherwise, keep ``redis-server`` open, and continue in a new shell.
 #. satisfy SciPy `dependencies`_
-#. ``$ pip install -r requirements.txt``
-#. install redis and run ``redis-server`` and close
+#. ``$ pip install virtualenv``
+#. ``$ virtualenv venv``
+#. ``$ . venv/bin/activate``
+#. ``$ pip install -r requirements.txt`` will install requirements into the virtual environment to limit bloat on your actual machine
 #. ``$ python``
         - ``>>> import nltk``
-        - ``>>> nltk.download('all')``
+        - ``>>> nltk.download('stopwords', 'punkt')``
+	- ``<Ctrl>+C``
 #. ``$ python app.py``
+#. navigate to ``localhost:4040`` in your browser. See `API spec`_ for routes.
+
+This should would out of the box on Debian-based machines. There, MySQL is ``mysql-server``, redis is ``redis-server`` and the SciPy packages are ``python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose``.
+
+Apple changed permissions in El Capitan. We recommend using the ``brew`` package manager to try to get around these. Install with ``$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"``. Ensure you have XCode CLI tools installed (install XCode for the Mac App Store and ``$ xcode-select --install``). ``brew`` packages of interest include ``redis``, ``mysql`` (then do ``$ mysql.server start``). You should also have ``pip`` to install the Python-specific dependencies: ``sudo easy_install pip``. El Capitan users may need to reinstall Python to get around strange "permission denied" errors: ``brew reinstall python``.
 
 
 ------
@@ -69,3 +78,5 @@ Please use Python 2.7.x
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu
 .. _API spec: controversy/README.rst
 .. _dependencies: http://www.scipy.org/install.html
+.. _Article Search API: http://developer.nytimes.com/docs/read/article_search_api_v2
+.. _Twitter's API: https://apps.twitter.com/

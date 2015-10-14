@@ -25,27 +25,27 @@ cApp.run(function($rootScope) {
 cApp.config(function ($routeProvider) {
 	$routeProvider
 	.when('/', {
-		templateUrl : 'html/search.html',
+		templateUrl : 'partial/search.html',
 		controller : 'SearchController'
 	})
 	.when('/results', {
-		templateUrl : 'html/results.html',
+		templateUrl : 'partial/results.html',
 		controller : 'ResultsController'
 	})
 	.when('/results/:article/:sentence', {
-		templateUrl : 'html/tweets.html',
+		templateUrl : 'partial/tweets.html',
 		controller : 'TweetsController'
 	})
 	.when('/results/:article', {
-		templateUrl : 'html/read.html',
+		templateUrl : 'partial/read.html',
 		controller : 'ReadController'
 	})
 	.when('/error', {
-		templateUrl : 'html/error.html',
+		templateUrl : 'partial/error.html',
 		controller : 'ErrorController'
 	})
 	.when('/trends/:keyword', {
-		templateUrl : 'html/trend.html',
+		templateUrl : 'partial/trend.html',
 		controller : 'TrendController'
 	})
 	.otherwise({

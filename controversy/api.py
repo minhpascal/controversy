@@ -106,7 +106,7 @@ def keyword_trend_png(k):
     """
     db_resp = db.keyword_trend(k)
     if len(db_resp) < 2:
-        #: not enough data for a plot
+        # not enough data for a plot
         abort(404)
     x = map(lambda x: datetime.datetime.strptime(x['Performed'], '%Y-%m-%d'), db_resp)
     y = map(lambda x: x['EntropyScore'], db_resp)

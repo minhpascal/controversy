@@ -129,10 +129,12 @@ def score_entropy(li):
     return scipy.stats.entropy(ret, base=2)
 
 
-def score_caps(clean_tw):
+def count_caps(clean_tw):
     """Score caps rule for cleaned tweet (see ``content.py``)
     """
-    pass 
+    words = clean_tw.split(' ')
+    return reduce(lambda x, y: int(x.isupper()) + int(y.isupper()), words)
+        
 
 
 def controversy(articles, tweets):

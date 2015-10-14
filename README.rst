@@ -23,16 +23,22 @@ Pending
 
 We're currently preparing this server for a demo during **IEEE Big Data 2015 on October 29th**.
 
+Scoring todo
+============
+
+Switch to conditional probability for linguistic features:
+  
+Recall :math:`p(X_sent = X_i) = \frac{P(x_i) \in C_i^'}{\sum_{i=1}^{z} f(x_i) \in C_i^'}` is equivalent to the number of comments (tweets) with sentiment :math:`x_i` divided by the total number of comments. Therefore, :math:`p(X_caps = x_i) = p(X_sent = x_i | C_i^' \in Caps) = \frac{p(X_sent = x_i \cap C_i^' \in Caps}{p(C_i^' \in Caps)` where :math:`Caps`` is the set of comments that have capitalized terms. This works similarly for the extreme lexicon.
+
+
 Demo todo
 =========
 
 * all-caps scoring variable
 * show user their graphs 
-* most controversial keywords on search page (not just trending)
 * average same-day points in matplotlib
-* normalize the graph between 0 and 1 (not comparable yet)
-* more than NYTimes, Reuters, and AP. CNN is next
 * tokenizer needs to remove acronyms
+* (more than NYTimes, Reuters, and AP. CNN is next)
 
 
 Running for development
@@ -57,7 +63,7 @@ If you're on a fresh machine or don't use git, Python, or MySQL much, read the t
 #. ``$ python``
         - ``>>> import nltk``
         - ``>>> nltk.download('stopwords', 'punkt')``
-	- ``<Ctrl>+C``
+	- ``<Ctrl>+D``
 #. ``$ python app.py``
 #. navigate to ``localhost:4040`` in your browser. See `API spec`_ for routes.
 

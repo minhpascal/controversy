@@ -92,7 +92,8 @@ def user_history(username):
 
 
 def clear_queries(username):
-    """clear a user's history
+    """clear a user's history.
+    Notice this doesn't clear Queries, since that's anonymous.
     """
     cur, _ = get_cursor()
     cur.execute('''

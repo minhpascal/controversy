@@ -47,7 +47,7 @@
 	{% endfor %}
 	<p>
 	<i>&hellip; and that's all we know</i><br>
-	however, we forget things, especially when you <a href="account/clear-queries">clear your history</a>
+	however, we forget things, especially when you <a href="account/forget">clear your history</a>
 	</p>
 	{% else %}
 	&hellip; nothing yet. May we interest you in <a href="../">a try</a>?
@@ -55,7 +55,7 @@
 </ul>
 
 
-<h3>Drop account</h3>
+<h3>This account</h3>
 <p>This account is owned by <b>{{ user['Name'] }}</b> who goes by <b>{{ user['Id'] }}</b> and is ostensibly associated with <b>{{ user['School'] }}</b>.</p>
 <p>You're welcome to close your account. We'll delete anything associated with you. This doesn't include contributions to trending queries, since those are anonymous.</p>
 <span>
@@ -70,7 +70,7 @@
 </p>
 
 <h3>Usage notes</h3>
-<p>We encrypt passwords with a one-way hash and cannot even see your password ourselves. As of fall 2015, we force SSL as you browse the site. This means your connection, namely the data we exchange, is private by default. We'd like the thank StartSSL for providing this service for free. This server is hosted by Linode, whom has also been a joy to work with.</p>
+<p>We encrypt passwords with a one-way hash and cannot even see your password ourselves. As of fall 2015, we force SSL as you browse the site. This means your connection, namely the data we exchange, is private by default. We'd like to thank StartSSL for providing this service for free.</p>
 <p>We'd like to thank the NSF and NIH for supporting this work.</p>
 
 <h3 name=bugs id=bugs>About / Bugs</h3>

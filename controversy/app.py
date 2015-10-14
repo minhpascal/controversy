@@ -81,10 +81,11 @@ def login(username):
         session['username'] = form.username
         session['user'] = db.dump_user(form.username)
         return redirect('/')
+    # below, ``set_safari`` and ``set_webkit`` will be null if not set
     return render_template('login.html',
                            title='Login',
-                           safari=session.get('safari'),
-                           webkit=session.get('webkit'),
+                           set_safari=session.get('safari'),
+                           set_webkit=session.get('webkit'),
                            form=form,
                            css=digest('login.css'),
                            username=username or '')
@@ -139,7 +140,6 @@ def account():
         db.drop_account(session['username'])
         flash("Account destroyed with vengeance!")
         return logout()
-    webkit, safari = get_added_styles()
     return render_template('account.html',
                            user=session['user'],
                            angular='Account',
@@ -149,8 +149,7 @@ def account():
                            form=form,
                            version=app.config['version'])
 
-
-@app.route("/account/clear-queries")
+@app.route("/account/forget")
 @require_login
 def clear_queries():
     db.clear_queries(session['username'])
@@ -170,7 +169,7 @@ def serve_ang(path):
 @require_login
 def index():
     """all pages for the app are loaded through here.
-    Angular handles partials, which are rendered 
+    Angular handles partials, which are rendered through ``/partial``
     """
     webkit, safari = get_added_styles()
     return render_template('app.html',

@@ -1,7 +1,7 @@
 .. |---| unicode:: U+2014 .. em dash
 .. |->| unicode:: U+2192 .. to
 .. |...| unicode:: U+2026 .. ldots
-.. |ui| image:: http://ocha.2pitau.org/img/biography/ui.jpg
+.. |ui| image:: http://ocha.2pitau.org/img/biography/affiliation.jpg
 
 Controversy
 ~~~~~~~~~~~~
@@ -15,7 +15,7 @@ Joint mining of news text and social media to discover controversial points in n
 +---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
 | `controversy.web.engr.illinois.edu`_  | `UIUC PURE Conference 2015`_  | Graham Dyer |ui| (mentee), Ismini Lourentzou |ui| (mentor)                            |
 +---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
-|  `controversy.2pitau.org`_            | (full paper in progress)      | ?                                                                                     |
+| ?                                     | (full paper in progress)      | ?                                                                                     |
 +---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
 
 Pending
@@ -26,19 +26,19 @@ We're currently preparing this server for a demo during **IEEE Big Data 2015 on 
 Scoring todo
 ============
 
-Switch to conditional probability for linguistic features:
+1. Switch to conditional probability for linguistic features:
   
-Recall :math:`p(X_sent = X_i) = \frac{P(x_i) \in C_i^'}{\sum_{i=1}^{z} f(x_i) \in C_i^'}` is equivalent to the number of comments (tweets) with sentiment :math:`x_i` divided by the total number of comments. Therefore, :math:`p(X_caps = x_i) = p(X_sent = x_i | C_i^' \in Caps) = \frac{p(X_sent = x_i \cap C_i^' \in Caps}{p(C_i^' \in Caps)` where :math:`Caps`` is the set of comments that have capitalized terms. This works similarly for the extreme lexicon.
+Recall :math:`p(X_sent = x_i) = \frac{P(x_i) \in C_i^'}{\sum_{i=1}^{z} f(x_i) \in C_i^'}` is equivalent to the number of comments (tweets) with sentiment :math:`x_i` divided by the total number of comments. Therefore, :math:`p(X_caps = x_i) = p(X_sent = x_i | C_i^' \in Caps) = \frac{p(X_sent = x_i \cap C_i^' \in Caps}{p(C_i^' \in Caps)` where :math:`Caps`` is the set of comments that have capitalized terms. This works similarly for the extreme lexicon.
 
+
+2. Switch back to SentiStrength or limit TextBlob
 
 Demo todo
 =========
 
-* all-caps scoring variable
 * show user their graphs 
 * average same-day points in matplotlib
 * tokenizer needs to remove acronyms
-* (more than NYTimes, Reuters, and AP. CNN is next)
 
 
 Running for development

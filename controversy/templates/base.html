@@ -26,7 +26,7 @@ Controversy &middot; hotspots of news articles</title>
 
 <footer>
     <p>
-        Joint Mining of News Text and Social Media to Discover Controversial Points in News
+    	Hotspots of News Articles: Joint Mining of News Text &amp; Social Media to Discover Controversial Points in News
         <br>
         Ismini Lourentzou, Graham Dyer, Abhishek Sharma, ChengXiang Zhai &mdash; <tt>{lourent2, gdyer2, sharma51, czhai}@illinois.edu</tt> &mdash; University of Illinois, Urbana-Champaign
     </p>
@@ -39,24 +39,5 @@ Controversy &middot; hotspots of news articles</title>
 {% endif %}
 {% if js is defined %}
 <script src="{{ js }}"></script>
-{% endif %}
-{% if not webkit or not safari %}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script>
-if (!window.jQuery) {
-	document.getElementById('no_connection').style.display = 'block';
-	document.getElementsByTagName('form')[0].style.display = 'none';
-} else {
-	var isWebKit = 'WebkitAppearance' in document.documentElement.style;
-	var isSafari = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
-	$.ajax({url: '/set_webkit?webkit=' + ((isWebKit) ? 'webkit' : 'default')});
-	$.ajax({url: '/set_safari?safari=' + ((isSafari ) ? 'safari' : 'default' )});
-	{% if should_reload is defined %}
-	$(document).ajaxStop(function() {
-		location.reload();
-	});
-	{% endif %}
-}
-</script>
 {% endif %}
 </html>

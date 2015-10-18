@@ -38,6 +38,7 @@ Demo todo
 
 * "close accout -->" button not working
 * controversial list needs to not show duplication terms
+* appears to be a problem loading matplotlib graph for trends
 * show user their graphs 
 * average same-day points in matplotlib
 * tokenizer needs to remove acronyms

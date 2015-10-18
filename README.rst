@@ -36,6 +36,8 @@ Recall :math:`p(X_sent = x_i) = \frac{P(x_i) \in C_i^'}{\sum_{i=1}^{z} f(x_i) \i
 Demo todo
 =========
 
+* "close accout -->" button not working
+* controversial list needs to not show duplication terms
 * show user their graphs 
 * average same-day points in matplotlib
 * tokenizer needs to remove acronyms

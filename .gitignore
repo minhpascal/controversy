@@ -4,3 +4,4 @@ venv
 *.sass-cache
 *.css
 *.css.map
+controversy/sentistrength

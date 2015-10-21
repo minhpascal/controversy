@@ -192,7 +192,7 @@ def first_name(s):
 
 
 def clean_rd(rd):
-    """relativedelta --> nice string
+    """relative delta --> nice string
     """
     attrs = ['years', 'months', 'days', 'hours', 'minutes', 'seconds']
     res = []

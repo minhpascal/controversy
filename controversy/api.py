@@ -72,6 +72,24 @@ def history():
     })
 
 
+def get_largest_for_key(source, n):
+    """get top ``n`` items from list of dicts ``source``
+    where duplicate keys exist but ``source`` is sorted (desc)
+    """
+    processed_keys = set()
+    processed = []
+    ap = processed.append
+    for i in source:
+        if len(processed) > n:
+            break
+        t = i['Term']
+        if t not in processed_keys:
+            processed_keys.add(t)
+            ap(i)
+
+    return processed
+
+
 @api.route('/trend')
 def trending():
     """Trending keywords in demo
@@ -83,12 +101,14 @@ def trending():
                 "top-5": None
             })
     freq = Counter(hist)
-    s = reduce(lambda x,y : x + y, freq.values())
+    s = sum(freq.values())
     for k, v in freq.iteritems():
         freq[k] = (float(v) / s) * 100
+
+
     return success({
         "trending" : freq,
-        "controversial": db.most_controversial(),
+        "controversial": get_largest_for_key(db.most_controversial(), 5),
         "top-5" : sorted(freq, key=freq.get, reverse=True)[:5]
     })
 
@@ -108,8 +128,10 @@ def keyword_trend_png(k):
     if len(db_resp) < 2:
         # not enough data for a plot
         abort(404)
-    x = map(lambda x: datetime.datetime.strptime(x['Performed'], '%Y-%m-%d'), db_resp)
+    x = map(lambda x: x['Performed'], db_resp)
     y = map(lambda x: x['EntropyScore'], db_resp)
+    if 'nonorm' not in request.args:
+        y = stats.normalize(y)
     stats.keyword_trend(k, x, y)
     response = make_response(stats.keyword_trend(k, x, y).getvalue())
     response.mimetype = 'image/png'

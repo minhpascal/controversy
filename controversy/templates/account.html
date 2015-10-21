@@ -1,15 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-{% if form.errors %}
-<div id=bug>
-	{% for field in form.errors %}
-	{% for error in form.errors[field] %}
-	<b>{{ error|lower }}</b>
-	{% endfor %}
-	{% endfor %}
-</div>
-{% endif %}
-
 <header>
 	<div>
 		<h1>Controversy</h1>
@@ -59,13 +49,25 @@
 <p>This account is owned by <b>{{ user['Name'] }}</b> who goes by <b>{{ user['Id'] }}</b> and is ostensibly associated with <b>{{ user['School'] }}</b>.</p>
 <p>You're welcome to close your account. We'll delete anything associated with you. This doesn't include contributions to trending queries, since those are anonymous.</p>
 <span>
-	<form method=POST>
-		{{ form.hidden_tag() }}
+	<form method=POST action="{{ url_for('account') }}">
+		{{ form.csrf_token() }}
 		{{ form.email.label }} {{ form.email(value=user.Id) }}
 		{{ form.password.label }} {{ form.password(placeholder="confirm your password") }}
 		<button type=submit>close account &rarr;</button>
 	</form>
 </span>
+{% if form.errors %}
+<p>
+	{% for field in form.errors %}
+	<b>{{ field }} &hellip;</b>
+	{% for error in form.errors[field] %}
+	{{ error|lower }}
+	{% endfor %}
+	{% endfor %}
+</p>
+{% endif %}
+
+
 
 </p>
 
@@ -84,7 +86,7 @@
 		<em ng-show="!issues && issues_loaded">no bugs found</em>
 		<li ng-show="issues && issues_loaded" ng-repeat="i in issues">
 		<dl>
-			<dt>{{ i.number }} <b>{{ i.title }}</b></dt>
+			<dt><sup>#</sup>{{ i.number }} <b>{{ i.title }}</b></dt>
 			<dd>{{ i.body || 'no details provided' }}<br>{{ i.assignee.login || 'no one'}} was assigned on {{ i.created_at | date:'medium'}}. <small><a target=_blank href="{{ i.html_url }}">View on GitHub</a></small>.</dd>
 		</dl>
 		</li>

@@ -76,6 +76,14 @@ main {
 		}
 
 	}
+	
+	p.featured_keywords {
+		small {
+			background-color: $search_focus;
+			color: $search_focus_text;
+			padding: 2px;
+		}		
+	}
 
 	ul.details {
 		@include column-break-inside(avoid);

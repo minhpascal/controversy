@@ -93,7 +93,8 @@ def user_history(username):
 
 def clear_queries(username):
     """clear a user's history.
-    Notice this doesn't clear Queries, since that's anonymous.
+    Notice this doesn't clear Queries (yes, confusing name)
+        since that's anonymous.
     """
     cur, _ = get_cursor()
     cur.execute('''
@@ -171,7 +172,6 @@ def append_history(keyword, user):
 
 def append_queries(keyword, escore):
     """adds new entry (perhaps a duplicate) to Queries table
-
     Not user-associated. See Histories for user-based history.
     """
     cur, _ = get_cursor()
@@ -198,13 +198,11 @@ def keyword_trend(keyword):
 
 
 def most_controversial():
-    """get the most controversial terms
-    stored in db
+    """get the terms (to be sorted)
     """
     cur, _ = get_dict_cursor()
     cur.execute('''
         SELECT Term, EntropyScore
         FROM Queries
-        ORDER BY EntropyScore DESC
-        LIMIT 5''')
+        ORDER BY EntropyScore DESC''')
     return cur.fetchall()

@@ -22,18 +22,18 @@ class Register(Form):
         self.username = None
 
     def validate(self):
-        #: have WTF do base validation
+        # have WTF do base validation
         rv = Form.validate(self)
         if not rv:
             return False
 
         username = self.email.data
         if ' ' not in self.name.data or any(map(lambda x: x.isdigit(), self.name.data)) or any(map(lambda x: len(x) < 2, self.name.data.split(' '))):
-            self.name.errors.append("full name, please")
+            self.name.errors.append('full name, please')
             return False
 
         if db.user_exists(username):
-            self.email.errors.append("that user already exists!")
+            self.email.errors.append('that user already exists!')
             return False
 
         db.create_user(username, self.name.data, self.password.data, self.school.data)

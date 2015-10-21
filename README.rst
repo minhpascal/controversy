@@ -15,8 +15,6 @@ Joint mining of news text and social media to discover controversial points in n
 +---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
 | `controversy.web.engr.illinois.edu`_  | `UIUC PURE Conference 2015`_  | Graham Dyer |ui| (mentee), Ismini Lourentzou |ui| (mentor)                            |
 +---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
-| ?                                     | (full paper in progress)      | ?                                                                                     |
-+---------------------------------------+-------------------------------+---------------------------------------------------------------------------------------+
 
 Pending
 --------
@@ -33,10 +31,7 @@ Recall :math:`p(X_sent = x_i) = \frac{P(x_i) \in C_i^'}{\sum_{i=1}^{z} f(x_i) \i
 Demo todo
 =========
 
-* appears to be a problem loading matplotlib graph for trends
 * show user their graphs 
-* average same-day points in matplotlib
-* tokenizer needs to remove acronyms
 
 
 Running for development

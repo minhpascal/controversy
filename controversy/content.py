@@ -14,15 +14,13 @@ from twython import Twython
 import re, json
 import time, datetime
 import urllib, urllib2, cookielib
-from sentiment import analyse, is_positive, is_negative
+from sentiment import sentistrength, is_positive, is_negative
 from functools import partial
 from operator import is_not
 
 
-MAX_ATTEMPTS = 7
+MAX_ATTEMPTS = 10
 MAX_COMMENTARY = 500
-
-
 
 
 class Tweet(object):
@@ -48,7 +46,7 @@ class Tweet(object):
         return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", self.tweet.strip('#')).split())
 
     def _sentiment(self):
-        return analyse(self.clean_tweet)
+        return sentistrength(self.clean_tweet)
 
 
 
@@ -76,7 +74,8 @@ class Article(object):
         return BeautifulSoup(self.abstract or self.lead, 'html.parser').getText()
 
     def _full_text(self):
-        """nyt url --> full article text."""
+        """nyt url --> full article text
+        """
         if 'Paid Notice:' in self.title or 'video/multimedia' in self.url:
             return None
         jar = cookielib.CookieJar()
@@ -95,7 +94,6 @@ class Article(object):
             'url' : self.url
         })
         response = urllib2.urlopen("http://api.nytimes.com/svc/community/v3/user-content/url.json?%s" % params)
-        #print(json.loads(response.read()))
 
 
 def nyt_query_date(s):
@@ -130,14 +128,15 @@ def twitter_search(keyword):
         if MAX_COMMENTARY < len(tweets):
             break
 
-        response = twitter.search(q=keyword, count=100, lang="en") if i == 0 else twitter.search(q=keyword, include_entities='true', max_id=next_max)
+        response = twitter.search(q=keyword, count=100, lang='en') if i == 0 else twitter.search(q=keyword, include_entities=True, max_id=next_max)
         tweets += map(lambda x: Tweet(x), response['statuses'])
         try:
-            next_res = results['search_metadata']['next_results']
+            next_res = response['search_metadata']['next_results']
             next_max = next_res.split('max_id=')[1].split('&')[0]
-        except:
-            # there are no more tweets
+        except KeyError:
             break
+
+    print('found ==> ' + str(len(tweets)) + ' tweets')
     return tweets
 
 

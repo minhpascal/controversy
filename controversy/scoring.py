@@ -7,17 +7,22 @@
 
     :authors: Ismini Lourentzou, Graham Dyer
 """
-import math, nltk, re, string, scipy, heapq
+import math
+import nltk
+import string
+import scipy
+import heapq
+import re
 from gensim import corpora
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from content import Tweet, Article
 from lexicon_extreme import is_extreme
-from functools import partial
-from operator import is_not
+from collections import namedtuple
 
 
 stemmer = PorterStemmer()
+X_s = namedtuple('X_s', 'feature sentiment')
 
 
 class BM25:
@@ -125,17 +130,31 @@ def preprocess(file_content):
 def score_entropy(li):
     """Get entropy of list ``li``.
     """
-    ret = map(lambda x: li.count(x) / float(len(li)), li)
+    ret = dict((x, (li.count(x) / float(len(li)))) for x in set(li)).values()
+    #ret = map(lambda x: li.count(x) / float(len(li)), li)
     return scipy.stats.entropy(ret, base=2)
 
 
-def count_caps(clean_tw):
-    """Score caps rule for cleaned tweet (see ``content.py``)
+def sentiments_of_i(i, C):
+    res = len(filter(lambda x: x.sentiment == i, C))
+    print('sentiments for i ' + str(i) + ' ===> ' + str(res))
+    """$p(X_{sent} = x_i) = number of tweets
+    with sentiment $x_i$ / total number of comments C.
+    Provides number of tweets in corpus C with sentiment i
     """
-    words = clean_tw.split(' ')
-    return reduce(lambda x, y: int(x.isupper()) + int(y.isupper()), words)
-        
+    return res
 
+
+def sentiment_conditional(l):
+    res = []
+    for i in xrange(-4, 4):
+        count_xi = sentiments_of_i(i, l)
+        if (count_xi == 0):
+            res.append(0)
+        else:
+            res.append(float(sentiments_of_i(i, filter(lambda x: x.feature == True, l))) / float(count_xi))
+    return res
+     
 
 def controversy(articles, tweets):
     bm25 = BM25(tweets, delimiter=' ')
@@ -157,26 +176,36 @@ def controversy(articles, tweets):
         # for every sentence in the article
         for sentence in query:
             scores = bm25.bm25_score(preprocess(sentence))
-            sentiments, extremes, relevant_tweets = [], [], []
+            sentiments, extremes, caps, relevant_tweets = [], [], [], []
 
             # for every tweet relevant to the sentence
             for tweet in scores:
                 # get the index of the relevant tweet
                 doc_index = tweet[1]
                 relevant_tweet = tweets[doc_index]
-                sentiments.append(relevant_tweet.sentiment)
+                sentiment = relevant_tweet.sentiment
+                sentiments.append(sentiment)
 
-                extreme_words_count = reduce(lambda x, y: is_extreme(x) + is_extreme(y), relevant_tweet.clean_tweet.split(' '))
-                extremes.append(extreme_words_count)
+                words = relevant_tweet.clean_tweet.split(' ')
+                extreme_words_count = sum(map(lambda x: int(is_extreme(x)), words))
+                extremes.append(X_s(extreme_words_count > 0, sentiment))
 
+                # p(X_caps = x_i) = p(X_sent = x_i | C'_i \in Caps)
+
+                caps_count = sum(map(lambda x: int(x.isupper()), words))
+                caps.append(X_s(caps_count > 0, sentiment))
+
+                # save tweet for json response
                 relevant_tweets.append(relevant_tweet.to_dict())
 
-            #sentiments = dict((x, (sentiments.count(x) / float(len(sentiments)))) for x in set(sentiments)).values()
+
             sentence_sentiment_score = score_entropy(sentiments)
             sentiment_score += sentence_sentiment_score
+            
+            extreme_score = score_entropy(sentiment_conditional(extremes))
+            caps_score = score_entropy(sentiment_conditional(caps))
 
-            # TODO: all-caps will be added shortly
-            sentence_linguistic_score = score_entropy(extremes)
+            sentence_linguistic_score = caps_score + extreme_score
             linguistic_score += sentence_linguistic_score
 
             sentences.append({
@@ -186,10 +215,9 @@ def controversy(articles, tweets):
                 'linguistic_score': linguistic_score,
                 'sentiment_score': sentiment_score
             })
-
-        # 6% of the sentence count
+        # 15% of the sentence count
         n = int(math.ceil(len(sentences) * 0.15))
-        # n largest (top 6%) scores (recall greater entropy ==> more controversial)
+        # n (15%) largest scores (recall greater entropy ==> more controversial)
         nlargest = heapq.nlargest(n, map(lambda x: x['score'], sentences))
         # only provide controversial sentences with "enough" related tweets
         filtered = filter(lambda x: any(x['score'] >= i for i in nlargest) and len(x['tweets']) > 5, sentences)
@@ -207,3 +235,4 @@ def controversy(articles, tweets):
     return sorted(ranked_articles,
                   key=lambda x: x['score'],
                   reverse=True)
+

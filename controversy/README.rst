@@ -18,14 +18,12 @@ article rank
 
 **GET** ``/api?q=hippo``
 
-.. include:: ../documents/hippo.js
+.. include:: documents/hippo.js
 	:code: javascript
 	:number-lines:
 
     
-Right now: where ``["result"][i]["score"]`` is the entropy score.
-
-Intention: where ``["result"][i]["score"]`` is the entropy score, ``["result"][i]["ratio_score"]`` is the ratio score, and ``["result"][i]["visual_score"]`` is a combination of the two. Right now, only the entropy score is used for presentation purposes.
+Where ``["result"][i]["score"]`` is the entropy score, the sum of the entropies of each sentence for each lingustic feature and sentiment.
 
 
 user search-history
@@ -33,7 +31,7 @@ user search-history
 
 **GET** ``/api/user-history``. It's only possible to query the currently-signed-in user's history, so no arguments.
 
-.. include:: ../documents/history.js
+.. include:: documents/history.js
 	:code: javascript
 	:number-lines:
 
@@ -43,7 +41,7 @@ trends
 
 **GET** ``/api/trend``
 
-.. include:: ../documents/trend.js
+.. include:: documents/trend.js
 	:code: javascript
 	:number-lines:
 
@@ -52,12 +50,12 @@ Where ``['result']['trending']`` is a key-value pair list where the key is the q
 
 ``/api/trend/<k>``. Where ``<k>`` is an element of ``/api/trend``'s ``trending`` list (a keyword that's been searched for before).
 
-.. include:: ../documents/trend.js
+.. include:: documents/trend.js
 	:code: javascript
 	:number-lines:
 	
 **GET** ``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's a *fabricated* example:
 
-.. img:: ../documents/fake-trend.png
+.. img:: documents/fake-trend.png
 
 If you don't want a normalized plot, do ``<k>.png?nonorm``

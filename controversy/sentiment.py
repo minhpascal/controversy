@@ -11,26 +11,27 @@ import shlex
 import subprocess
 
 
-def analyse(tweet):
-    """score with TextBlob -- currently the default
+def textblob(tweet):
+    """score with TextBlob.
     """
     blob = TextBlob(tweet)
-    # [0, 4]
     return (blob.sentiment.polarity + 1) * 2
 
 
 def is_negative(val):
-    return val < 1.75
+    #return val < 1.75
+    return val < 0
 
 
 def is_positive(val):
-    return val > 2.25
+    #return val > 2.25
+    return val > 0
 
 
 def sentistrength(s):
-    """score with sentistength
+    """Score with SentiStength
     """
-    p = subprocess.Popen(shlex.split('java -jar sentistrength/SentiStrengthCom.jar stdin sentidata sentistrength/data-11/'), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout_text, stderr_text = p.communicate(s.replace(' ','+'))
-    stdout_text = stdout_text.rstrip().replace('\t','')
-    return stdout_text
+    p = subprocess.Popen(shlex.split('java -jar sentistrength/SentiStrengthCom.jar stdin sentidata sentistrength/data-11/ scale'), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    s = s.encode('utf8')
+    stdout_text, stderr_text = p.communicate(s.replace(' ', '+'))
+    return int(stdout_text.rstrip().split('\t')[-1])

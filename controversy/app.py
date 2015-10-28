@@ -149,6 +149,7 @@ def account():
                            form=form,
                            version=app.config['version'])
 
+
 @app.route("/account/forget")
 @require_login
 def clear_queries():

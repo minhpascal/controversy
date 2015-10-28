@@ -56,6 +56,6 @@ Where ``['result']['trending']`` is a key-value pair list where the key is the q
 	
 **GET** ``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's a *fabricated* example:
 
-.. img:: documents/fake-trend.png
+.. image:: documents/fake-trend.png
 
 If you don't want a normalized plot, do ``<k>.png?nonorm``

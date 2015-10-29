@@ -3,7 +3,15 @@
 API specification
 ~~~~~~~~~~~~~~~~~
 
-You must be logged in to query any of these endpoints.
+**Note**: GitHub does not allow ``include`` directives in the reStructuredText compiler. Please `see here for full documentation`_.
+
+`Repository`_
+
+You must be logged in to query any of these endpoints. `controversy.2pitau.org`_.
+
+.. _see here for full documentation: http://ocha.2pitau.org/controversy-docs.html
+.. _Repository: https://github.com/gdyer/controversy
+.. _controversy.2pitau.org: https://controversy.2pitau.org
 
 errors
 ------

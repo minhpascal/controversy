@@ -34,4 +34,7 @@ def sentistrength(s):
     p = subprocess.Popen(shlex.split('java -jar sentistrength/SentiStrengthCom.jar stdin sentidata sentistrength/data-11/ scale'), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     s = s.encode('utf8')
     stdout_text, stderr_text = p.communicate(s.replace(' ', '+'))
-    return int(stdout_text.rstrip().split('\t')[-1])
+    try:
+        return int(float(stdout_text.rstrip().split('\t')[-1]))
+    except ValueError:
+        return 0

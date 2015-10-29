@@ -137,7 +137,6 @@ def score_entropy(li):
 
 def sentiments_of_i(i, C):
     res = len(filter(lambda x: x.sentiment == i, C))
-    print('sentiments for i ' + str(i) + ' ===> ' + str(res))
     """$p(X_{sent} = x_i) = number of tweets
     with sentiment $x_i$ / total number of comments C.
     Provides number of tweets in corpus C with sentiment i
@@ -235,4 +234,3 @@ def controversy(articles, tweets):
     return sorted(ranked_articles,
                   key=lambda x: x['score'],
                   reverse=True)
-

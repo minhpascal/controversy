@@ -21,16 +21,13 @@ Pending
 
 We're currently preparing this server for a demo during **IEEE Big Data 2015 on October 29th**.
 
-Scoring todo
-============
-
-Switch to conditional probability for linguistic features:
-  
 
 Demo todo
 =========
 
 * show user their graphs 
+* better design for "trend available for ..."
+* handle case where only one article is returned (there should be no border on the results partial)
 
 
 Running for development

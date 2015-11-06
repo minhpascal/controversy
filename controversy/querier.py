@@ -23,7 +23,7 @@ def new_query(keyword):
 
     ranked_dump = json.dumps(ranked)
     sr.set(keyword, ranked_dump)
-    # expire cache in 60 * 60 * 24 = 86400 seconds
+    # expire cache in 60 * 60 * 24 = 86400 seconds (24 hours)
     sr.expire(keyword, 86400)
     keyword_score = sum(a['score'] for a in scored)
     db.append_queries(keyword, keyword_score)

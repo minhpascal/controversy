@@ -83,7 +83,7 @@
 		Known problems &hellip;
 		{% raw %}
 		<img ng-src="/static/img/small-loading.gif" ng-show="!issues_loaded" />
-		<em ng-show="!issues && issues_loaded">no bugs found</em>
+		<b style="color:#4cae4c" ng-show="issues.length==0 && issues_loaded">none &#10003;</b>
 		<li ng-show="issues && issues_loaded" ng-repeat="i in issues">
 		<dl>
 			<dt><sup>#</sup>{{ i.number }} <b>{{ i.title }}</b></dt>

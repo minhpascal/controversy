@@ -210,12 +210,12 @@ def controversy(articles, tweets):
             sentences.append({
                 'tweets': relevant_tweets,
                 'text': sentence,
-                'score': linguistic_score + sentiment_score,
-                'linguistic_score': linguistic_score,
-                'sentiment_score': sentiment_score
+                'score': sentence_linguistic_score + sentence_sentiment_score,
+                'linguistic_score': sentence_linguistic_score,
+                'sentiment_score': sentence_sentiment_score
             })
         # 15% of the sentence count
-        n = int(math.ceil(len(sentences) * 0.15))
+        n = int(math.ceil(len(sentences) * .15))
         # n (15%) largest scores (recall greater entropy ==> more controversial)
         nlargest = heapq.nlargest(n, map(lambda x: x['score'], sentences))
         # only provide controversial sentences with "enough" related tweets

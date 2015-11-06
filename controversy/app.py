@@ -24,13 +24,13 @@ import db
 import forms
 
 
-app = Flask(__name__)
-app.register_blueprint(api, url_prefix='/api')
-app.secret_key = SECRET_KEY
-app.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
-app.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
-app.config['testing'] = DEBUG
-app.config['version'] = 'v0.3'
+application = Flask(__name__)
+application.register_blueprint(api, url_prefix='/api')
+application.secret_key = SECRET_KEY
+application.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
+application.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
+application.config['testing'] = DEBUG
+application.config['version'] = 'v0.3'
 
 
 def digest(static):
@@ -41,10 +41,10 @@ def digest(static):
 def get_added_styles():
     webkit = digest('webkit.css') if session.get('webkit') == 'webkit' else None
     safari = digest('safari.css') if session.get('safari') == 'safari' else None
-    return (webkit, safari)
+    return webkit, safari
 
 
-@app.errorhandler(500)
+@application.errorhandler(500)
 def handle_500(error):
     app.logger.exception(error)
     import twilio
@@ -70,8 +70,8 @@ def require_login(view):
     return protected_view
 
 
-@app.route('/login/<username>', methods=['GET', 'POST'])
-@app.route("/login", defaults={'username': None}, methods=['GET', 'POST'])
+@application.route('/login/<username>', methods=['GET', 'POST'])
+@application.route("/login", defaults={'username': None}, methods=['GET', 'POST'])
 def login(username):
     if loggedin():
         return redirect('/')
@@ -91,7 +91,7 @@ def login(username):
                            username=username or '')
 
 
-@app.route("/set_webkit")
+@application.route("/set_webkit")
 def set_webkit():
     if request.args.get('webkit') not in {'default', 'webkit'}:
         return 'no'
@@ -100,7 +100,7 @@ def set_webkit():
     return 'yes'
 
 
-@app.route("/set_safari")
+@application.route("/set_safari")
 def set_safari():
     if request.args.get('safari') not in {'default', 'safari'}:
         return 'no'
@@ -109,7 +109,7 @@ def set_safari():
     return 'yes'
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@application.route("/register", methods=['GET', 'POST'])
 def register():
     form = forms.Register()
     if form.validate_on_submit():
@@ -122,7 +122,7 @@ def register():
                            logged_in = loggedin())
 
 
-@app.route("/logout")
+@application.route("/logout")
 @require_login
 def logout():
     u = session['username']
@@ -132,7 +132,7 @@ def logout():
     return redirect('/login')
 
 
-@app.route("/account", methods=['GET', 'POST'])
+@application.route("/account", methods=['GET', 'POST'])
 @require_login
 def account():
     form = forms.Login()
@@ -147,17 +147,17 @@ def account():
                            history=db.user_history(session['username']),
                            css=digest('account.css'),
                            form=form,
-                           version=app.config['version'])
+                           version=application.config['version'])
 
 
-@app.route("/account/forget")
+@application.route("/account/forget")
 @require_login
 def clear_queries():
     db.clear_queries(session['username'])
     return redirect('account')
 
     
-@app.route("/partial/<path>")
+@application.route("/partial/<path>")
 @require_login
 def serve_ang(path):
     try:
@@ -166,7 +166,7 @@ def serve_ang(path):
         return abort(404)
 
 
-@app.route("/")
+@application.route("/")
 @require_login
 def index():
     """all pages for the app are loaded through here.
@@ -182,12 +182,12 @@ def index():
             angular='Home')
 
 
-@app.route("/not-supported")
+@application.route("/not-supported")
 def not_supported():
     return render_template('not-supported.html')
 
 
-@app.template_filter('first_name')
+@application.template_filter('first_name')
 def first_name(s):
     return s.split(' ')[0]
 
@@ -204,7 +204,7 @@ def clean_rd(rd):
     return res[0] if len(res) else 'a second'
 
 
-@app.template_filter('pretty_date')
+@application.template_filter('pretty_date')
 def pretty_date(u):
     """mysql timestamp --> nice strftime + " ... ago"
     """
@@ -216,4 +216,4 @@ def pretty_date(u):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4040, debug=DEBUG)
+    application.run(host='0.0.0.0', port=4040, debug=DEBUG)

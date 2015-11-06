@@ -15,7 +15,9 @@ def textblob(tweet):
     """score with TextBlob.
     """
     blob = TextBlob(tweet)
-    return (blob.sentiment.polarity + 1) * 2
+    res = int(blob.sentiment.polarity * 4)
+    print(res)
+    return res
 
 
 def is_negative(val):

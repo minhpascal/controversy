@@ -110,7 +110,10 @@ main {
 		}
 	}
 
-	article + p { opacity: 0.6; } // NYT copyright
+	article + p {
+		@include transition(.3s);
+		opacity: 0.6; } // NYT copyright
+	article+p:hover { opacity: 1.0; }
 	mark {
 		line-height: 25px;
 		color: #2b6dad;

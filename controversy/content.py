@@ -14,7 +14,7 @@ from twython import Twython
 import re, json
 import time, datetime
 import urllib, urllib2, cookielib
-from sentiment import sentistrength, is_positive, is_negative
+from sentiment import textblob, is_positive, is_negative
 from functools import partial
 from operator import is_not
 
@@ -46,7 +46,7 @@ class Tweet(object):
         return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", self.tweet.strip('#')).split())
 
     def _sentiment(self):
-        return sentistrength(self.clean_tweet)
+        return textblob(self.clean_tweet)
 
 
 

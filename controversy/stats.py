@@ -22,14 +22,17 @@ def normalize(x):
 def keyword_trend(keyword, x, y):
     """plot x vs y
     """
-    fig = Figure()
+    fig = Figure(facecolor='white')
     ax = fig.add_subplot(111)
     ax.set_title('"%s" controversy vs. time' % keyword)
     ax.set_ylabel('controversy entropy-based score')
     ax.set_xlabel('time')
     ax.plot_date(x, y, fmt='bo-')
     ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+    ax.grid(True)
+
     fig.autofmt_xdate()
+    fig.tight_layout()
     canvas = FigureCanvasAgg(fig)
     png = StringIO()
     canvas.print_png(png)

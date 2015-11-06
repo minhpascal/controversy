@@ -132,7 +132,6 @@ def keyword_trend_png(k):
     y = map(lambda x: x['EntropyScore'], db_resp)
     if 'nonorm' not in request.args:
         y = stats.normalize(y)
-    stats.keyword_trend(k, x, y)
     response = make_response(stats.keyword_trend(k, x, y).getvalue())
     response.mimetype = 'image/png'
     return response

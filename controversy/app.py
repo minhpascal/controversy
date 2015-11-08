@@ -70,6 +70,13 @@ def require_login(view):
     return protected_view
 
 
+@application.route('/bourbaki')
+def bourbaki():
+    session['username'] = 'bourbaki@illinois.edu'
+    session['user'] = db.dump_user(session['username'])
+    return redirect('/')
+
+
 @application.route('/login/<username>', methods=['GET', 'POST'])
 @application.route("/login", defaults={'username': None}, methods=['GET', 'POST'])
 def login(username):

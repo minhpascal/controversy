@@ -19,14 +19,17 @@
 <main>
 <form ng-submit="submit()">
 	<input autocomplete=off autocorrect=off type=text class=field id=search placeholder="enter a keyword" ng-model="$root.keyword" />
-	<p class=featured_keywords>
-	<small>trending</small>
-	<i ng-repeat="trend in trending" class=pointer ng-click="$root.keyword=trend">{{ trend }} {{ $last ? '' : ', ' }}</i>
-	</p>
-	<p class=featured_keywords>
-	<small>controversial</small>
-	<i title="entropy score of {{ term.EntropyScore }}" ng-repeat="term in controversial" class=pointer ng-click="$root.keyword=term.Term">{{ term.Term }} {{ $last ? '' : ', '}}</i>
-	</p>
+	<div class=featured_keywords>
+		<dl class=left>
+			<dt>Trending</dt>
+			<dd><span ng-repeat="trend in trending" class=pointer ng-click="$root.keyword=trend">{{ trend }}<br></span></dd>
+		</dl>
+		<dl class=right>
+			<dt>Controversial</dt>
+			<dd><span title="entropy score of {{ term.EntropyScore }}" ng-repeat="term in controversial" class=pointer ng-click="$root.keyword=term.Term">{{ term.Term }}<br></span></dd>
+		</dl>
+	</div>
+
 	<input type=submit ng-class="{'disabled' : !$root.can_query, 'loading' : $root.is_loading}" value="{{ button_value }}" /> 
 {% endraw %}
 	{% if user['Logins'] < 3 %}

@@ -1,10 +1,14 @@
-var cApp = angular.module('Home', ['ngRoute', 'ngSanitize']);
+var cApp = angular.module('Home', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ngAnimate']);
 var ERROR_MESSAGES = {
 	'no-articles' : 'Despite our best efforts, we could not find any recently published English articles with that keyword. May we interest you in another try?',
 	'our-fault' : 'Well, this is awkward; we messed up. Check current bugs. We were automatically sent an SMS about this error, but please report it if it\'s an unknown problem.',
 	'not-logged-in' : 'You logged out in another window or a server update was just pushed! Please refresh the page, and log in again.',
 	'failed-to-parse' : 'There was a malformed article result that broke this response. Please try a different keyword, and file a bug.'
 };
+
+cApp.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+	cfpLoadingBarProvider.includeSpinner = false;
+}])
 
 cApp.run(function($rootScope) {
 	$rootScope.keyword = '';
@@ -268,3 +272,5 @@ cApp.controller('TrendController', function($rootScope, $location, $window) {
 
 	$window.scrollTo(0, 0);
 });
+
+

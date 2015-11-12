@@ -19,15 +19,7 @@ Joint mining of news text and social media to discover controversial points in n
 Pending
 --------
 
-We're currently preparing this server for a demo during **IEEE Big Data 2015 on October 29th**.
-
-
-Demo todo
-=========
-
-* show user their graphs 
-* better design for "trend available for ..."
-* handle case where only one article is returned (there should be no border on the results partial)
+We're currently improving upon our IEEE paper by adding to the scoring function and more accurate content retrieval.
 
 
 Running for development

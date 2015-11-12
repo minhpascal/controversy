@@ -39,6 +39,8 @@ def digest(static):
 
 
 def get_added_styles():
+    print(session.get('webkit'))
+    print(session.get('safari'))
     webkit = digest('webkit.css') if session.get('webkit') == 'webkit' else None
     safari = digest('safari.css') if session.get('safari') == 'safari' else None
     return webkit, safari
@@ -81,11 +83,8 @@ def login(username):
         session['username'] = form.username
         session['user'] = db.dump_user(form.username)
         return redirect('/')
-    # below, ``set_safari`` and ``set_webkit`` will be null if not set
     return render_template('login.html',
                            title='Login',
-                           set_safari=session.get('safari'),
-                           set_webkit=session.get('webkit'),
                            form=form,
                            css=digest('login.css'),
                            username=username or '')
@@ -93,19 +92,13 @@ def login(username):
 
 @application.route("/set_webkit")
 def set_webkit():
-    if request.args.get('webkit') not in {'default', 'webkit'}:
-        return 'no'
-
-    session['webkit'] = request.args['webkit']
+    session['webkit'] = 'webkit'
     return 'yes'
 
 
 @application.route("/set_safari")
 def set_safari():
-    if request.args.get('safari') not in {'default', 'safari'}:
-        return 'no'
-
-    session['safari'] = request.args['safari']
+    session['safari'] = 'safari'
     return 'yes'
 
 

@@ -25,10 +25,12 @@
 <div id=login>
     <h1>Controversy</h1>
     <span id=details>
-	    Please login or <a href="register">create a free account</a>.<hr>While the demo officially supports the lastest versions of Chrome, Firefox, Opera and Safari, we recommend using Chrome/Chromium. iOS browsers and Chrome on Android are confirmed to work well.
+	    Please login or <a href="register">create a free account</a>.
+	    <hr>
+	    We recommend using the latest version of Chrome, Chromium, or Opera.
     </span>
-    <p><noscript><tt>this demo requires javascript</tt></noscript></p>
-    <p id=no_connection style="display:none"><tt>we couldn't load a library from Google's CDN. please check your connectivity or allow googleapis connections.</tt></p>
+    <p><noscript><tt>Requires JavaScript</tt></noscript></p>
+    <p id=no_connection style="display:none"><tt>Couldn't load a library from Google's CDN; check your connectivity or allow GoogleAPIs connections.</tt></p>
     <form style="display:none" method=POST>
         {{ form.hidden_tag() }}
         {{ form.email(value=username, type="email", class_="field", placeholder="email (username)", required="required") }}
@@ -43,7 +45,6 @@ if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('
 }
 document.getElementsByTagName('form')[0].style.display = 'block';
 </script>
-{% if set_webkit is none or set_safari is none %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
 if (!window.jQuery) {
@@ -52,9 +53,12 @@ if (!window.jQuery) {
 } else {
 	var isWebKit = 'WebkitAppearance' in document.documentElement.style;
 	var isSafari = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
-	$.ajax({url: '/set_webkit?webkit=' + ((isWebKit) ? 'webkit' : 'default')});
-	$.ajax({url: '/set_safari?safari=' + ((isSafari ) ? 'safari' : 'default' )});
+	console.log(isWebKit);
+	console.log(isSafari);
+	if (isWebKit)
+		$.ajax({url: '/set_webkit?webkit=' + 'webkit'});
+	if (isSafari)
+		$.ajax({url: '/set_safari?safari=' + 'safari'});
 }
 </script>
-{% endif %}
 {% endblock %}

@@ -77,12 +77,30 @@ main {
 
 	}
 	
-	p.featured_keywords {
-		small {
-			background-color: $search_focus;
-			color: $search_focus_text;
-			padding: 2px;
-		}		
+	div.featured_keywords {
+		display: table;
+		padding-bottom: 1em;
+		margin: 0 auto;
+		dl.left {
+			float: left;	
+			width: 50%; }
+		dl.right {
+			float: right;
+			width: 50%; }
+		// controversial or trending keywords
+		dt {
+			float: left;
+			width: 7.5em;
+			padding: 1ex .5em 0 .5em;
+			text-align: right;
+			font-weight: bold; }
+
+		// featured keywords
+		dd {
+			margin: 0 0 0 8.5em;
+			padding: 1ex 0.5em;
+			border-left: 1px solid #888;
+			text-align: justify; }
 	}
 
 	ul.details {
@@ -140,6 +158,9 @@ figcaption { margin:10px 0 10px 0; }
 	.non-essentials { display: none; }
 }
 @media (max-width: 520px) {
+	div.feature_keywords {
+		dl.left, dl.right { float: none; }
+	}	
 	span.danger { display: block; }
 	input[type='text'].top_loading { height: 40px; }
 }

@@ -15,12 +15,16 @@ Controversy &middot; hotspots of news articles</title>
 <link rel=stylesheet href="//fonts.googleapis.com/css?family=Open+Sans:400,700" />
 <link rel=stylesheet href="{{ css }}" />
 {% if webkit is not none %}
+{% if webkit is not none and webkit|length > 0%}
 <!-- added styles for webkit browsers -->
 <link rel=stylesheet href="{{ webkit }}" />
 {% endif %}
+{% endif %}
 {% if safari is not none %}
+{% if safari|length > 0 %}
 <!-- added styles for Safari -->
 <link rel=stylesheet href="{{ safari }}" />
+{% endif %}
 {% endif %}
 {% block content %}{% endblock %}
 
@@ -36,6 +40,8 @@ Controversy &middot; hotspots of news articles</title>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular-route.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular-sanitize.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular-animate.js"></script>
+<script src="{{ url_for('static', filename='loading-bar.min.js') }}"></script>
 {% endif %}
 {% if js is defined %}
 <script src="{{ js }}"></script>

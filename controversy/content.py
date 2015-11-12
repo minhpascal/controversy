@@ -129,7 +129,6 @@ def twitter_search(keyword):
             break
 
         response = twitter.search(q=keyword, count=100, lang='en') if i == 0 else twitter.search(q=keyword, include_entities=True, max_id=next_max)
-        print(response)
         tweets += map(lambda x: Tweet(x), response['statuses'])
         try:
             next_res = response['search_metadata']['next_results']

@@ -39,8 +39,6 @@ def digest(static):
 
 
 def get_added_styles():
-    print(session.get('webkit'))
-    print(session.get('safari'))
     webkit = digest('webkit.css') if session.get('webkit') == 'webkit' else None
     safari = digest('safari.css') if session.get('safari') == 'safari' else None
     return webkit, safari

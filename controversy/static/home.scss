@@ -159,7 +159,7 @@ figcaption { margin:10px 0 10px 0; }
 	.non-essentials { display: none; }
 }
 @media (max-width: 520px) {
-	div.feature_keywords {
+	main div.featured_keywords {
 		dl.left, dl.right { float: none; }
 	}	
 	span.danger { display: block; }

@@ -1,0 +1,50 @@
+@import 'bootstrap.min.css';
+* { font-family: 'Source Sans Pro', 'Ubuntu', 'Open Sans', 'Roboto', 'Helvetica', sans-serif; }
+span.label-default {
+	line-height: 2.0;
+	background-color: #fff;
+	color: #bbb;
+	border: 1px solid #ccc; }
+h2 { font-weight: 600; }
+#full_article {
+	font-size: 16px;
+	span { cursor: pointer; }
+	span.controversial {
+		background-color: #222;
+		color: #bada55; }
+}
+#copyright { margin-bottom: 14em; }
+.top_bar {
+	height: 8px;
+	background-color: #d9d9d9;
+	margin-bottom: 12px; }
+#full_article {
+	text-align: justify; }
+#bot_bar {
+	.col-md-12 {
+		.pull-left { padding: 8px; }
+		padding: 8px;
+		background-color: #eee;
+		margin-top: 8px;
+		text-align: right;
+		height: 61px; }
+	position: fixed;
+	z-index: 1;
+	bottom: 0; }
+@media (max-height: 400px) {
+	#bot_bar .col-md-12 { height: 40px; }
+	.btn-primary {
+		height: 30px;
+		padding: 0px 4px;
+		font-size: 14px;
+	}
+}	
+@media (min-width: 1200px) {
+	#bot_bar { width: 1170px; }
+}
+@media (min-width: 992px) {
+	#bot_bar { width: 970; }
+}
+@media (min-width: 768px) {
+	#bot_bar { width: 750; }
+}

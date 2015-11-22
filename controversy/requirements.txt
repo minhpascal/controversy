@@ -13,3 +13,4 @@ nltk
 gensim
 scipy
 matplotlib
+pymongo

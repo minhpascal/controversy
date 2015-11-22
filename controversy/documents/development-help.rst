@@ -1,12 +1,15 @@
-Please use Python 2.7.x
+.. |...| unicode:: U+2026 .. ldots
 
-If you're on a fresh machine or don't use git, Python, or MySQL much, read the two paragraphs below before proceeding.
+This is not for the faint-hearted; we really do recommend you use the web client.
+
+Please use Python 2.7.x
 
 #. ``$ git clone https://github.com/gdyer/controversy``
 #. ``$ cd controversy/controversy``
-#. get an academic SentiStrength license by sending an email to `the address listed here`_, move the ``jar`` and data into ``sentistrength`` with names ``SentiStrengthCom.jar`` and ``data-11`` respectively. If you like we could ask if we can allow you to use our license. You'll probably need to be in academia either way.
-#. ``$ mv config.py.default config.py``, and change credentials where marked as ``REQUIRED``. You'll need to register for NYTimes' `Article Search API`_ and `Twitter's API`_.
+#. get an academic SentiStrength license by sending an email to `the address listed here`_, move the ``jar`` and data into ``sentistrength`` with names ``SentiStrengthCom.jar`` and ``data-11`` respectively. You'll need to be in academia to get a free license.
+#. ``$ mv config.py.default config.py``, and change credentials where marked as ``REQUIRED``. You'll need to register for NYTimes' `Article Search`_ and `Community`_ APIs and `Twitter's API`_.
 #. create a MySQL database called "controversy" with ``source schema.sql``.
+#. install MongoDB and start the server with the default port. Leave with ``<Ctrl>+C`` only if on Debian/Ubuntu. Otherwise, keep ``sudo mongod`` open, and continue in a new shell. NoSQL is ideal for how we do training. We'll soon create a simple way of downloading our data, which, once downloaded, can be loaded into MongoDB with a script we'll also make shortly |...|
 #. install redis, run ``redis-server``. Leave with ``<Ctrl>+C`` only if on Debian/Ubuntu. Otherwise, keep ``redis-server`` open, and continue in a new shell.
 #. satisfy SciPy `dependencies`_
 #. ``$ pip install virtualenv``
@@ -20,13 +23,9 @@ If you're on a fresh machine or don't use git, Python, or MySQL much, read the t
 #. ``$ python app.py``
 #. navigate to ``localhost:4040`` in your browser. See `API spec`_ for routes.
 
-These steps should would out of the box on Debian-based machines. There, MySQL is ``mysql-server``, redis is ``redis-server`` and the SciPy packages are ``python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose``.
-
-Apple changed permissions in El Capitan. We recommend using the ``brew`` package-manager to try to get around these. Install with ``$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"``. Ensure you have XCode CLI tools installed (install XCode for the Mac App Store and ``$ xcode-select --install``). ``brew`` packages of interest include ``redis``, ``mysql`` (then do ``$ mysql.server start``). You should also have ``pip`` to install the Python-specific dependencies: ``sudo easy_install pip``. El Capitan users may need to reinstall Python to get around strange "permission denied" errors: ``brew reinstall python``. You'll then need to install SciPy (matplotlib, numpy).
-
-
-.. _API spec: controversy/README.rst
+.. _API spec: http://ocha.2pitau.org/controversy-docs
 .. _dependencies: http://www.scipy.org/install.html
-.. _Article Search API: http://developer.nytimes.com/docs/read/article_search_api_v2
+.. _Article Search: http://developer.nytimes.com/apps/mykeys
+.. _Community: http://developer.nytimes.com/apps/mykeys
 .. _Twitter's API: https://apps.twitter.com/
-.. _The address listed here: http://sentistrength.wlv.ac.uk
+.. _the address listed here: http://sentistrength.wlv.ac.uk

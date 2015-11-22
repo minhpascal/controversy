@@ -16,7 +16,6 @@ def textblob(tweet):
     """
     blob = TextBlob(tweet)
     res = int(blob.sentiment.polarity * 4)
-    print(res)
     return res
 
 

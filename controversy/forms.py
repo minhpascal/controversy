@@ -2,9 +2,10 @@
 """
     forms.py
     ~~~~~~~~
+
     Forms referenced in app.
 """
-from flask_wtf import Form#, RecaptchaField
+from flask_wtf import Form, RecaptchaField
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
 import db
@@ -66,3 +67,12 @@ class Login(Form):
         self.username = username
         db.logged_in(username)
         return True
+
+class BeginHIT(Form):
+    recaptcha = RecaptchaField()
+
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        return Form.validate(self)

@@ -4,6 +4,7 @@ venv
 *.sass-cache
 *.css
 *.css.map
+*.swp
 .DS_Store
 controversy/sentistrength
 notes.rst

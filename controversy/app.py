@@ -11,31 +11,28 @@
     :copyright: (c) 2015 I Lourentzou, G Dyer, A Sharma, C Zhai. Some rights reserved.
     :license: CC BY-NC-SA 4.0, see LICENSE for more details.
 """
-from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort, url_for
+from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort
 from jinja2 import TemplateNotFound
 from functools import wraps
 from api import api
+from mturk import mturk 
 from config import *
 from datetime import datetime
-from hashlib import md5
 from dateutil.relativedelta import relativedelta
 import time
 import db
 import forms
+from digest import digest
 
 
 application = Flask(__name__)
 application.register_blueprint(api, url_prefix='/api')
+application.register_blueprint(mturk, url_prefix='/training')
 application.secret_key = SECRET_KEY
 application.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
 application.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
 application.config['testing'] = DEBUG
 application.config['version'] = 'v0.3'
-
-
-def digest(static):
-    with open('static/%s' % static) as f:
-        return "%s?v=%s" % (url_for('static', filename=static), md5(f.read()).hexdigest())
 
 
 def get_added_styles():

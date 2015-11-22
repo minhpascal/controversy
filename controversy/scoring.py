@@ -44,10 +44,10 @@ class BM25:
     def build_dictionary(self):
         proc_data = []
         for i in xrange(len(self.fn_docs)):
-            tweet = self.fn_docs[i].clean_tweet
+            text = self.fn_docs[i].clean
             # sentiment = self.fn_docs[i]["sentiment"]
             # self.raw_data.append(self.fn_docs[i])
-            proc_data.append(preprocess(tweet))
+            proc_data.append(preprocess(text))
         self.dictionary.add_documents(proc_data)
 
 
@@ -55,8 +55,8 @@ class BM25:
         docTotalLen = 0.0
         # print (self.dictionary.token2id)
         for i in xrange(len(self.fn_docs)):
-            tweet = self.fn_docs[i].clean_tweet
-            doc = preprocess(tweet)
+            text = self.fn_docs[i].clean
+            doc = preprocess(text)
             docTotalLen += len(doc)
             self.DocLen.append(len(doc))
             # print self.dictionary.doc2bow(doc)
@@ -155,8 +155,8 @@ def sentiment_conditional(l):
     return res
      
 
-def controversy(articles, tweets):
-    bm25 = BM25(tweets, delimiter=' ')
+def controversy(articles, social_content):
+    bm25 = BM25(social_content, delimiter=' ')
     tokenizer = nltk.data.load('nltk:tokenizers/punkt/english.pickle')
     article_count = len(articles)
     ranked_articles = [{}] * article_count
@@ -177,15 +177,15 @@ def controversy(articles, tweets):
             scores = bm25.bm25_score(preprocess(sentence))
             sentiments, extremes, caps, relevant_tweets = [], [], [], []
 
-            # for every tweet relevant to the sentence
+            # for every social content relevant to the sentence ...
             for tweet in scores:
                 # get the index of the relevant tweet
                 doc_index = tweet[1]
-                relevant_tweet = tweets[doc_index]
+                relevant_tweet = social_content[doc_index]
                 sentiment = relevant_tweet.sentiment
                 sentiments.append(sentiment)
 
-                words = relevant_tweet.clean_tweet.split(' ')
+                words = relevant_tweet.clean.split(' ')
                 extreme_words_count = sum(map(lambda x: int(is_extreme(x)), words))
                 extremes.append(X_s(extreme_words_count > 0, sentiment))
 

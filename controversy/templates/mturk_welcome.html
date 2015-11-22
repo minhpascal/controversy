@@ -1,0 +1,21 @@
+{% extends "mturk_base.html" %}
+{% block content %}
+<div class="page-header">
+	<h2>Controversial sentences</h2>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<p class="lead">Each HIT involves reading a New York Times article. While reading on the next page, click any sentences which you believe to be controversial. When done, click <b>"Submit"</b>.</p>
+	</div>
+	<div class="col-md-12">
+		<p>To continue, complete the reCAPTCHA. Once done, click <b>"Next"</b>.</p>
+		<form method=POST>
+			<div class="form-group">
+				{{ form.hidden_tag() }}
+				{{ form.recaptcha }}
+			</div>
+			<button type="submit" class="btn btn-lg btn-default" id="btn-next">Next</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

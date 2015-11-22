@@ -1,0 +1,44 @@
+{% extends "mturk_base.html" %}
+{% block content %}
+<!-- ``being_read``: {{ article.being_read }} -->
+<!-- ``n_reads``: {{ article.n_reads }} -->
+<div class="page-header">
+	<h2>Controversial sentences</h2>
+</div>
+<div class="row">
+	<div class="col-md-9">
+		<p class="lead">Please click any sentences which you believe are controversial. We define controversial as expressing an opinon which could be debated by many people. When done, click <b>"Submit"</b>.</p>
+	</div>
+	<div class="col-md-3">
+		<span class="label label-default">{{ article.title }}</span>
+		<span class="label label-default">{{ article.byline }}</span>
+		<span class="label label-default">{{ article.published }}</span>
+	</div>
+	<div class="col-md-12">
+		<hr>
+	</div>
+	<div class="col-md-12">
+		<p id="full_article">
+		{% for sentence in article.full %}
+		<span onclick="toggleControversial({{ loop.index-1 }}, this)">{{ sentence }}</span>
+		{% endfor %}
+		</p>
+	</div>
+	<div class="col-md-12" id="copyright">
+		<p class="text-muted">Articles &copy; 2015, The New York Times Company. All rights reserved.</p>
+	</div>
+	<div class="row" id="bot_bar">
+		<div class="col-md-12">
+			<div class="pull-left">
+				<span id="errors"></span>
+			</div>
+			<input type="button" class="btn btn-lg btn-primary" id="submit" value="Submit" />
+		</div>
+	</div>
+</div>
+<script src="{{ url_for('static', filename='mturk/jquery.min.js') }}"></script>
+<script>
+	var controversial = [];
+</script>
+<script src="{{ url_for('static', filename='mturk/highlight.js') }}"></script>
+{% endblock %}

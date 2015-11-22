@@ -19,22 +19,16 @@ from functools import partial
 from operator import is_not
 
 
-MAX_ATTEMPTS = 10
+MAX_ATTEMPTS = 6
 MAX_COMMENTARY = 500
+TAG_RE = re.compile(r'<[^>]+>')
 
 
-class Tweet(object):
-    """A tweet
-       holds basic attributes and finds sentiment
-    """
+class SocialContent(object):
 
-    def __init__(self, j):
-        self.tweet = j['text']
-        self.clean_tweet = self._clean()
-        self.author = j['user']['screen_name']
-        self.followers = j['user']['followers_count']
-        self.pimg = j['user']['profile_image_url']
-        self.identifier = j['id']
+    def __init__(self, clean, dirty):
+        self.clean = clean
+        self.dirty = dirty
         self.sentiment = self._sentiment()
         self.is_negative = is_negative(self.sentiment)
         self.is_positive = is_positive(self.sentiment)
@@ -42,12 +36,53 @@ class Tweet(object):
     def to_dict(self):
         return self.__dict__
 
-    def _clean(self):
-        return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", self.tweet.strip('#')).split())
-
     def _sentiment(self):
-        return textblob(self.clean_tweet)
+        return textblob(self.clean)
 
+
+class Tweet(SocialContent):
+    """A tweet
+       holds basic attributes and finds sentiment
+    """
+
+    def __init__(self, j):
+        dirty = j['text']
+        SocialContent.__init__(self, self._clean(dirty), dirty)
+
+        self.ts = j['created_at']
+        self.retweets = j['retweet_count']
+        self.retweeted = j['retweeted']
+        self.location = j['user']['location']
+        self.author = j['user']['screen_name']
+        self.n_statuses = j['user']['statuses_count']
+        self.time_zone = j['user']['time_zone']
+        self.followers = j['user']['followers_count']
+        self.pimg = j['user']['profile_image_url']
+        self.identifier = j['id']
+
+
+    def _clean(self, dirty):
+        return ' '.join(re.sub(r"(?:\@|https?\://)\S+", "", dirty.strip('#')).split())
+
+
+
+class Comment(SocialContent):
+    """A comment 
+       holds basic attributes and finds sentiment
+    """
+
+    def __init__(self, j):
+        dirty = j['commentBody']
+        SocialContent.__init__(self, self._clean(dirty), dirty)
+
+        self.userLocation = j['userLocation']
+        self.n_replies = j['replyCount']
+        self.ts = j['updateDate']
+        self.n_recommendations = j['recommendations']
+        self.abuseFlag = j['reportAbuseFlag']
+
+    def _clean(self, dirty):
+        return TAG_RE.sub('', dirty)
 
 
 class Article(object):
@@ -66,6 +101,7 @@ class Article(object):
         self.xlarge = 'https://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
         self.published = j['pub_date'][:10]
         self.full = self._full_text()
+        self.comments = article_comments(self.url)
 
     def to_dict(self):
         return self.__dict__ if (self.full is not None and len(self.full)) != 0 else None
@@ -88,13 +124,6 @@ class Article(object):
         jar.clear()
         return res
 
-    def _comments(self):
-        params = urllib.urlencode({
-            'api-key' : NYT_COMMUNITY_KEY,
-            'url' : self.url
-        })
-        response = urllib2.urlopen("http://api.nytimes.com/svc/community/v3/user-content/url.json?%s" % params)
-
 
 def nyt_query_date(s):
     return s.strftime('%Y%m%d')
@@ -107,17 +136,42 @@ def article_search(keyword):
     last_week = today - datetime.timedelta(days=11)
 
     params = urllib.urlencode({
-        'q' : keyword,
-        'begin_date' : nyt_query_date(last_week),
-        'end_date' : nyt_query_date(today),
-        'api-key' : NYT_KEY,
-        'facet_field' : 'source'
+        'q': keyword,
+        'begin_date': nyt_query_date(last_week),
+        'end_date': nyt_query_date(today),
+        'api-key': NYT_KEY,
+        'facet_field': 'source'
     })
 
-    response = urllib2.urlopen("http://api.nytimes.com/svc/search/v2/articlesearch.json?%s" % params)
+    response = urllib2.urlopen('http://api.nytimes.com/svc/search/v2/articlesearch.json?%s' % params)
     # an Article will be None if it doesn't have body text (thus the partial)
     # return an array of Article objects that have a body text
     return filter(partial(is_not, None), map(lambda x: Article(x), json.loads(response.read())['response']['docs']))
+
+
+def article_comments(url, offset=0):
+    comments = []
+
+    for i in xrange(MAX_ATTEMPTS):
+        if MAX_COMMENTARY < len(comments):
+            break
+
+        params = urllib.urlencode({
+            'url': url,
+            'api-key': NYT_COMMUNITY_KEY,
+            'offset': i * 25
+        })
+
+        response = urllib2.urlopen('http://api.nytimes.com/svc/community/v3/user-content/url.json?%s' % params)
+        try:
+            comment_batch = json.loads(response.read())['results']['comments']
+        except ValueError:
+            # no json could be decoded
+            break
+
+        comments += map(lambda x: Comment(x).to_dict(), comment_batch)
+
+    return comments
 
 
 def twitter_search(keyword):
@@ -136,7 +190,6 @@ def twitter_search(keyword):
         except KeyError:
             break
 
-    print('found ==> ' + str(len(tweets)) + ' tweets')
     return tweets
 
 

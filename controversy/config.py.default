@@ -3,6 +3,7 @@ DB_PORT = 3306
 DB_NAME = 'controversy'
 DB_PASSWORD = 'pwd' # probably REQUIRED change
 DB_USER = 'root' # maybe REQUIRED change
+MONGO_PORT = 27017
 SECRET_KEY = '23jlvafi23josdnnaDFASs' # should change if deployed publically
 API_KEY = 'twitter api' # REQUIRED change
 API_SECRET = 'twitter api secret' # REQUIRED change

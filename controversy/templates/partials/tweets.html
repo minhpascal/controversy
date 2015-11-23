@@ -26,7 +26,7 @@
 <ul class=tweets>
 	<li ng-repeat="tweet in sentence.tweets">
 	<div class=tweet ng-mouseenter="hoverIn()" ng-mouseleave="hoverOut()" ng-class="{ 'happy' : tweet.is_positive, 'mad' : tweet.is_negative, 'hovering' : hovering, 'no-hover' : (!hovering && globalHover)}">
-		{{ tweet.tweet }}
+		{{ tweet.dirty }}
 	</div> 
 	</li>
 </ul>

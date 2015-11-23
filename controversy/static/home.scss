@@ -16,6 +16,7 @@ header {
 	position: fixed;
 	font-size: 14px;
 	>div {
+		>a.mini { display: none; }
 		a:active, a:hover { border-bottom: none; }
 		padding: 0 15px 0 5px;
 		display: inline;
@@ -165,6 +166,9 @@ figcaption { margin:10px 0 10px 0; }
 	span.danger { display: block; }
 	input[type='text'].top_loading { height: 40px; }
 }
-@media (max-width: 385px) {
-	nav { display: block; }
+@media (max-width: 415px) {
+	header>div {
+		>a.mini { display: inline; }
+		>a.lg { display: none; }
+	}
 }

@@ -7,6 +7,7 @@ from error import UsageError
 import sys
 
 
+# http://arxiv.org/pdf/1409.8152v1.pdf <== source of terms
 TT_DIR = 'training_terms'
 
 

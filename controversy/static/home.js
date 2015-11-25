@@ -69,6 +69,14 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
 	}, function() {
 		$rootScope.can_query = ($rootScope.keyword && $rootScope.keyword.length > 0) && ($rootScope.keyword.localeCompare($rootScope.last_query) != 0);
 		SET_OPACITY(($rootScope.can_query) ? 0.5 : 1.0);
+
+		if (!$rootScope.keyword) return;
+		$http.get('/api/trend/' + $rootScope.keyword)
+			.success(function(res) {
+				$scope.trend_available = (res['error'] || res['result'].length < 4);
+			}).error(function(res) {
+				return;
+			});
 	}, true);
 
 	function broken(m) {
@@ -140,6 +148,12 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
 			handleError(res['message']);
 		});
 	};
+
+	$scope.$watch(function () { return $rootScope.keyword; },
+		function (value) {
+
+		}
+	);
 });
 
 cApp.controller('ResultsController', function($scope, $rootScope, $location, $window, $http) {
@@ -152,25 +166,6 @@ cApp.controller('ResultsController', function($scope, $rootScope, $location, $wi
 	$scope.readArticle = function(index) {
 		$rootScope.article(index);
 	}
-	$scope.$watch(function () { return $rootScope.keyword; },
-		function (value) {
-			if (!$rootScope.keyword) return;
-			$http.get('/api/trend/' + $rootScope.keyword)
-			.success(function(res) {
-				if (res['error'] || res['result'].length < 4) {
-					$scope.keyword_trend = null;
-					$scope.trend_available = false;
-					return;
-				}
-				$scope.keyword_trend = $rootScope.keyword;
-				$scope.trend_available = true;
-			})
-			.error(function(res) {
-				return;
-			});
-		}
-	);
-
 });
 
 cApp.controller('ErrorController', function($scope, $rootScope, $location) {

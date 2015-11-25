@@ -8,6 +8,7 @@ h1 { font-weight: 700; }
 	span.controversial {
 		color: #fff;
 		background-color: #337ab7; }
+	&::selection, &::-mox-selection { background-color: #fff; }
 }
 #copyright { margin-bottom: 14em; }
 .top_bar {

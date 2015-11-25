@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	<div class="col-md-6" id="copyright">
-		<p class="text-muted">Study from the University of Illinois at Urbana-Champaign <img src="{{ url_for('static', filename='img/affiliation.jpg') }}">: I Lourentzou, G Dyer, A Sharma, CX Zhai. Articles &copy; 2015, The New York Times Company <img src="{{ url_for('static', filename='img/nytimes.png') }}" />. All rights reserved.</p>
+		<p class="text-muted">Study from the University of Illinois at Urbana-Champaign <img src="{{ url_for('static', filename='img/affiliation.jpg') }}">. Articles &copy; 2015, The New York Times Company <img src="{{ url_for('static', filename='img/nytimes.png') }}" />. All rights reserved.</p>
 	</div>
 	<div class="row" id="bot_bar">
 		<div class="col-md-12">
@@ -40,10 +40,8 @@
 </div>
 <script type="text/javascript" src="{{ url_for('static', filename='mturk/jquery.min.js') }}"></script>
 <script type="text/javascript">
-	<!-- Turkers: if you modify these variables via a console, your work will be wasted:
-		you won't be paid, and we'll reject your submission server-side. -->
-	console.log("%c if you modify variables via a console, your work will be wasted:
-			you won't be paid, and we'll reject your submission server-side. ", 'background: #222; color: #bada55');
+	<!-- Turkers: if you modify these variables via a console, your work will be wasted: you won't be paid, and we'll reject your submission server-side. -->
+	console.log("%c if you modify variables via a console, your work will be wasted: you won't be paid, and we'll reject your submission server-side. ", 'background: #222; color: #bada55');
 	var controversial = [];
 	var minimum_time = {{ minimum_time }};
 	var n_sentences = {{ n_sentences }};

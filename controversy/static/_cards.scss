@@ -1,19 +1,4 @@
 @import 'vars';
-p#trend_available {
-	a, a:hover, a:active {
-		color: #555;
-		background-color: #fff;
-		border-bottom: none; }
-	padding: 4px;
-	font-size: smaller;
-	top: $header_height - 5;
-	max-width: 400px;
-	border: 2px solid #eee;
-	left: 10px;
-	position: fixed;
-	text-align: right;
-	z-index: 2;
-	background-color: #fff; }
 %base {
 	margin: 0 auto;
 	width: 400px;
@@ -112,10 +97,4 @@ div.least-controversial { border: 3px solid $cool; }
 		width: 320px;
 		li { width: 315px; }
 	}
-	p#trend_available {
-		width: 300px;
-		left: 5px;
-		text-align: left;
-		a:hover, a:active { background-color: none; }
-		font-size: small; }
 }

@@ -10,6 +10,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
 
+
 def normalize(x):
     """normalizes axis (a list of numbers)
     """

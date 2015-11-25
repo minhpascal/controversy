@@ -1,0 +1,68 @@
+{
+  "error": 0, 
+  "result": {
+    "controversial": [
+      {
+        "EntropyScore": 2689.61, 
+        "Term": "clinton"
+      }, 
+      {
+        "EntropyScore": 2005.47, 
+        "Term": "bush"
+      }, 
+      {
+        "EntropyScore": 1580.31, 
+        "Term": "putin"
+      }, 
+      {
+        "EntropyScore": 1359.08, 
+        "Term": "romney"
+      }, 
+      {
+        "EntropyScore": 1174.0, 
+        "Term": "hungary"
+      }, 
+      {
+        "EntropyScore": 1125.78, 
+        "Term": "syria"
+      }
+    ], 
+    "top-5": [
+      "clinton", 
+      "hippo", 
+      "romney", 
+      "austria", 
+      "greece"
+    ], 
+    "trending": {
+      "AIDs": 3.571428571428571, 
+      "afghanistan": 3.571428571428571, 
+      "african": 3.571428571428571, 
+      "austria": 3.571428571428571, 
+      "baltimore": 3.571428571428571, 
+      "bush": 3.571428571428571, 
+      "clinton": 3.571428571428571, 
+      "germany": 3.571428571428571, 
+      "greece": 3.571428571428571, 
+      "hillary": 3.571428571428571, 
+      "hillary clinton": 3.571428571428571, 
+      "hippo": 3.571428571428571, 
+      "hulu": 3.571428571428571, 
+      "hungary": 3.571428571428571, 
+      "illinois": 3.571428571428571, 
+      "iran": 3.571428571428571, 
+      "iraq": 3.571428571428571, 
+      "isis": 3.571428571428571, 
+      "new york": 3.571428571428571, 
+      "new york city": 3.571428571428571, 
+      "obama": 3.571428571428571, 
+      "prince": 3.571428571428571, 
+      "princeton": 3.571428571428571, 
+      "putin": 3.571428571428571, 
+      "romney": 3.571428571428571, 
+      "ron paul": 3.571428571428571, 
+      "stanford": 3.571428571428571, 
+      "syria": 3.571428571428571
+    }
+  }
+}

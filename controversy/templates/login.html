@@ -30,7 +30,6 @@
 	    We recommend using the latest version of Chrome, Chromium, or Opera.
     </span>
     <p><noscript><tt>Requires JavaScript</tt></noscript></p>
-    <p id=no_connection style="display:none"><tt>Couldn't load a library from Google's CDN; check your connectivity or allow GoogleAPIs connections.</tt></p>
     <form style="display:none" method=POST>
         {{ form.hidden_tag() }}
         {{ form.email(value=username, type="email", class_="field", placeholder="email (username)", required="required") }}
@@ -45,10 +44,9 @@ if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('
 }
 document.getElementsByTagName('form')[0].style.display = 'block';
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
 <script>
 if (!window.jQuery) {
-	document.getElementById('no_connection').style.display = 'block';
 	document.getElementsByTagName('form')[0].style.display = 'none';
 } else {
 	var isWebKit = 'WebkitAppearance' in document.documentElement.style;

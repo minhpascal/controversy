@@ -122,11 +122,17 @@ main {
 
 	article {
 		text-align: justify;
+		%def { 
+			border-bottom: none;
+			color: #fff;
+			background-color: #337ab7; }
 		a { 
-			color: #000;
-			background-color: #eee;
+			@extend %def;
 			font-weight: 700; // controversial sentences
-			&:hover, &:active { color: #61748C; }
+			&:hover, &:active {
+				background-color: #2e6da4;
+				@extend %def;
+			}
 		}
 	}
 

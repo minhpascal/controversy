@@ -108,7 +108,7 @@ def trending():
 
     return success({
         "trending" : freq,
-        "controversial": get_largest_for_key(db.most_controversial(), 5),
+        "controversial": get_largest_for_key(db.most_controversial(), 4),
         "top-5" : sorted(freq, key=freq.get, reverse=True)[:5]
     })
 

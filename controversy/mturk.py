@@ -6,6 +6,7 @@ from pymongo import MongoClient
 from config import MONGO_PORT
 import content
 import datetime
+import time
 import forms
 from error import UsageError
 import nltk.data
@@ -20,11 +21,15 @@ tokenizer = RegexpTokenizer(r'\w+')
 def require_human(view):
     @wraps(view)
     def protected_view(*args, **kwargs):
-        if loggedin():
+        if is_human():
             return view(*args, **kwargs)
         else:
             raise UsageError('not human!')
     return protected_view
+
+
+def is_human():
+    return session.get('human') == 'yes'
 
 
 def success():
@@ -44,7 +49,7 @@ def handle_error(error):
 def index():
     css = digest('mturk/highlight.css')
     js = digest('mturk/highlight.js')
-    if session.get('human') != 'yes':
+    if not is_human():
         form = forms.BeginHIT()
         if form.validate_on_submit():
             session['human'] = 'yes'
@@ -53,10 +58,12 @@ def index():
 
     article = get_next_doc()
     n_sentences = len(article['full'])
-    # minimum reading time in milliseconds (at 700 wpm, fast skimming pace)
-    minimum_time = int(100 * (float(6 * len(tokenizer.tokenize(article['full']))) / 7))
+    # minimum reading time in milliseconds (at 750 wpm, fast skimming pace)
+    minimum_time = int(100 * (float(60 * len(tokenizer.tokenize(article['full']))) / 75))
     article['full'] = sent_detector.tokenize(article['full'].strip())
 
+    session['minimum_time'] = minimum_time
+    session['started_reading'] = time.time()
     session['n_sentences'] = len(article['full'])
     session['reading_url'] = article['url']
 
@@ -71,18 +78,29 @@ def index():
 @mturk.route('/mark_available')
 @require_human
 def mark_available():
+    toggle_being_read(get_collection(), session['reading_url'], False)
     return success()
 
 
 @mturk.route('/submit', methods=['GET', 'POST'])
 @require_human
-def update_doc(data, url):
+def update_doc():
     if 'checked' not in request.args:
-        raise UsageError('missing ``checked``!')
+        raise UsageError('missing ``checked`` arg!')
+
+    inds = request.args['checked'].split(',')
+    n_inds = len(inds)
+    if time.time() - session['started_reading'] < (float(session['minimum_time']) / 1000):
+        raise UsageError('reading speed too fast')
+
+    if n_inds > session['n_sentences'] or n_inds < 1:
+        raise UsageError('no or too many highlights')
 
     col = get_collection()
+    url = session['reading_url']
     increment_reads(col, url)
     toggle_being_read(col, url, False)
+    print('\n\n\ndone\n\n\n')
     return success()
 
 

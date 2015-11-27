@@ -1,10 +1,10 @@
-config.py
-venv
 *.pyc
 *.sass-cache
-*.css
 *.css.map
 *.swp
+*.rdb
 .DS_Store
+config.py
+venv
 controversy/sentistrength
 notes.rst

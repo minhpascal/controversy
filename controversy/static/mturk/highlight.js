@@ -8,10 +8,10 @@ function timer() {
 	if (count <= 0) {
 		clearInterval(counter);
 		$("#time_left span").html("submit <b>whenever</b> you're ready");
-		$("#time_left")
-			.removeClass('alert-warning')
-			.addClass('alert-success');
-
+		$("#time_left").addClass('alert-success');
+		setTimeout(function() {
+			updateCanSubmit();
+		}, 1500);
 		setTimeout(function() {
 			markAvailable();
 		}, 30000);
@@ -30,13 +30,13 @@ $(document).ready(function() {
 });
 
 $(window).bind('beforeunload', function() {
-
+	markAvailable();
 });
 
 function markAvailable() {
 	performRequest('mark_available',
 			function(data) {
-				alert(data['ok']);
+				console.log('marked available')
 			}, function(data) {
 				console.log(data);
 			});
@@ -84,7 +84,7 @@ function updateCanSubmit() {
 	}
 }
 
-function displayError(message) {
+function showError(message) {
 	$("#error").text(message);
 	setTimeout(function() {
 		$("#error").text('');
@@ -107,7 +107,7 @@ function submitComplete() {
 
 }
 
-function submitSucess(data) {
+function submitSuccess(data) {
 	$("#bot_bar img").hide();
 	console.log(data);
 }
@@ -118,25 +118,30 @@ function submitFailure(data) {
 }
 
 $("#submit").click(function() {
-	disable('#full_article');
-	var n_highlights = controversial.length;
-	if (n_highlights > n_sentences) {
-		displayError('invalid # of highlights!')
-		enable('#full_article')
+	// these checks will be done server-side too. They are duplicated here to reduce strain on the server.
+	if (!pastMinTime()) {
+		showError("your words per minute is too high");
 		return;
 	}
+
+	var n_highlights = controversial.length;
+	if (n_highlights === 0) {
+		showError("no highlights");
+		return;
+	}
+
+	if (n_highlights > n_sentences) {
+		showError('invalid # of highlights!');
+		enable('#full_article');
+		return;
+	}
+
 	for (var i = n_highlights - 1; i >= 0; i -= 1) {
 		var ei = controversial[i];
 		if (ei < 0 || ei > n_sentences) {
-			displayError('invalid sentence indices!');
+			showError('invalid sentence indices!');
 			return;
 		}
-	}
-
-	if (n_highlights < (n_sentences * 0.2) && !CONFIRMED_FEW_HIGHLIGHTS) {
-		showError("are you sure you've highlighted all controversial sentences? Submit again to confirm.");
-		CONFIRMED_HIGHLIGHTS = true;
-		return;
 	}
 
 	if (n_highlights > (0.8 * n_sentences)) {
@@ -144,17 +149,20 @@ $("#submit").click(function() {
 		return;
 	}
 
-	if (n_highlights > (0.5 * n_sentences)) {
+	if (n_highlights < (n_sentences * 0.1) && !CONFIRMED_HIGHLIGHTS) {
+		showError("are you sure you've highlighted all controversial sentences? Submit again to confirm.");
+		CONFIRMED_HIGHLIGHTS = true;
+		return;
+	}
+
+	if (n_highlights > (0.5 * n_sentences) && !CONFIRMED_HIGHLIGHTS) {
 		showError("are you sure you've highlighted only controversial sentences? Submit again to confirm.");
 		CONFIRMED_HIGHLIGHTS = true;
 		return	
 	}
 
-	if (!pastMinTime()) {
-		showError("your words per minute is too high");
-		return;
-	}
 
+	controversial.sort();
 	var uri = 'submit?checked=' + controversial.join();
 	$("#bot_bar img").show();
 	performRequest(uri, submitSuccess, submitFailure);

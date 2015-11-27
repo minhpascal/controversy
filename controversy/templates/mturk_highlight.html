@@ -4,7 +4,7 @@
 <!-- ``n_reads``: {{ article.n_reads }} -->
 <div class="row">
 	<div class="col-md-9">
-		<p class="lead">Please click any sentences which you believe are controversial. We define controversial as expressing an opinon which could be debated by many people. When done, click <b>"Submit"</b>.</p>
+		<p class="lead">Please click any sentences which you believe are controversial. We define controversial as expressing an opinon which could be debated by many people. When done, click <b><q>Submit</q></b>.</p>
 	</div>
 	<div class="col-md-3">
 		<b>metadata</b>
@@ -21,7 +21,7 @@
 		</p>
 	</div>
 	<div class="col-md-6">
-		<div class="alert alert-warning" id="time_left" role="alert">
+		<div class="alert" id="time_left" role="alert">
 			<span><span>
 		</div>
 	</div>
@@ -34,14 +34,13 @@
 				<img src="{{ url_for('static', filename='img/small-loading.gif') }}" style="display: none" />
 				<b class="text-warning" id="error"></b>
 			</div>
-			<input type="button" class="btn btn-lg btn-primary disabled" id="submit" value="Submit" />
+			<input type="button" class="btn btn-lg disabled" id="submit" value="Submit" />
 		</div>
 	</div>
 </div>
 <script type="text/javascript" src="{{ url_for('static', filename='mturk/jquery.min.js') }}"></script>
 <script type="text/javascript">
 	<!-- Turkers: if you modify these variables via a console, your work will be wasted: you won't be paid, and we'll reject your submission server-side. -->
-	console.log("%c if you modify variables via a console, your work will be wasted: you won't be paid, and we'll reject your submission server-side. ", 'background: #222; color: #bada55');
 	var controversial = [];
 	var minimum_time = {{ minimum_time }};
 	var n_sentences = {{ n_sentences }};

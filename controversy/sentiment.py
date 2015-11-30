@@ -30,7 +30,7 @@ def is_positive(val):
 
 
 def sentistrength(s):
-    """Score with SentiStength
+    """Score with SentiStength.
     """
     p = subprocess.Popen(shlex.split('java -jar sentistrength/SentiStrengthCom.jar stdin sentidata sentistrength/data-11/ scale'), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     s = s.encode('utf8')

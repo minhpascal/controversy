@@ -9,7 +9,9 @@ blockquote.good {
 blockquote.bad {
 	background-color: #f2dede;
 	border-left: 5px solid #a94442; }
-.col-md-3 { background-color: #eee; }	
+.col-md-3 {
+	color: #ddd;
+	background-color: rgba(245, 245, 245, .3); }
 #full_article {
 	font-size: 16px;
 	span { cursor: pointer; }

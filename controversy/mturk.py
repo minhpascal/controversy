@@ -82,7 +82,6 @@ def index():
 @mturk.route('/mark_available')
 @require_human
 def mark_available():
-    print('\n\n\nhere\n\n\n')
     toggle_being_read(get_collection(), session['reading_url'], False)
     return success()
 
@@ -175,6 +174,9 @@ def get_next_doc():
     if poss is None:
         return None
 
-    to_be_read = poss[:][0]
+    try:
+        to_be_read = poss[:][0]
+    except IndexError:
+        return None
     toggle_being_read(col, to_be_read['url'], True)
     return to_be_read

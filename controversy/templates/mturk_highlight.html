@@ -7,8 +7,7 @@
 		<p class="lead">Please click any sentences which you believe are controversial. We define controversial as expressing an opinon which could be debated by many people. When done, click <b><q>Submit</q></b>.</p>
 	</div>
 	<div class="col-md-3">
-		<b>metadata</b>
-		{{ article.title }} <b>&middot;</b> {{ article.byline }} <b>&middot;</b> {{ article.published }}
+		<i>{{ article.title }}</i> <b>&middot;</b> {{ article.byline }} <b>&middot;</b> {{ article.published }} <b>&middot;</b> <q>{{ article.keyword }}</q> corpus
 	</div>
 	<div class="col-md-12">
 		<hr>
@@ -16,7 +15,7 @@
 	<div class="col-md-12">
 		<p id="full_article">
 		{% for sentence in article.full %}
-		<span title="currently non-controversial" onclick="toggleControversial({{ loop.index-1 }}, this)">{{ sentence }}</span>
+		<span onclick="toggleControversial({{ loop.index-1 }}, this)">{{ sentence }}</span>
 		{% endfor %}
 		</p>
 	</div>

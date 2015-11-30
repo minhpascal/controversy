@@ -100,7 +100,7 @@ class Article(object):
         self.url = j['web_url']
         self.xlarge = 'https://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
         self.published = j['pub_date'][:10]
-        self.full = self._full_text()
+        self.full = self._full_text(sentis)
         self.comments = article_comments(self.url, sentis=sentis)
 
     def to_dict(self):
@@ -109,7 +109,7 @@ class Article(object):
     def _no_html_ab(self):
         return BeautifulSoup(self.abstract or self.lead, 'html.parser').getText()
 
-    def _full_text(self):
+    def _full_text(self, sentis):
         """nyt url --> full article text
         """
         if 'Paid Notice:' in self.title or 'video/multimedia' in self.url:
@@ -120,7 +120,7 @@ class Article(object):
         response = opener.open(urllib2.Request(self.url))
         soup = BeautifulSoup(response.read(), 'html.parser')
         body = soup.findAll('p', {'class' : ['story-body-text', 'story-content']})
-        res = ' '.join(p.text for p in body) 
+        res = ('\n' if sentis else ' ').join(p.text for p in body)
         jar.clear()
         return res
 

@@ -32,7 +32,8 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 1:
         if sys.argv[1] == 'test':
-            terms = list(set(terms))[:5]
+            print('using small subset of training terms')
+            terms = list(set(terms))[:1]
         elif sys.argv[1] in {'--help', 'help'}:
             print('''options:\n\t``test`` <== uses small subset of training terms \n\t\t\tfor testing mturk\n\t```` <== (no options) loads all training keywords\n\t``help`` or ``--help`` <== displays this message\n''')
             sys.exit(0)

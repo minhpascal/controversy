@@ -43,7 +43,7 @@ if __name__ == '__main__':
     for term in terms:
         update_progress(n_done, n_tasks)
         try:
-            scored_keyword = querier.perform(term)
+            scored_keyword = querier.perform(term, sentis=True)
         except UsageError:
             # no articles
             continue

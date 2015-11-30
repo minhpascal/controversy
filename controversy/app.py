@@ -26,13 +26,15 @@ from digest import digest
 
 
 application = Flask(__name__)
+
 application.register_blueprint(api, url_prefix='/api')
 application.register_blueprint(mturk, url_prefix='/training')
 application.secret_key = SECRET_KEY
+
 application.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
 application.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
-application.config['testing'] = DEBUG
 application.config['version'] = 'v0.3'
+application.config['testing'] = DEBUG
 
 
 def get_added_styles():
@@ -69,8 +71,9 @@ def require_login(view):
 
 @application.route('/bourbaki')
 def bourbaki():
-    session['username'] = 'bourbaki@illinois.edu'
-    session['user'] = db.dump_user(session['username'])
+    username = 'bourbaki@illinois.edu'
+    session['username'] = username
+    session['user'] = db.dump_user(username)
     return redirect('/')
 
 

@@ -14,7 +14,7 @@ from twython import Twython
 import re, json
 import time, datetime
 import urllib, urllib2, cookielib
-from sentiment import textblob, is_positive, is_negative
+from sentiment import textblob, is_positive, is_negative, sentistrength
 from functools import partial
 from operator import is_not
 
@@ -26,18 +26,18 @@ TAG_RE = re.compile(r'<[^>]+>')
 
 class SocialContent(object):
 
-    def __init__(self, clean, dirty):
+    def __init__(self, clean, dirty, sentis=False):
         self.clean = clean
         self.dirty = dirty
-        self.sentiment = self._sentiment()
+        self.sentiment = self._sentiment(sentis)
         self.is_negative = is_negative(self.sentiment)
         self.is_positive = is_positive(self.sentiment)
 
     def to_dict(self):
         return self.__dict__
 
-    def _sentiment(self):
-        return textblob(self.clean)
+    def _sentiment(self, sentis):
+        return sentistrength(self.clean) if sentis else textblob(self.clean)
 
 
 class Tweet(SocialContent):
@@ -45,9 +45,9 @@ class Tweet(SocialContent):
        holds basic attributes and finds sentiment
     """
 
-    def __init__(self, j):
+    def __init__(self, j, sentis=False):
         dirty = j['text']
-        SocialContent.__init__(self, self._clean(dirty), dirty)
+        SocialContent.__init__(self, self._clean(dirty), dirty, sentis=sentis)
 
         self.ts = j['created_at']
         self.retweets = j['retweet_count']
@@ -71,9 +71,9 @@ class Comment(SocialContent):
        holds basic attributes and finds sentiment
     """
 
-    def __init__(self, j):
+    def __init__(self, j, sentis=False):
         dirty = j['commentBody']
-        SocialContent.__init__(self, self._clean(dirty), dirty)
+        SocialContent.__init__(self, self._clean(dirty), dirty, sentis)
 
         self.userLocation = j['userLocation']
         self.n_replies = j['replyCount']
@@ -90,7 +90,7 @@ class Article(object):
        holds basic attibutes and gets full-text 
     """ 
 
-    def __init__(self, j):
+    def __init__(self, j, sentis=False):
         self.lead = j['lead_paragraph']
         self.abstract = j['abstract']
         self.title = j['headline']['main']
@@ -101,7 +101,7 @@ class Article(object):
         self.xlarge = 'https://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
         self.published = j['pub_date'][:10]
         self.full = self._full_text()
-        self.comments = article_comments(self.url)
+        self.comments = article_comments(self.url, sentis=sentis)
 
     def to_dict(self):
         return self.__dict__ if (self.full is not None and len(self.full)) != 0 else None
@@ -129,7 +129,7 @@ def nyt_query_date(s):
     return s.strftime('%Y%m%d')
 
 
-def article_search(keyword):
+def article_search(keyword, sentis=False):
     """Get articles based on keyword."""
     # tweets are < 10 days old; articles should match
     today = datetime.date.today()
@@ -146,10 +146,10 @@ def article_search(keyword):
     response = urllib2.urlopen('http://api.nytimes.com/svc/search/v2/articlesearch.json?%s' % params)
     # an Article will be None if it doesn't have body text (thus the partial)
     # return an array of Article objects that have a body text
-    return filter(partial(is_not, None), map(lambda x: Article(x), json.loads(response.read())['response']['docs']))
+    return filter(partial(is_not, None), map(lambda x: Article(x, sentis=sentis), json.loads(response.read())['response']['docs']))
 
 
-def article_comments(url, offset=0):
+def article_comments(url, offset=0, sentis=False):
     comments = []
 
     for i in xrange(MAX_ATTEMPTS):
@@ -169,12 +169,12 @@ def article_comments(url, offset=0):
             # no json could be decoded
             break
 
-        comments += map(lambda x: Comment(x).to_dict(), comment_batch)
+        comments += map(lambda x: Comment(x, sentis=sentis).to_dict(), comment_batch)
 
     return comments
 
 
-def twitter_search(keyword):
+def twitter_search(keyword, sentis=False):
     twitter = get_auth()
     tweets = []
 
@@ -183,7 +183,7 @@ def twitter_search(keyword):
             break
 
         response = twitter.search(q=keyword, count=100, lang='en') if i == 0 else twitter.search(q=keyword, include_entities=True, max_id=next_max)
-        tweets += map(lambda x: Tweet(x), response['statuses'])
+        tweets += map(lambda x: Tweet(x, sentis=sentis), response['statuses'])
         try:
             next_res = response['search_metadata']['next_results']
             next_max = next_res.split('max_id=')[1].split('&')[0]

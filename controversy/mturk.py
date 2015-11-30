@@ -57,6 +57,10 @@ def index():
             return render_template('mturk_welcome.html', **locals())
 
     article = get_next_doc()
+    if article is None:
+        return render_template('mturk_no_tasks.html',
+                               css=css)
+
     n_sentences = len(article['full'])
     # minimum reading time in milliseconds (at 750 wpm, fast skimming pace)
     minimum_time = int(100 * (float(60 * len(tokenizer.tokenize(article['full']))) / 75))
@@ -78,6 +82,7 @@ def index():
 @mturk.route('/mark_available')
 @require_human
 def mark_available():
+    print('\n\n\nhere\n\n\n')
     toggle_being_read(get_collection(), session['reading_url'], False)
     return success()
 
@@ -100,8 +105,14 @@ def update_doc():
     url = session['reading_url']
     increment_reads(col, url)
     toggle_being_read(col, url, False)
-    print('\n\n\ndone\n\n\n')
     return success()
+
+
+@mturk.route('/submitted')
+@require_human
+def submitted():
+    css = digest('mturk/highlight.css')
+    return render_template('mturk_submitted.html', **locals())
 
 
 def get_collection():
@@ -160,6 +171,10 @@ def get_next_doc():
     }).sort([
         ('being_read', 1)
     ])
+
+    if poss is None:
+        return None
+
     to_be_read = poss[:][0]
     toggle_being_read(col, to_be_read['url'], True)
     return to_be_read

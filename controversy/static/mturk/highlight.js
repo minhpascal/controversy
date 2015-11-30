@@ -11,10 +11,10 @@ function timer() {
 		$("#time_left").addClass('alert-success');
 		setTimeout(function() {
 			updateCanSubmit();
-		}, 1500);
+		}, 1100);
 		setTimeout(function() {
 			markAvailable();
-		}, 30000);
+		}, 45000);
 
 		return;	
 	}
@@ -60,9 +60,7 @@ function toggleControversial(i, el) {
 		$(el).removeClass('controversial');
 	} else {
 		controversial.push(i);
-		$(el)
-			.addClass('controversial')
-			.prop('title', 'currently controversial');
+		$(el).addClass('controversial')
 	}
 
 	updateCanSubmit();
@@ -103,13 +101,9 @@ function enable(el) {
 		.removeClass('disabled');
 }
 
-function submitComplete() {
-
-}
-
 function submitSuccess(data) {
 	$("#bot_bar img").hide();
-	console.log(data);
+	window.location.replace('submitted');
 }
 
 function submitFailure(data) {
@@ -120,7 +114,7 @@ function submitFailure(data) {
 $("#submit").click(function() {
 	// these checks will be done server-side too. They are duplicated here to reduce strain on the server.
 	if (!pastMinTime()) {
-		showError("your words per minute is too high");
+		showError("your reading speed is too high");
 		return;
 	}
 
@@ -149,7 +143,7 @@ $("#submit").click(function() {
 		return;
 	}
 
-	if (n_highlights < (n_sentences * 0.1) && !CONFIRMED_HIGHLIGHTS) {
+	if (n_highlights < (n_sentences * 0.05) && !CONFIRMED_HIGHLIGHTS) {
 		showError("are you sure you've highlighted all controversial sentences? Submit again to confirm.");
 		CONFIRMED_HIGHLIGHTS = true;
 		return;

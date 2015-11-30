@@ -87,7 +87,8 @@ class BM25:
             score = sum(tmp_score)
             if score!=0:
                 scores.append((score, idx))
-        return sorted(scores, reverse=True) # descending order
+        # descending order
+        return sorted(scores, reverse=True)
 
 
     def tf_idf(self):
@@ -136,11 +137,11 @@ def score_entropy(li):
 
 
 def sentiments_of_i(i, C):
-    res = len(filter(lambda x: x.sentiment == i, C))
     """$p(X_{sent} = x_i) = number of tweets
     with sentiment $x_i$ / total number of comments C.
     Provides number of tweets in corpus C with sentiment i
     """
+    res = len(filter(lambda x: x.sentiment == i, C))
     return res
 
 
@@ -216,7 +217,7 @@ def controversy(articles, social_content):
             })
         # 10% of the sentence count
         n = int(math.ceil(len(sentences) * .10))
-        # n (15%) largest scores (recall greater entropy ==> more controversial)
+        # ``n`` largest scores (recall greater entropy ==> more controversial)
         nlargest = heapq.nlargest(n, map(lambda x: x['score'], sentences))
         # only provide controversial sentences with "enough" related tweets
         filtered = filter(lambda x: any(x['score'] >= i for i in nlargest) and len(x['tweets']) > 5, sentences)

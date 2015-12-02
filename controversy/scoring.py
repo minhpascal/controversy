@@ -156,7 +156,7 @@ def sentiment_conditional(l):
     return res
      
 
-def controversy(articles, social_content):
+def controversy(articles, social_content, _filter=True):
     bm25 = BM25(social_content, delimiter=' ')
     tokenizer = nltk.data.load('nltk:tokenizers/punkt/english.pickle')
     article_count = len(articles)
@@ -215,13 +215,17 @@ def controversy(articles, social_content):
                 'linguistic_score': sentence_linguistic_score,
                 'sentiment_score': sentence_sentiment_score
             })
-        # 10% of the sentence count
-        n = int(math.ceil(len(sentences) * .10))
-        # ``n`` largest scores (recall greater entropy ==> more controversial)
-        nlargest = heapq.nlargest(n, map(lambda x: x['score'], sentences))
-        # only provide controversial sentences with "enough" related tweets
-        filtered = filter(lambda x: any(x['score'] >= i for i in nlargest) and len(x['tweets']) > 5, sentences)
-
+        filtered = []
+        if not _filter:
+            # 10% of the sentence count
+            n = int(math.ceil(len(sentences) * .10))
+            # ``n`` largest scores (recall greater entropy ==> more controversial)
+            nlargest = heapq.nlargest(n, map(lambda x: x['score'], sentences))
+            # only provide controversial sentences with "enough" related tweets
+            filtered = filter(lambda x: any(x['score'] >= i for i in nlargest) and len(x['tweets']) > 8, sentences)
+        else:
+            filtered = sentences
+    
         ranked_articles[article_index].update({
             'sentences': filtered,
             'linguistic_score': linguistic_score,

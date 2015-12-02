@@ -104,6 +104,7 @@ def update_doc():
     url = session['reading_url']
     increment_reads(col, url)
     toggle_being_read(col, url, False)
+
     return success()
 
 

@@ -120,7 +120,8 @@ class Article(object):
         response = opener.open(urllib2.Request(self.url))
         soup = BeautifulSoup(response.read(), 'html.parser')
         body = soup.findAll('p', {'class' : ['story-body-text', 'story-content']})
-        res = ('\n' if sentis else ' ').join(p.text for p in body)
+        res = ' '.join(p.text for p in body)
+        #res = ''.join(map(lambda x: '<p>%s</p>' % x.text, body)) if sentis else ' '.join(p.text for p in body)
         jar.clear()
         return res
 

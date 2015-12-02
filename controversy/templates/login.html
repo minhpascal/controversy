@@ -3,7 +3,7 @@
 {% if form.errors %}
 <div id=error>
     {% for field in form.errors %}
-    <b>{{ field }}</b>&hellip;
+    <b>{{ field|safe }}</b>&hellip;
     {% for error in form.errors[field] %}
     {{ error|lower }}
     {% endfor %}
@@ -25,7 +25,11 @@
 <div id=login>
     <h1>Controversy</h1>
     <span id=details>
-	    Please login or <a href="register">create a free account</a>.
+	    Please login or <a href="register">create a free account</a>. 【<b>New</b>】<a href="training">annotate articles</a> to help us build a dataset for future study!
+	    <center>
+		    <a class="github-button" href="https://github.com/gdyer/controversy" data-icon="octicon-star" data-style="mega" aria-label="Star gdyer/controversy on GitHub">Star</a>
+		    <a class="github-button" href="https://github.com/gdyer/controversy/issues" data-icon="octicon-issue-opened" data-style="mega" data-count-api="/repos/gdyer/controversy#open_issues_count" data-count-aria-label="# issues on GitHub" aria-label="Issue gdyer/controversy on GitHub">Known bugs</a>
+	    </center>
 	    <hr>
 	    We recommend using the latest version of Chrome, Chromium, or Opera.
     </span>
@@ -34,8 +38,9 @@
         {{ form.hidden_tag() }}
         {{ form.email(value=username, type="email", class_="field", placeholder="email (username)", required="required") }}
         {{ form.password(class="field", placeholder="password", required="required") }}
-        <br>
-        <input type=submit value="log in" />
+	<center>
+        	<input type=submit value="log in" />
+	</center>
     </form>
 </div>
 <script>
@@ -59,4 +64,5 @@ if (!window.jQuery) {
 		$.ajax({url: '/set_safari?safari=' + 'safari'});
 }
 </script>
+<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 {% endblock %}

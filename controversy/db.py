@@ -206,3 +206,16 @@ def most_controversial():
         FROM Queries
         ORDER BY EntropyScore DESC''')
     return cur.fetchall()
+
+
+def add_mturk_read(author, url):
+    """add entry to mturk
+    """
+    cur, _ = get_cursor()
+    cur.execute('''
+        INSERT INTO
+        MturkRead
+        (Author, URL)
+        VALUES 
+        (%s, %s)''', (author, url))
+    _.commit()

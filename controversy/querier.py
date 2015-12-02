@@ -17,7 +17,7 @@ def perform(keyword, sentis=False):
         raise UsageError('no-articles', status_code=200)
 
     return {
-        'result': controversy(articles, twitter_search(keyword, sentis=sentis)),
+        'result': controversy(articles, twitter_search(keyword, sentis=sentis), _filter=~sentis),
         'ts': datetime.datetime.utcnow(),
         'keyword': keyword,
         'ok': 1

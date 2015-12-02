@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    Controversy --- app.py 
-    ~~~~~~~~~~~~~~~~~~~~~~
+    Controversy
+    ~~~~~~~~~~~
 
     Controversy: joint mining of news text and social media to discover controversial points in news.
     
@@ -41,6 +41,11 @@ def get_added_styles():
     webkit = digest('webkit.css') if session.get('webkit') == 'webkit' else None
     safari = digest('safari.css') if session.get('safari') == 'safari' else None
     return webkit, safari
+
+
+@application.errorhandler(404)
+def handle_404(e):
+    return render_template('404.html')
 
 
 @application.errorhandler(500)
@@ -126,7 +131,7 @@ def logout():
     u = session['username']
     session.pop('username', None)
     session.pop('user', None)
-    flash("%s, you were logged out" % u)
+    flash("<b>%s</b>, you were logged out" % u)
     return redirect('/login')
 
 

@@ -7,7 +7,7 @@
     
     Runs server.
 
-    :copyright: (c) 2015 I Lourentzou, G Dyer, A Sharma, C Zhai. Some rights reserved.
+    :copyright: (c) 2015 I Lourentzou, G Dyer, A Sharma, CX Zhai. Some rights reserved.
     :license: CC BY-NC-SA 4.0, see LICENSE for more details.
 """
 from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort
@@ -44,7 +44,7 @@ def get_added_styles():
 
 @application.errorhandler(404)
 def handle_404(e):
-    return render_template('404.html')
+    return render_template('404.html'), 404
 
 
 @application.errorhandler(500)

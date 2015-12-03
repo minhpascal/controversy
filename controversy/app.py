@@ -7,7 +7,6 @@
     
     Runs server.
 
-    :version: 0.3
     :copyright: (c) 2015 I Lourentzou, G Dyer, A Sharma, C Zhai. Some rights reserved.
     :license: CC BY-NC-SA 4.0, see LICENSE for more details.
 """
@@ -33,7 +32,7 @@ application.secret_key = SECRET_KEY
 
 application.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
 application.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
-application.config['version'] = 'v0.3'
+application.config['version'] = '0.3'
 application.config['testing'] = DEBUG
 
 

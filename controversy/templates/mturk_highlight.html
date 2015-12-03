@@ -13,11 +13,16 @@
 		<hr>
 	</div>
 	<div class="col-md-12">
-		<p id="full_article">
-		{% for sentence in article.full %}
-		<span onclick="toggleControversial({{ loop.index-1 }}, this)">{{ sentence }}</span>
-		{% endfor %}
-		</p>
+		<div id="full_article">
+			{% for paragraph in paras %}
+			{% set _loop = loop %}
+			<p>
+			{% for sentence in paragraph %}
+			<span onclick="toggleControversial({{ sentence_lookup(sentence) }}, this)">{{ sentence }}</span>
+			{% endfor %}
+			</p>
+			{% endfor %}
+		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="alert" id="time_left" role="alert">

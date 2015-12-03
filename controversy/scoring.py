@@ -171,7 +171,7 @@ def controversy(articles, social_content, _filter=True):
         ranked_articles[article_index] = dict_art
         sentiment_score, linguistic_score = 0, 0 # (entropy) score of the entire article
         sentences = [] # scores & metadata for each sentence
-        query = tokenizer.tokenize(articles[article_index].full)
+        query = tokenizer.tokenize(articles[article_index].full.replace('|*^*|', ''))
 
         # for every sentence in the article
         for sentence in query:
@@ -216,7 +216,7 @@ def controversy(articles, social_content, _filter=True):
                 'sentiment_score': sentence_sentiment_score
             })
         filtered = []
-        if not _filter:
+        if _filter:
             # 10% of the sentence count
             n = int(math.ceil(len(sentences) * .10))
             # ``n`` largest scores (recall greater entropy ==> more controversial)

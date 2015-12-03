@@ -10,6 +10,7 @@ import time
 import forms
 from error import UsageError
 import nltk.data
+import itertools
 from nltk.tokenize import RegexpTokenizer
 
 
@@ -54,7 +55,10 @@ def index():
         if form.validate_on_submit():
             session['human'] = 'yes'
         else:
-            return render_template('mturk_welcome.html', **locals())
+            return render_template('mturk_welcome.html',
+                                   form=form,
+                                   css=css,
+                                   js=js)
 
     article = get_next_doc()
     if article is None:
@@ -64,11 +68,16 @@ def index():
     n_sentences = len(article['full'])
     # minimum reading time in milliseconds (at 750 wpm, fast skimming pace)
     minimum_time = int(100 * (float(60 * len(tokenizer.tokenize(article['full']))) / 75))
-    article['full'] = sent_detector.tokenize(article['full'].strip())
+
+    # split by paragraph and then sentences
+    paras = map(lambda x: sent_detector.tokenize(x.strip()), article['full'].split('|*^*|'))
+    article['full'] = list(itertools.chain(*paras))
+    # not the cleanest solution for paragraphs, but it'll be fine
+    sentence_lookup = lambda x: article['full'].index(x)
 
     session['minimum_time'] = minimum_time
     session['started_reading'] = time.time()
-    session['n_sentences'] = len(article['full'])
+    session['n_sentences'] = sum(map(lambda x: len(x), article['full']))
     session['reading_url'] = article['url']
 
     return render_template('mturk_highlight.html',
@@ -76,6 +85,8 @@ def index():
                            js=js,
                            minimum_time=minimum_time,
                            n_sentences=n_sentences,
+                           paras=paras,
+                           sentence_lookup=sentence_lookup,
                            article=article)
 
 
@@ -102,7 +113,7 @@ def update_doc():
 
     col = get_collection()
     url = session['reading_url']
-    increment_reads(col, url)
+    increment_reads(col, url, inds)
     toggle_being_read(col, url, False)
 
     return success()
@@ -121,7 +132,7 @@ def get_collection():
     return db.training
 
 
-def increment_reads(col, url):
+def increment_reads(col, url, highlights):
     return col.update_one({
         'url': url
     }, {
@@ -129,6 +140,8 @@ def increment_reads(col, url):
             'ts': datetime.datetime.utcnow()
         }, '$inc': {
             'n_reads': 1
+        }, '$push': {
+            'highlights': highlights
         }
     }).modified_count
 
@@ -155,7 +168,8 @@ def new_doc(doc):
             'ts': doc['ts'],
             'keyword': doc['keyword'],
             'n_reads': 0,
-            'being_read': False
+            'being_read': False,
+            'highlights': []
         }
         a.update(article)
         col.insert_one(a).inserted_id
@@ -166,7 +180,7 @@ def get_next_doc():
     col = get_collection()
     poss = col.find({
         'n_reads' : {
-            '$lt': 5
+            '$lt': 3
         }
     }).sort([
         ('being_read', 1)

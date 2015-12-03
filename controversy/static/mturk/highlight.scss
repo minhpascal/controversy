@@ -1,6 +1,7 @@
 @import 'bootstrap.min.css';
 * { font-family: 'Open Sans', Roboto, Ubuntu, 'Source Sans Pro', 'Helvetica Nueue', Helvetica, sans-serif; }
-h1 { font-weight: 700; }
+h1 {
+	font-weight: 700; }
 blockquote {
 	font-size: 16px; }
 blockquote.good {
@@ -12,9 +13,7 @@ blockquote.bad {
 .col-md-3 {
 	color: #ddd;
 	background-color: rgba(245, 245, 245, .3); }
-.col-md-3:hover {
-	color: #000; }
-#full_article {
+div#full_article {
 	font-size: 16px;
 	span {
 		cursor: pointer; }
@@ -22,8 +21,10 @@ blockquote.bad {
 		color: #bada55;
 		background-color: #800; }
 }
-#copyright { margin-bottom: 14em; }
-.btn { font-weight: 700; }
+#copyright {
+	margin-bottom: 14em; }
+.btn {
+	font-weight: 700; }
 .top_bar {
 	height: 8px;
 	background-color: #d9d9d9;

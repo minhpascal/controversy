@@ -32,7 +32,7 @@ application.secret_key = SECRET_KEY
 
 application.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
 application.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
-application.config['version'] = '0.3'
+application.config['version'] = '0.4'
 application.config['testing'] = DEBUG
 
 

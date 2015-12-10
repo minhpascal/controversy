@@ -9,15 +9,15 @@ import datetime
 
 sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
 
-def perform(keyword, sentis=False):
+def perform(keyword, training=False):
     """Provide ``keyword`` for content retrieval, scoring.
     """
-    articles = article_search(keyword, sentis=sentis)
+    articles = article_search(keyword, training=training)
     if len(articles) == 0:
         raise UsageError('no-articles', status_code=200)
 
     return {
-        'result': controversy(articles, twitter_search(keyword, sentis=sentis), _filter=~sentis),
+        'result': controversy(articles, twitter_search(keyword, training=training), _filter=~training),
         'ts': datetime.datetime.utcnow(),
         'keyword': keyword,
         'ok': 1

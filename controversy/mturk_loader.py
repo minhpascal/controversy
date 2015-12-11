@@ -19,10 +19,8 @@ def get_file(name):
 
 def update_progress(n_done, n_tasks):
     pprogress = int(100 * (float(n_done) / n_tasks))
-    fifthp = pprogress / 5
-    fourfifthp = (n_tasks / 5) - fifthp
-    sys.stdout.write('\r working ... [ %s%s ] %s%%' 
-                     % ('#' * (fifthp), '_' * fourfifthp, pprogress))
+    sys.stdout.write('\r working ... [ %s ] %s%%' 
+                     % ('#' * (pprogress / 5), pprogress))
     sys.stdout.flush()
 
 

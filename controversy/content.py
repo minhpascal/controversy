@@ -32,7 +32,7 @@ class SocialContent(object):
     def __init__(self, clean, dirty, training=False):
         self.clean = clean
         self.dirty = dirty
-        self.sentiment = self._sentiment(trainging)
+        self.sentiment = self._sentiment(training)
         self.is_negative = is_negative(self.sentiment)
         self.is_positive = is_positive(self.sentiment)
 
@@ -107,7 +107,7 @@ class Article(object):
         self.full = self._full_text(training)
         if training:
             self.title_tweets = twitter_search(self.title, training=training)
-            self.comments = article_comments(self.url, trainging=training)
+            self.comments = article_comments(self.url, training=training)
             # notice that this doesn't include tweets
             self.n_comments = len(self.comments)
 

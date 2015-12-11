@@ -22,10 +22,13 @@ from operator import is_not
 MAX_ATTEMPTS = 6
 MAX_COMMENTARY = 500
 TAG_RE = re.compile(r'<[^>]+>')
+ARTICLE_SEARCH_BASE = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?'
+COMMENT_BASE = 'http://api.nytimes.com/svc/community/v3/user-content/url.json?'
 
 
 class SocialContent(object):
-
+    """Subclasses are wrappers for social APIs
+    """
     def __init__(self, clean, dirty, training=False):
         self.clean = clean
         self.dirty = dirty
@@ -43,7 +46,7 @@ class SocialContent(object):
 
 class Tweet(SocialContent):
     """A tweet
-       holds basic attributes and finds sentiment
+       holds basic attributes and finds sentiment.
     """
 
     def __init__(self, j, training=False):
@@ -102,7 +105,11 @@ class Article(object):
         self.xlarge = 'https://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
         self.published = j['pub_date'][:10]
         self.full = self._full_text(training)
-        self.comments = article_comments(self.url, trainging=training)
+        if training:
+            self.title_tweets = twitter_search(self.title, training=training)
+            self.comments = article_comments(self.url, trainging=training)
+            # notice that this doesn't include tweets
+            self.n_comments = len(self.comments)
 
     def to_dict(self):
         return self.__dict__ if (self.full is not None and len(self.full)) != 0 else None
@@ -120,7 +127,9 @@ class Article(object):
         opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
         response = opener.open(urllib2.Request(self.url))
         soup = BeautifulSoup(response.read(), 'html.parser')
-        body = soup.findAll('p', {'class' : ['story-body-text', 'story-content']})
+        body = soup.findAll('p', {
+            'class' : ['story-body-text', 'story-content']
+        })
         # we'll split into paragraphs for easier reading if training
         res = ('|*^*|' if training else ' ').join(p.text for p in body)
         jar.clear()
@@ -145,10 +154,12 @@ def article_search(keyword, training=False):
         'facet_field': 'source'
     })
 
-    response = urllib2.urlopen('http://api.nytimes.com/svc/search/v2/articlesearch.json?%s' % params)
+    response = urllib2.urlopen('%s%s' % (ARTICLE_SEARCH_BASE, params))
     # an Article will be None if it doesn't have body text (thus the partial)
     # return an array of Article objects that have a body text
-    return filter(partial(is_not, None), map(lambda x: Article(x, training=training), json.loads(response.read())['response']['docs']))
+    return filter(partial(is_not, None),
+                  map(lambda x: Article(x, training=training),
+                      json.loads(response.read())['response']['docs']))
 
 
 def article_comments(url, offset=0, training=False):
@@ -164,7 +175,7 @@ def article_comments(url, offset=0, training=False):
             'offset': i * 25
         })
 
-        response = urllib2.urlopen('http://api.nytimes.com/svc/community/v3/user-content/url.json?%s' % params)
+        response = urllib2.urlopen('%s%s' % (COMMENT_BASE, params))
         try:
             comment_batch = json.loads(response.read())['results']['comments']
         except ValueError:
@@ -198,7 +209,6 @@ def twitter_search(keyword, training=False):
             })
         
         response = twitter.search(**_kwargs)
-                                  
         tweets += map(lambda x: Tweet(x, training=training), response['statuses'])
         try:
             next_res = response['search_metadata']['next_results']

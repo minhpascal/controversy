@@ -36,7 +36,6 @@ class BM25:
         self.DocAvgLen = 0
         self.fn_docs = fn_docs
         self.DocLen = []
-        #self.raw_data = []
         self.build_dictionary()
         self.tf_idf_generator()
 
@@ -53,13 +52,11 @@ class BM25:
 
     def tf_idf_generator(self, base=math.e):
         docTotalLen = 0.0
-        # print (self.dictionary.token2id)
         for i in xrange(len(self.fn_docs)):
             text = self.fn_docs[i].clean
             doc = preprocess(text)
             docTotalLen += len(doc)
             self.DocLen.append(len(doc))
-            # print self.dictionary.doc2bow(doc)
             bow = dict([(term, freq * 1.0 / len(doc)) for term, freq in self.dictionary.doc2bow(doc)])
             for term, tf in bow.items():
                 if term not in self.DF:
@@ -85,7 +82,7 @@ class BM25:
                 below = ((doc[term]) + k1 * (1 - b + b * doc_terms_len / self.DocAvgLen))
                 tmp_score.append(self.DocIDF[term] * upper / below)
             score = sum(tmp_score)
-            if score!=0:
+            if score != 0:
                 scores.append((score, idx))
         # descending order
         return sorted(scores, reverse=True)
@@ -95,15 +92,12 @@ class BM25:
         tfidf = []
         for doc in self.DocTF:
             doc_tfidf  = [(term, tf * self.DocIDF[term]) for term, tf in doc.items()]
-            # print doc, tf, self.DocIDF[term]
             doc_tfidf.sort()
             tfidf.append(doc_tfidf)
-        # print "tfidf:", tfidf
         return tfidf
 
 
     def items(self):
-        # return a list [(term_idx, term_desc),]
         it = self.dictionary.items()
         it.sort()
         return it
@@ -129,7 +123,7 @@ def preprocess(file_content):
 
 
 def score_entropy(li):
-    """Get entropy of list ``li``.
+    """Get entropy of list ``li``
     """
     ret = dict((x, (li.count(x) / float(len(li)))) for x in set(li)).values()
     #ret = map(lambda x: li.count(x) / float(len(li)), li)

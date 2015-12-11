@@ -159,6 +159,7 @@ def toggle_being_read(col, url, dest):
 def new_doc(doc):
     """given an API response, make an entry for each article,
     preserving the timestamp of the entire response and keyword.
+    Returns number of articles found.
     """
     col = get_collection()
     n_docs = 0

@@ -42,11 +42,13 @@
 	{% else %}
 	&hellip; nothing yet. May we interest you in <a href="../">a try</a>?
 	{% endif %}
+	{% endif %}
 </ul>
 
 
 <h3>This account</h3>
 <p>This account is owned by <b>{{ user['Name'] }}</b> who goes by <b>{{ user['Id'] }}</b> and is ostensibly associated with <b>{{ user['School'] }}</b>.</p>
+{% if user['Id'] != 'bourbaki@illinois.edu' %}
 <p>You're welcome to close your account. We'll delete anything associated with you. This doesn't include contributions to trending queries, since those are anonymous.</p>
 <span>
 	<form method=POST action="{{ url_for('account') }}">
@@ -66,10 +68,9 @@
 	{% endfor %}
 </p>
 {% endif %}
-
-
-
-</p>
+{% else %}
+<!-- bourbaki@illinois.edu cannot be closed -->
+{% endif %}
 
 <h3>Usage notes</h3>
 <p>We encrypt passwords with a one-way hash and cannot even see your password ourselves. As of fall 2015, we force SSL as you browse the site. This means your connection, namely the data we exchange, is private by default. We'd like to thank StartSSL for providing this service for free.</p>

@@ -181,7 +181,7 @@ def new_doc(doc):
     tw_col.insert_one({
         'tweets': res['kw_tweets'],
         'ts': doc['ts'],
-        'keyword': doc['ts']
+        'keyword': doc['keyword']
     })
 
     n_docs = 0

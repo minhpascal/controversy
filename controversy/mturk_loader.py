@@ -30,13 +30,14 @@ if __name__ == '__main__':
                                os.listdir(TT_DIR)))
     terms = list(itertools.chain(*terms_by_file))
 
-    if len(sys.argv) > 1 and sys.argv[1] == 'test':
-        n_terms = sys.argv[2] if len(sys.argv) == 3 else 2
-        terms = list(set(terms))[:n_terms]
-        print('using %s training terms' % len(terms))
-    elif sys.argv[1] in {'--help', 'help'}:
-        print('''options:\n\t``test`` <-- uses small subset of training terms \n\t\t\tfor testing mturk\n\t```` <-- (no options) loads all training keywords\n\t``help`` or ``--help`` <-- displays this message\n''')
-        sys.exit(0)
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'test':
+            n_terms = sys.argv[2] if len(sys.argv) == 3 else 2
+            terms = list(set(terms))[:n_terms]
+            print('using %s training terms' % len(terms))
+        elif sys.argv[1] in {'--help', 'help'}:
+            print('''options:\n\t``test`` <-- uses small subset of training terms \n\t\t\tfor testing mturk\n\t```` <-- (no options) loads all training keywords\n\t``help`` or ``--help`` <-- displays this message\n''')
+            sys.exit(0)
 
     n_tasks = len(terms)
     n_done = 0

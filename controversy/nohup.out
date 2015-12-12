@@ -1,1 +1,48 @@
- working ... [  ] 0%
+ working ... [  ] 0%Traceback (most recent call last):
+  File "mturk_loader.py", line 47, in <module>
+    scored_keyword = querier.perform(term, training=True)
+  File "/home/www/controversy/controversy/querier.py", line 15, in perform
+    articles = article_search(keyword, training=training)
+  File "/home/www/controversy/controversy/content.py", line 162, in article_search
+    json.loads(response.read())['response']['docs']))
+  File "/home/www/controversy/controversy/content.py", line 161, in <lambda>
+    map(lambda x: Article(x, training=training),
+  File "/home/www/controversy/controversy/content.py", line 110, in __init__
+    self.comments = article_comments(self.url, training=training)
+  File "/home/www/controversy/controversy/content.py", line 185, in article_comments
+    comments += map(lambda x: Comment(x, training=training).to_dict(), comment_batch)
+  File "/home/www/controversy/controversy/content.py", line 185, in <lambda>
+    comments += map(lambda x: Comment(x, training=training).to_dict(), comment_batch)
+TypeError: __init__() got an unexpected keyword argument 'training'
+ working ... [  ] 0% working ... [  ] 0%Traceback (most recent call last):
+  File "mturk_loader.py", line 53, in <module>
+    n_docs += mturk.new_doc(scored_keyword)
+  File "/home/www/controversy/controversy/mturk.py", line 176, in new_doc
+    col.insert_one(a).inserted_id
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/collection.py", line 549, in insert_one
+    return InsertOneResult(self._insert(sock_info, document),
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/collection.py", line 469, in _insert
+    check_keys, manipulate, write_concern, op_id)
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/collection.py", line 453, in _insert_one
+    check_keys=check_keys)
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/pool.py", line 206, in command
+    self._raise_connection_failure(error)
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/pool.py", line 333, in _raise_connection_failure
+    raise error
+bson.errors.InvalidDocument: Cannot encode object: <content.Tweet object at 0x7f1850831810>
+Traceback (most recent call last):
+  File "mturk_loader.py", line 53, in <module>
+    n_docs += mturk.new_doc(scored_keyword)
+  File "/home/www/controversy/controversy/mturk.py", line 176, in new_doc
+    col.insert_one(a).inserted_id
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/collection.py", line 549, in insert_one
+    return InsertOneResult(self._insert(sock_info, document),
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/collection.py", line 469, in _insert
+    check_keys, manipulate, write_concern, op_id)
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/collection.py", line 453, in _insert_one
+    check_keys=check_keys)
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/pool.py", line 206, in command
+    self._raise_connection_failure(error)
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/pool.py", line 333, in _raise_connection_failure
+    raise error
+bson.errors.InvalidDocument: Cannot encode object: <content.Tweet object at 0x7fdb912b3850>

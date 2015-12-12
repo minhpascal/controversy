@@ -7,7 +7,7 @@
     
     Runs server.
 
-    :copyright: (c) 2015 I Lourentzou, G Dyer, A Sharma, CX Zhai. Some rights reserved.
+    :copyright: (c) 2015-2016 I Lourentzou, G Dyer, A Sharma, CX Zhai. Some rights reserved.
     :license: CC BY-NC-SA 4.0, see LICENSE for more details.
 """
 from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort

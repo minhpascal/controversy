@@ -93,7 +93,9 @@ def index():
 @mturk.route('/mark_available')
 @require_human
 def mark_available():
-    toggle_being_read(get_collection(), session['reading_url'], False)
+    toggle_being_read(get_articles_collection(),
+                      session['reading_url'],
+                      False)
     return success()
 
 
@@ -111,7 +113,7 @@ def update_doc():
     if n_inds > session['n_sentences'] or n_inds < 1:
         raise UsageError('no or too many highlights')
 
-    col = get_collection()
+    col = get_articles_collection()
     url = session['reading_url']
     increment_reads(col, url, inds)
     toggle_being_read(col, url, False)
@@ -126,10 +128,17 @@ def submitted():
     return render_template('mturk_submitted.html', **locals())
 
 
-def get_collection():
+def get_db():
     client = MongoClient('localhost', MONGO_PORT)
-    db = client.controversy
-    return db.training
+    return client.controversy
+
+
+def get_articles_collection():
+    return get_db().articles
+
+
+def get_tweets_collection():
+    return get_db().tweets
 
 
 def increment_reads(col, url, highlights):
@@ -159,11 +168,26 @@ def toggle_being_read(col, url, dest):
 def new_doc(doc):
     """given an API response, make an entry for each article,
     preserving the timestamp of the entire response and keyword.
+    Cache tweets by keyword (not associated with article corpus for speed).
     Returns number of articles found.
     """
-    col = get_collection()
+    if doc['ok'] != 1:
+        return 0
+
+    ar_col = get_articles_collection()
+    tw_col = get_tweets_collection()
+    res = doc['result']
+    
+    tw_col.insert_one({
+        'tweets': res['kw_tweets'],
+        'ts': doc['ts'],
+        'keyword': doc['ts']
+    })
+
     n_docs = 0
-    for article in doc['result']:
+    for article in res['articles']:
+        if article is None:
+            continue
         n_docs += 1
         a = {
             'ts': doc['ts'],
@@ -173,7 +197,7 @@ def new_doc(doc):
             'highlights': []
         }
         a.update(article)
-        col.insert_one(a).inserted_id
+        ar_col.insert_one(a).inserted_id
     return n_docs
 
 

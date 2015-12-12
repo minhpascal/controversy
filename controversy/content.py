@@ -17,6 +17,7 @@ import urllib, urllib2, cookielib
 from sentiment import textblob, is_positive, is_negative, sentistrength
 from functools import partial
 from operator import is_not
+from nltk.corpus import stopwords
 
 
 MAX_ATTEMPTS = 6
@@ -32,9 +33,12 @@ class SocialContent(object):
     def __init__(self, clean, dirty, training=False):
         self.clean = clean
         self.dirty = dirty
-        self.sentiment = self._sentiment(training)
-        self.is_negative = is_negative(self.sentiment)
-        self.is_positive = is_positive(self.sentiment)
+        if not training:
+            # right now, sentiment is not being taken for training
+            # however, system exists where SentiStrength will be used if conditional is removed (and training)
+            self.sentiment = self._sentiment(training)
+            self.is_negative = is_negative(self.sentiment)
+            self.is_positive = is_positive(self.sentiment)
 
     def to_dict(self):
         return self.__dict__
@@ -75,7 +79,7 @@ class Comment(SocialContent):
        holds basic attributes and finds sentiment
     """
 
-    def __init__(self, j, trainging=False):
+    def __init__(self, j, training=False):
         dirty = j['commentBody']
         SocialContent.__init__(self, self._clean(dirty), dirty, training)
 
@@ -105,14 +109,24 @@ class Article(object):
         self.xlarge = 'https://www.nytimes.com/%s' % j['multimedia'][1]['url'] if len(j['multimedia']) > 1 else None
         self.published = j['pub_date'][:10]
         self.full = self._full_text(training)
+        self.training = training
         if training:
-            self.title_tweets = twitter_search(self.title, training=training)
+            sw = set(stopwords.words('english'))
+            mod_tit = ' '.join(filter(lambda x: x not in sw,
+                                      self.title.split()))
+            self.queried_title = mod_tit
+            self.title_tweets = twitter_search(mod_tit, training=training)
             self.comments = article_comments(self.url, training=training)
-            # notice that this doesn't include tweets
+            # notice that this count doesn't include tweets
             self.n_comments = len(self.comments)
 
     def to_dict(self):
-        return self.__dict__ if (self.full is not None and len(self.full)) != 0 else None
+        if self.full is not None and len(self.full) != 0:
+            if self.training:
+                self.title_tweets = map(lambda x: x.to_dict(), self.title_tweets)
+            return self.__dict__
+        else:
+            return None
 
     def _no_html_ab(self):
         return BeautifulSoup(self.abstract or self.lead, 'html.parser').getText()

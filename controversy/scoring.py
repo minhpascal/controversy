@@ -165,6 +165,8 @@ def controversy(articles, social_content, _filter=True):
         ranked_articles[article_index] = dict_art
         sentiment_score, linguistic_score = 0, 0 # (entropy) score of the entire article
         sentences = [] # scores & metadata for each sentence
+        # ``|*^*|`` is added by ``content.py`` to mark new paragraphs
+        # ... only in training
         query = tokenizer.tokenize(articles[article_index].full.replace('|*^*|', ''))
 
         # for every sentence in the article

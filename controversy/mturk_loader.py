@@ -30,13 +30,13 @@ if __name__ == '__main__':
                                os.listdir(TT_DIR)))
     terms = list(itertools.chain(*terms_by_file))
 
-    if len(sys.argv) > 1:
-        if sys.argv[1] == 'test':
-            print('using small subset of training terms')
-            terms = list(set(terms))[:1]
-        elif sys.argv[1] in {'--help', 'help'}:
-            print('''options:\n\t``test`` <-- uses small subset of training terms \n\t\t\tfor testing mturk\n\t```` <-- (no options) loads all training keywords\n\t``help`` or ``--help`` <-- displays this message\n''')
-            sys.exit(0)
+    if len(sys.argv) > 1 and sys.argv[1] == 'test':
+        n_terms = sys.argv[2] if len(sys.argv) == 3 else 2
+        terms = list(set(terms))[:n_terms]
+        print('using %s training terms' % len(terms))
+    elif sys.argv[1] in {'--help', 'help'}:
+        print('''options:\n\t``test`` <-- uses small subset of training terms \n\t\t\tfor testing mturk\n\t```` <-- (no options) loads all training keywords\n\t``help`` or ``--help`` <-- displays this message\n''')
+        sys.exit(0)
 
     n_tasks = len(terms)
     n_done = 0
@@ -44,13 +44,13 @@ if __name__ == '__main__':
     for term in terms:
         update_progress(n_done, n_tasks)
         try:
-            scored_keyword = querier.perform(term, training=True)
+            social = querier.perform(term, training=True)
         except UsageError:
             # no articles
             continue
 
         n_done += 1
-        n_docs += mturk.new_doc(scored_keyword)
+        n_docs += mturk.new_doc(social)
 
     update_progress(n_done, n_tasks)
     print('\t... done')

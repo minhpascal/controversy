@@ -5,6 +5,11 @@ import os
 import itertools
 from error import UsageError
 import sys
+import twilio
+from twilio.rest import TwilioRestClient
+from flask import jsonify
+from error import UsageError
+from config import ADMIN_PHONE
 
 
 # source of terms --> http://arxiv.org/pdf/1409.8152v1.pdf
@@ -54,5 +59,11 @@ if __name__ == '__main__':
         n_docs += mturk.new_doc(social)
 
     update_progress(n_done, n_tasks)
+
     print('\t... done')
-    print('\t ... summary: %s doc(s) ready for training from %s terms' % (n_docs, n_tasks))
+    summary = 'summary: %s doc(s) ready for training from %s terms' % (n_docs, n_tasks)
+    print('\t ...' % summary)
+    client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
+    client.messages.create(body='mturk_loader finished. %s' % summary,
+                           to=ADMIN_PHONE,
+                           from_='+19089982913')

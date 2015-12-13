@@ -18,7 +18,7 @@ from sentiment import textblob, is_positive, is_negative, sentistrength
 from functools import partial
 from operator import is_not
 from nltk.corpus import stopwords
-import twython.exceptions.TwythonRateLimitError as PutainTW
+from twython.exceptions import TwythonRateLimitError as PutainTW
 
 
 MAX_ATTEMPTS = 6
@@ -255,5 +255,5 @@ def twitter_search(keyword, training=False):
 
 
 def get_auth(comb=0):
-    auth = Twython(TWITTER_KEYS[i], TWITTER_SECRETS[i], oauth_version=2)
-    return Twython(TWITTER_KEYS[i], access_token=auth.obtain_access_token())
+    auth = Twython(TWITTER_KEYS[comb], TWITTER_SECRETS[comb], oauth_version=2)
+    return Twython(TWITTER_KEYS[comb], access_token=auth.obtain_access_token())

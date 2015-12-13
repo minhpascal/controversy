@@ -18,6 +18,7 @@ from sentiment import textblob, is_positive, is_negative, sentistrength
 from functools import partial
 from operator import is_not
 from nltk.corpus import stopwords
+import twython.exceptions.TwythonRateLimitError as PutainTW
 
 
 MAX_ATTEMPTS = 6
@@ -177,6 +178,8 @@ def article_search(keyword, training=False):
 
 
 def article_comments(url, offset=0, training=False):
+    """Gets comments for NYT times article given URL.
+    """
     comments = []
 
     for i in xrange(MAX_ATTEMPTS):
@@ -196,12 +199,16 @@ def article_comments(url, offset=0, training=False):
             # no json could be decoded
             break
 
-        comments += map(lambda x: Comment(x, training=training).to_dict(), comment_batch)
+        comments += map(lambda x: Comment(x, training=training).to_dict(),
+                        comment_batch)
 
     return comments
 
 
 def twitter_search(keyword, training=False):
+    """Provide keyword for twitter search.
+    Will return <= MAX_COMMENTARY tweets queried with MAX_ATTEMPTS.
+    """
     twitter = get_auth()
     tweets = []
 
@@ -209,6 +216,10 @@ def twitter_search(keyword, training=False):
         'q': keyword,
         'lang': 'en'
     }
+
+    # vary API credentails to avoid rate limits
+    # start with 1st combination
+    curr_comb = 0
     for i in xrange(MAX_ATTEMPTS):
         if MAX_COMMENTARY < len(tweets):
             break
@@ -222,8 +233,17 @@ def twitter_search(keyword, training=False):
                 'max_id': next_max
             })
         
-        response = twitter.search(**_kwargs)
+        try:
+            response = twitter.search(**_kwargs)
+        except PutainTW:
+            # twitter étant une pute
+            curr_comb += 1
+            twitter = get_auth(curr_comb)
+            i -= 1
+            continue
+
         tweets += map(lambda x: Tweet(x, training=training), response['statuses'])
+
         try:
             next_res = response['search_metadata']['next_results']
             next_max = next_res.split('max_id=')[1].split('&')[0]
@@ -234,6 +254,6 @@ def twitter_search(keyword, training=False):
     return tweets
 
 
-def get_auth():
-    auth = Twython(API_KEY, API_SECRET, oauth_version=2)
-    return Twython(API_KEY, access_token = auth.obtain_access_token())
+def get_auth(comb=0):
+    auth = Twython(TWITTER_KEYS[i], TWITTER_SECRETS[i], oauth_version=2)
+    return Twython(TWITTER_KEYS[i], access_token=auth.obtain_access_token())

@@ -29,7 +29,6 @@ If you'd like to reproduce our results, we encourage you to use the demo or look
 
 ------
 
-
 .. image:: http://ocha.2pitau.org/img/biography/uiuc.gif
 	:target: http://cs.illinois.edu
 

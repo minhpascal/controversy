@@ -6,7 +6,10 @@
     Interfaces with api endpoints (as defined in api.py).
 
     This module gets, well, content for scoring.
-    Namely, it fetches NYTimes articles (metadata & full-text) and tweets based on a keyword.
+    Namely, it fetches
+        * NYTimes articles (metadata & full-text),
+        * comments on NYT articles,
+        * and tweets based on a keyword
 """
 from bs4 import BeautifulSoup
 from config import *
@@ -18,7 +21,7 @@ from sentiment import textblob, is_positive, is_negative, sentistrength
 from functools import partial
 from operator import is_not
 from nltk.corpus import stopwords
-from twython.exceptions import TwythonRateLimitError as PutainTW
+from twython.exceptions import TwythonRateLimitError
 
 
 MAX_ATTEMPTS = 6
@@ -165,7 +168,7 @@ def article_search(keyword, training=False):
         'q': keyword,
         'begin_date': nyt_query_date(last_week),
         'end_date': nyt_query_date(today),
-        'api-key': NYT_KEY,
+        'api-key': NYT_ARTICLE_SEARCH_KEY,
         'facet_field': 'source'
     })
 
@@ -182,17 +185,26 @@ def article_comments(url, offset=0, training=False):
     """
     comments = []
 
+    curr_key = 0
     for i in xrange(MAX_ATTEMPTS):
         if MAX_COMMENTARY < len(comments):
             break
 
         params = urllib.urlencode({
             'url': url,
-            'api-key': NYT_COMMUNITY_KEY,
+            'api-key': NYT_COMMUNITY_KEYS[curr_key],
             'offset': i * 25
         })
 
-        response = urllib2.urlopen('%s%s' % (COMMENT_BASE, params))
+        try:
+            response = urllib2.urlopen('%s%s' % (COMMENT_BASE, params))
+        except urllib2.HTTPError:
+            # max requests exceeded (>5k queries or >30 / second)
+            curr_key += 1
+            i -= 1
+            break
+
+
         try:
             comment_batch = json.loads(response.read())['results']['comments']
         except ValueError:
@@ -214,7 +226,9 @@ def twitter_search(keyword, training=False):
 
     kwargs = {
         'q': keyword,
-        'lang': 'en'
+        'lang': 'en',
+        'count': 100,
+        'include_entities': True
     }
 
     # vary API credentails to avoid rate limits
@@ -224,29 +238,22 @@ def twitter_search(keyword, training=False):
         if MAX_COMMENTARY < len(tweets):
             break
 
-        _kwargs = kwargs
-        if i == 0:
-            _kwargs['count'] = 100
-        else:
-            _kwargs.update({
-                'include_entities': True,
-                'max_id': next_max
-            })
-        
         try:
-            response = twitter.search(**_kwargs)
-        except PutainTW:
-            # twitter étant une pute
+            response = twitter.search(**kwargs)
+        except TwythonRateLimitError:
+            # exceeded rate limits
             curr_comb += 1
+            print(curr_comb)
             twitter = get_auth(curr_comb)
             i -= 1
-            continue
+            break
 
         tweets += map(lambda x: Tweet(x, training=training), response['statuses'])
 
         try:
             next_res = response['search_metadata']['next_results']
             next_max = next_res.split('max_id=')[1].split('&')[0]
+            kwargs['max_id'] = next_max
         except KeyError:
             # no more results
             break

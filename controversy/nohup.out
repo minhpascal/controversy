@@ -1,72 +1,0 @@
- working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 1%Traceback (most recent call last):
-  File "mturk_loader.py", line 53, in <module>
-    social = querier.perform(term, training=True)
-  File "/home/www/controversy/controversy/querier.py", line 24, in perform
-    twitter_search(keyword, training=training))
-  File "/home/www/controversy/controversy/content.py", line 245, in twitter_search
-    'max_id': next_max
-UnboundLocalError: local variable 'next_max' referenced before assignment
-Traceback (most recent call last):
-  File "mturk_loader.py", line 53, in <module>
-    social = querier.perform(term, training=True)
-  File "/home/www/controversy/controversy/querier.py", line 15, in perform
-    articles = article_search(keyword, training=training)
-  File "/home/www/controversy/controversy/content.py", line 180, in article_search
-    json.loads(response.read())['response']['docs']))
-  File "/home/www/controversy/controversy/content.py", line 179, in <lambda>
-    map(lambda x: Article(x, training=training),
-  File "/home/www/controversy/controversy/content.py", line 122, in __init__
-    self.title_tweets = twitter_search(mod_tit, training=training)
-  File "/home/www/controversy/controversy/content.py", line 245, in twitter_search
-    'max_id': next_max
-UnboundLocalError: local variable 'next_max' referenced before assignment
- working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 0%Traceback (most recent call last):
-  File "mturk_loader.py", line 53, in <module>
-    social = querier.perform(term, training=True)
-  File "/home/www/controversy/controversy/querier.py", line 15, in perform
-    articles = article_search(keyword, training=training)
-  File "/home/www/controversy/controversy/content.py", line 180, in article_search
-    json.loads(response.read())['response']['docs']))
-  File "/home/www/controversy/controversy/content.py", line 179, in <lambda>
-    map(lambda x: Article(x, training=training),
-  File "/home/www/controversy/controversy/content.py", line 123, in __init__
-    self.comments = article_comments(self.url, training=training)
-  File "/home/www/controversy/controversy/content.py", line 200, in article_comments
-    response = urllib2.urlopen('%s%s' % (COMMENT_BASE, params))
-  File "/usr/lib/python2.7/urllib2.py", line 127, in urlopen
-    return _opener.open(url, data, timeout)
-  File "/usr/lib/python2.7/urllib2.py", line 404, in open
-    response = self._open(req, data)
-  File "/usr/lib/python2.7/urllib2.py", line 422, in _open
-    '_open', req)
-  File "/usr/lib/python2.7/urllib2.py", line 382, in _call_chain
-    result = func(*args)
-  File "/usr/lib/python2.7/urllib2.py", line 1214, in http_open
-    return self.do_open(httplib.HTTPConnection, req)
-  File "/usr/lib/python2.7/urllib2.py", line 1187, in do_open
-    r = h.getresponse(buffering=True)
-  File "/usr/lib/python2.7/httplib.py", line 1051, in getresponse
-    response.begin()
-  File "/usr/lib/python2.7/httplib.py", line 415, in begin
-    version, status, reason = self._read_status()
-  File "/usr/lib/python2.7/httplib.py", line 371, in _read_status
-    line = self.fp.readline(_MAXLINE + 1)
-  File "/usr/lib/python2.7/socket.py", line 476, in readline
-    data = self._sock.recv(self._rbufsize)
-KeyboardInterrupt
- working ... [  ] 0% working ... [  ] 0% working ... [  ] 0% working ... [  ] 0%Traceback (most recent call last):
-  File "mturk_loader.py", line 53, in <module>
-    social = querier.perform(term, training=True)
-  File "/home/www/controversy/controversy/querier.py", line 24, in perform
-    twitter_search(keyword, training=training))
-  File "/home/www/controversy/controversy/content.py", line 242, in twitter_search
-    response = twitter.search(**kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/twython/endpoints.py", line 169, in search
-    return self.get('search/tweets', params=params)
-  File "/usr/local/lib/python2.7/dist-packages/twython/api.py", line 265, in get
-    return self.request(endpoint, params=params, version=version)
-  File "/usr/local/lib/python2.7/dist-packages/twython/api.py", line 259, in request
-    api_call=url)
-  File "/usr/local/lib/python2.7/dist-packages/twython/api.py", line 198, in _request
-    retry_after=response.headers.get('X-Rate-Limit-Reset'))
-twython.exceptions.TwythonError: Twitter API returned a 500 (Internal Server Error), Internal error

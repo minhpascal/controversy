@@ -8,3 +8,4 @@ config.py
 venv
 controversy/sentistrength
 notes.rst
+nohup.out

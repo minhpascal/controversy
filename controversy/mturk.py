@@ -202,7 +202,7 @@ def new_doc(doc):
 
 
 def get_next_doc():
-    col = get_collection()
+    col = get_articles_collection()
     poss = col.find({
         'n_reads' : {
             '$lt': 3
@@ -220,3 +220,15 @@ def get_next_doc():
         return None
     toggle_being_read(col, to_be_read['url'], True)
     return to_be_read
+
+
+def keyword_exists(kw):
+    col = get_tweets_collection()
+    poss = col.find({
+        'keyword': {
+            '$exists': kw
+        }
+    })
+    print(poss)
+    return poss
+

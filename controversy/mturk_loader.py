@@ -19,7 +19,7 @@ TT_DIR = 'training_terms'
 def get_file(name):
     with open(name, 'r') as f:
         data = f.readlines()
-    return data
+    return map(lambda x: x.strip(), data)
 
 
 def update_progress(n_done, n_tasks):
@@ -48,17 +48,16 @@ if __name__ == '__main__':
     n_done = 0
     n_docs = 0
     for term in terms:
-        update_progress(n_done, n_tasks)
         try:
             social = querier.perform(term, training=True)
         except UsageError:
             # no articles
             continue
 
-        n_done += 1
         n_docs += mturk.new_doc(social)
+        n_done += 1
 
-    update_progress(n_done, n_tasks)
+        update_progress(n_done, n_tasks)
 
     print('\t... done')
     summary = 'summary: %s doc(s) ready for training from %s terms' % (n_docs, n_tasks)

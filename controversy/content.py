@@ -21,7 +21,7 @@ from sentiment import textblob, is_positive, is_negative, sentistrength
 from functools import partial
 from operator import is_not
 from nltk.corpus import stopwords
-from twython.exceptions import TwythonRateLimitError
+from twython.exceptions import TwythonRateLimitError, TwythonError
 
 
 MAX_ATTEMPTS = 6
@@ -240,13 +240,13 @@ def twitter_search(keyword, training=False):
 
         try:
             response = twitter.search(**kwargs)
-        except TwythonRateLimitError:
-            # exceeded rate limits
+        except:
+            # bad form but a variety of errors could be thrown
+            # from exceeded rate limits
             curr_comb += 1
-            print(curr_comb)
             twitter = get_auth(curr_comb)
             i -= 1
-            break
+            continue
 
         tweets += map(lambda x: Tweet(x, training=training), response['statuses'])
 

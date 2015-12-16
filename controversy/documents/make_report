@@ -1,0 +1,2 @@
+pdflatex fa15-report.tex
+open fa15-report.pdf

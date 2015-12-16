@@ -51,12 +51,15 @@ if __name__ == '__main__':
             print(HELP_STR)
             sys.exit(0)
 
+    print('running ... this could take a while')
+
     n_tasks = len(terms)
     n_done = 0
     n_docs = 0
-    n_dup_articles = 0
+    n_dup_keywords = 0
     for term in terms:
         if mturk.keyword_exists(term):
+            n_dup_keywords += 1
             continue
 
         try:
@@ -66,14 +69,14 @@ if __name__ == '__main__':
             continue
 
         col = mturk.get_articles_collection()
-        social['articles'] = filter(lambda x: mturk.article_is_new(x['url']),
-                                    social['articles'])
+        social['result']['articles'] = filter(lambda x: mturk.article_is_new(x['url']),
+                                              social['result']['articles'])
         n_docs += mturk.new_doc(social)
         n_done += 1
 
         update_progress(n_done, n_tasks)
 
     print('\t... done')
-    summary = 'summary: %s doc(s) ready for training from %s terms' % (n_docs, n_tasks)
+    summary = 'summary: %s doc(s) ready for training from %s terms (%s skipped)' % (n_docs, n_tasks, n_dup_keywords)
     sms_admin('mturk_loader finished. %s' % summary)
     print('\t ...' % summary)

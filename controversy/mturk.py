@@ -230,9 +230,7 @@ def keyword_exists(kw):
     poss = col.find({
         'keyword': kw
     })
-    print(poss.count())
-    print('here')
-    return poss.count()
+    return poss.count() != 0
 
 
 def article_is_new(url, col=None):
@@ -243,9 +241,7 @@ def article_is_new(url, col=None):
         col = get_articles_collection()
 
     poss = col.find({
-        'url': {
-            '$exists': url
-        }
+        'url': url
     })
 
-    return ~poss
+    return poss.count() == 0

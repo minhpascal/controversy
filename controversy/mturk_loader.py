@@ -9,12 +9,19 @@ import twilio
 from twilio.rest import TwilioRestClient
 from flask import jsonify
 from error import UsageError
-from config import ADMIN_PHONE
+from config import ADMIN_PHONE, TWILIO_SID, TWILIO_AUTH_TOKEN
 
 
 # source of terms --> http://arxiv.org/pdf/1409.8152v1.pdf
 TT_DIR = 'training_terms'
+HELP_STR = 'options:\n\t``test`` <-- uses small subset of training terms \n\t\t\tfor testing mturk\n\t```` <-- (no options) loads all training keywords\n\t``help`` or ``--help`` <-- displays this message\n'
 
+
+def sms_admin(m):
+    client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
+    client.messages.create(body=m,
+                           to=ADMIN_PHONE,
+                           from_='+19089982913')
 
 def get_file(name):
     with open(name, 'r') as f:
@@ -41,19 +48,26 @@ if __name__ == '__main__':
             terms = list(set(terms))[:n_terms]
             print('using %s training terms' % len(terms))
         elif sys.argv[1] in {'--help', 'help'}:
-            print('''options:\n\t``test`` <-- uses small subset of training terms \n\t\t\tfor testing mturk\n\t```` <-- (no options) loads all training keywords\n\t``help`` or ``--help`` <-- displays this message\n''')
+            print(HELP_STR)
             sys.exit(0)
 
     n_tasks = len(terms)
     n_done = 0
     n_docs = 0
+    n_dup_articles = 0
     for term in terms:
+        if mturk.keyword_exists(term):
+            continue
+
         try:
             social = querier.perform(term, training=True)
         except UsageError:
             # no articles
             continue
 
+        col = mturk.get_articles_collection()
+        social['articles'] = filter(lambda x: mturk.article_is_new(x['url']),
+                                    social['articles'])
         n_docs += mturk.new_doc(social)
         n_done += 1
 
@@ -61,8 +75,5 @@ if __name__ == '__main__':
 
     print('\t... done')
     summary = 'summary: %s doc(s) ready for training from %s terms' % (n_docs, n_tasks)
+    sms_admin('mturk_loader finished. %s' % summary)
     print('\t ...' % summary)
-    client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
-    client.messages.create(body='mturk_loader finished. %s' % summary,
-                           to=ADMIN_PHONE,
-                           from_='+19089982913')

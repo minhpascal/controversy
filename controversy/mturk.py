@@ -223,12 +223,29 @@ def get_next_doc():
 
 
 def keyword_exists(kw):
+    """Checks if ``kw`` has been saved already
+    Forced collection update
+    """
     col = get_tweets_collection()
     poss = col.find({
-        'keyword': {
-            '$exists': kw
+        'keyword': kw
+    })
+    print(poss.count())
+    print('here')
+    return poss.count()
+
+
+def article_is_new(url, col=None):
+    """Checks if article @ ``url``
+    has been saved already
+    """
+    if col is None:
+        col = get_articles_collection()
+
+    poss = col.find({
+        'url': {
+            '$exists': url
         }
     })
-    print(poss)
-    return poss
 
+    return ~poss

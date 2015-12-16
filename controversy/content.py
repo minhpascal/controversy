@@ -21,7 +21,6 @@ from sentiment import textblob, is_positive, is_negative, sentistrength
 from functools import partial
 from operator import is_not
 from nltk.corpus import stopwords
-from twython.exceptions import TwythonRateLimitError, TwythonError
 
 
 MAX_ATTEMPTS = 6
@@ -184,8 +183,8 @@ def article_comments(url, offset=0, training=False):
     """Gets comments for NYT times article given URL.
     """
     comments = []
-
     curr_key = 0
+
     for i in xrange(MAX_ATTEMPTS):
         if MAX_COMMENTARY < len(comments):
             break
@@ -242,7 +241,7 @@ def twitter_search(keyword, training=False):
             response = twitter.search(**kwargs)
         except:
             # bad form but a variety of errors could be thrown
-            # from exceeded rate limits
+            # ... from exceeded rate limits
             curr_comb += 1
             twitter = get_auth(curr_comb)
             i -= 1

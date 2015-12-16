@@ -6,6 +6,8 @@ import db
 import redis
 import json
 import datetime
+from functools import partial
+from operator import is_not
 
 sr = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
 
@@ -18,8 +20,9 @@ def perform(keyword, training=False):
 
     if training:
         res = {
-            'articles': map(lambda x: x.to_dict(),
-                            articles),
+            'articles': filter(partial(is_not, None),
+                               map(lambda x: x.to_dict(),
+                                   articles)),
             'kw_tweets': map(lambda x: x.to_dict(), 
                              twitter_search(keyword, training=training))
         }

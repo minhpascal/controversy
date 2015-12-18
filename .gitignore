@@ -3,6 +3,8 @@
 *.css.map
 *.swp
 *.rdb
+*.aux
+*.log
 .DS_Store
 config.py
 venv

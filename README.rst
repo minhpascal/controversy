@@ -19,7 +19,7 @@ Joint mining of news text and social media to discover controversial points in n
 Pending
 --------
 
-We're currently improving upon our IEEE paper by adding to the scoring function and implementing more accurate content retrieval.
+We're currently improving upon our IEEE paper.
 
 
 Running for development

@@ -10,7 +10,7 @@
     :copyright: (c) 2015-2016 I Lourentzou, G Dyer, A Sharma, CX Zhai. Some rights reserved.
     :license: CC BY-NC-SA 4.0, see LICENSE for more details.
 """
-from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort
+from flask import Flask, session, redirect, render_template, request, Blueprint, flash, abort, Response
 from jinja2 import TemplateNotFound
 from functools import wraps
 from api import api
@@ -30,21 +30,23 @@ application.register_blueprint(api, url_prefix='/api')
 application.register_blueprint(mturk, url_prefix='/training')
 application.secret_key = SECRET_KEY
 
-application.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
-application.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
-application.config['version'] = '0.4'
-application.config['testing'] = DEBUG
+class AppConfig(object):
+    RECAPTCHA_PUBLIC_KEY = CAPTCHA_PUBLIC
+    RECAPTCHA_PRIVATE_KEY = CAPTCHA_PRIVATE
+    VERSION = '0.4'
+    testing = DEBUG
 
+application.config.from_object(AppConfig)
 
-def get_added_styles():
-    webkit = digest('webkit.css') if session.get('webkit') == 'webkit' else None
-    safari = digest('safari.css') if session.get('safari') == 'safari' else None
-    return webkit, safari
+def plain_text_resp(message, code=200):
+    return Response(message,
+                    mimetype='text/plain',
+                    status=code)
 
 
 @application.errorhandler(404)
-def handle_404(e):
-    return render_template('404.html'), 404
+def handle_404(error):
+    return plain_text_resp('not found', code=404)
 
 
 @application.errorhandler(500)
@@ -55,8 +57,18 @@ def handle_500(error):
     from flask import jsonify
     from error import UsageError
     client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
-    client.messages.create(body='problem on Linode: %s' % repr(error), to=ADMIN_PHONE, from_='+19089982913')
+    client.messages.create(body='problem on Linode: %s' % repr(error),
+                           to=ADMIN_PHONE,
+                           from_='+19089982913')
     raise UsageError('our-fault', status_code=500)
+
+
+def added_style(name):
+    return digest('%s.css' % name) if session.get(name) == name else None
+
+
+def get_added_styles():
+    return added_style('webkit'), added_style('safari')
 
 
 def loggedin():
@@ -99,16 +111,12 @@ def login(username):
                            username=username or '')
 
 
-@application.route("/set_webkit")
-def set_webkit():
-    session['webkit'] = 'webkit'
-    return 'yes'
-
-
-@application.route("/set_safari")
-def set_safari():
-    session['safari'] = 'safari'
-    return 'yes'
+@application.route("/set/<name>")
+def set_browser(name):
+    if name not in {'webkit', 'safari'}:
+        return plain_text_resp('no', code=400)
+    session[name] = name
+    return plain_text_resp('yes')
 
 
 @application.route("/register", methods=['GET', 'POST'])
@@ -218,4 +226,6 @@ def pretty_date(u):
 
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0', port=4040, debug=DEBUG)
+    application.run(host='0.0.0.0',
+                    port=4040,
+                    debug=DEBUG)

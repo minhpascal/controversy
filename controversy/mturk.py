@@ -208,7 +208,8 @@ def get_next_doc():
             '$lt': 3
         }
     }).sort([
-        ('being_read', 1)
+        ('being_read', 1),
+        ('full', -1)
     ])
 
     if poss is None:
@@ -223,7 +224,7 @@ def get_next_doc():
 
 
 def keyword_exists(kw):
-    """Checks if ``kw`` has been saved already
+    """Checks if ``kw`` has been saved already.
     Forced collection update
     """
     col = get_tweets_collection()
@@ -234,8 +235,7 @@ def keyword_exists(kw):
 
 
 def article_is_new(url, col=None):
-    """Checks if article @ ``url``
-    has been saved already
+    """Checks if article with ``url`` has been saved already
     """
     if col is None:
         col = get_articles_collection()

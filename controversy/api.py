@@ -26,9 +26,11 @@ def handle_error(error):
     response.status_code = error.status_code
     return response
 
+
 @api.errorhandler(404)
 def handle_404(error):
     return justmime('not-found', status=404)
+
 
 def loggedin():
     return session.get('username') is not None

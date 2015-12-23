@@ -14,7 +14,7 @@
 {% if messages %}
 <div id=message>
     {% for message in messages %}
-    {{ message }}
+    {{ message|safe }}
     {% if not loop.last %}
     &middot;
     {% endif %}
@@ -25,7 +25,7 @@
 <div id=login>
     <h1>Controversy</h1>
     <span id=details>
-	    Please login or <a href="register">create a free account</a>. <a href="training">Annotate articles</a> to help us build a dataset for future study!
+	    Please login or <a href="register">create a free account</a>. 【<a href="training">Annotate articles</a>】to help us build a dataset for future study!
 	    <center>
 		    <a class="github-button" href="https://github.com/gdyer/controversy" data-icon="octicon-star" data-style="mega" aria-label="Star gdyer/controversy on GitHub">Star</a>
 		    <a class="github-button" href="https://github.com/gdyer/controversy/issues" data-icon="octicon-issue-opened" data-style="mega" data-count-api="/repos/gdyer/controversy#open_issues_count" data-count-aria-label="# issues on GitHub" aria-label="Issue gdyer/controversy on GitHub">Known bugs</a>
@@ -56,12 +56,12 @@ if (!window.jQuery) {
 } else {
 	var isWebKit = 'WebkitAppearance' in document.documentElement.style;
 	var isSafari = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
-	console.log(isWebKit);
-	console.log(isSafari);
-	if (isWebKit)
-		$.ajax({url: '/set_webkit?webkit=' + 'webkit'});
-	if (isSafari)
-		$.ajax({url: '/set_safari?safari=' + 'safari'});
+	if (isWebKit) {
+		$.ajax({url: '/set/webkit'});
+	}
+	if (isSafari) {
+		$.ajax({url: '/set/safari'});
+	}
 }
 </script>
 <script async defer id="github-bjs" src="//buttons.github.io/buttons.js"></script>

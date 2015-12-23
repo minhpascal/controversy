@@ -16,7 +16,9 @@
 		Your information is for our reference only and will never be shared with a 3<sup>rd</sup> party. You can also <a href="bourbaki">use the demo anonymously</a> if you like.
 	</span>
 	{% if logged_in == true %}
-	You're already <a href="/">logged in</a>, but feel free to create another account.
+	<p>
+	<b>You're already <a href="/">logged in</a>, but feel free to create another account.</b>
+	</p>
 	{% endif %}
 	<form method=POST>
 		{{ form.hidden_tag() }}

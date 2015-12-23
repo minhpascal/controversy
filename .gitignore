@@ -5,6 +5,7 @@
 *.rdb
 *.aux
 *.log
+dump.rdb
 .DS_Store
 config.py
 venv

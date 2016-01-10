@@ -30,13 +30,11 @@ application.register_blueprint(api, url_prefix='/api')
 application.register_blueprint(mturk, url_prefix='/training')
 application.secret_key = SECRET_KEY
 
-class AppConfig(object):
-    RECAPTCHA_PUBLIC_KEY = CAPTCHA_PUBLIC
-    RECAPTCHA_PRIVATE_KEY = CAPTCHA_PRIVATE
-    VERSION = '0.4'
-    testing = DEBUG
+application.config['RECAPTCHA_PUBLIC_KEY'] = CAPTCHA_PUBLIC
+application.config['RECAPTCHA_PRIVATE_KEY'] = CAPTCHA_PRIVATE
+application.config['version'] = '0.4'
+application.config['testing'] = DEBUG
 
-application.config.from_object(AppConfig)
 
 def plain_text_resp(message, code=200):
     return Response(message,

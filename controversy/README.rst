@@ -23,7 +23,7 @@ article rank
 
 **GET** ``/api?q=syria``
 
-.. include:: documents/syria.json
+.. include:: documents/syria-spec.json
 	:code: javascript
 	:number-lines:
 

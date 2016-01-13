@@ -27,7 +27,13 @@
     <span id=details>
 	    <a href="training">Annotate articles</a> to help us build a dataset for future study!
 	    <center>
-		    <a href="https://github.com/gdyer/controversy">&star; on GitHub</a> &middot; <a href="https://github.com/gdyer/controversy/issues">Known bugs</a>
+		    <a href="https://github.com/gdyer/controversy">&star; on GitHub</a>
+		    &middot;
+		    <a href="https://github.com/gdyer/controversy/issues" id=bugs_a>Known bugs</a>
+		    <small>
+			    ( <img id=loading_bugs src="{{ url_for('static', filename='img/small-loading.gif') }}" />
+			    <span style="display:none" id=n_bugs></span> )
+		    </small>
 	    </center>
 	    <hr>
 	    Please login or <a href="register">create a free account</a> to use the demo.
@@ -44,24 +50,6 @@
     </form>
 </div>
 <script>
-if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
-	window.location.replace('not-supported');
-}
-document.getElementsByTagName('form')[0].style.display = 'block';
 </script>
 <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
-<script>
-if (!window.jQuery) {
-	document.getElementsByTagName('form')[0].style.display = 'none';
-} else {
-	var isWebKit = 'WebkitAppearance' in document.documentElement.style;
-	var isSafari = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
-	if (isWebKit) {
-		$.ajax({url: '/set/webkit'});
-	}
-	if (isSafari) {
-		$.ajax({url: '/set/safari'});
-	}
-}
-</script>
 {% endblock %}

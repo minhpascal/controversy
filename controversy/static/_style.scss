@@ -11,15 +11,18 @@ img {
 	height: auto;
 	margin: auto; }
 a {
+	border-bottom: 0px solid #ccc; // hack for Firefox flashing colors
 	color: #61748c;
 	font-weight: 700;
 	outline: 0;
-	@include transition(0.1s);
-	text-decoration: none; }
+	text-decoration: none;
+	@include transition(0.1s); }
 a:hover, a:active {
+	text-decoration: none;
 	background-color: #eee;
 	color: #800; }
-a:active { border-bottom: 1px solid #ccc; }
+a:active {
+	border-bottom: 1px solid #ccc; }
 input.field {
 	font-size: 16px;
 	padding: 6px 12px;

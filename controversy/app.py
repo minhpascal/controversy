@@ -106,6 +106,7 @@ def login(username):
                            title='Login',
                            form=form,
                            css=digest('login.css'),
+                           js=digest('login.js'),
                            username=username or '')
 
 

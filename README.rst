@@ -19,6 +19,10 @@ Joint mining of news text and social media to discover controversial points in n
 Pending
 --------
 
+*New*: the trends API was made public. See docs: https://ocha.2pitau.org/docs.html
+
+We're preparing a pre-mturk method for downloading the training data dynamically.
+
 We're currently improving upon our IEEE paper.
 
 

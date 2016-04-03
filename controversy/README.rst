@@ -1,8 +1,5 @@
 .. |---| unicode:: U+2014 .. em dash
 
-**See docs** `here`_.
-.. here: https://ocha.2pita.org/docs.html
-
 API specification
 ~~~~~~~~~~~~~~~~~
 

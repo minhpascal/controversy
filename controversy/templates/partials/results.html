@@ -4,7 +4,7 @@
 		<input autocomplete=off type=text placeholder="keyword" ng-class="{ 'top_loading' : $root.is_loading }" ng-model="$root.keyword" ng-model-options="{ debounce: 500 }" />
 		<span ng-click="clear()" id=clear>&times;</span>
 		{% raw %}
-		<small ng-show="trend_available">【 <a ng-href="#trends/{{ $root.keyword }}">trend</a> 】</small>
+		<small ng-show="trend_available">(<a ng-href="#trends/{{ $root.keyword }}">trend available</a>)</small>
 		{% endraw %}
         </form>
         <span id=right-header>

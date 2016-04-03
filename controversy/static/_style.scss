@@ -1,7 +1,8 @@
 @import 'reset';
 @import 'vars';
 html {
-	font-family: Open Sans, Myriad Pro, Calibri, Droid Sans, Trebuchet MS, Sans-serif;
+	font-family: Verdana, Open Sans, Myriad Pro, Calibri, Droid Sans, Trebuchet MS, sans-serif;
+	font-size: .8em;
 	height: 100%; }
 input {
 	outline: 0;
@@ -11,20 +12,13 @@ img {
 	height: auto;
 	margin: auto; }
 a {
-	border-bottom: 0px solid #ccc; // hack for Firefox flashing colors
-	color: #61748c;
-	font-weight: 700;
-	outline: 0;
+	line-height: 130%;
+	word-wrap: break-word;
+	color: #303c3c;
+	border-bottom: 1px solid #808080;
 	text-decoration: none;
 	@include transition(0.1s); }
-a:hover, a:active {
-	text-decoration: none;
-	background-color: #eee;
-	color: #800; }
-a:active {
-	border-bottom: 1px solid #ccc; }
 input.field {
-	font-size: 16px;
 	padding: 6px 12px;
 	color: #555;
 	border-bottom: 1px dashed $grey;
@@ -35,7 +29,6 @@ input.field {
 	width: 70%;
 	text-align: center; }
 input[type="submit"] {
-	font-size: 90%;
 	cursor: pointer;
 	min-width: 100px;
 	height: 40px;

@@ -38,7 +38,7 @@ def loggedin():
 
 @api.before_request
 def restrict():
-    if not loggedin():
+    if not loggedin() and 'trend' not in request.url_rule.rule:
         raise UsageError('not logged in')
     if QUERY_PARAM not in request.args and request.url_rule == '/api/':
         raise UsageError('missing-keyword')

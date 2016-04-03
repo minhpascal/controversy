@@ -23,23 +23,22 @@
 {% endif %}
 {% endwith %}
 <div id=login>
-    <h1>Controversy</h1>
+    <h2>welcome to controversy</h2>
     <span id=details>
-	    <a href="training">Annotate articles</a> to help us build a dataset for future study!
+	    <a href="training">annotate articles</a> to help us build a dataset for future study!
 	    <center>
 		    <a href="https://github.com/gdyer/controversy">&star; on GitHub</a>
 		    &middot;
-		    <a href="https://github.com/gdyer/controversy/issues" id=bugs_a>Known bugs</a>
+		    <a href="https://github.com/gdyer/controversy/issues" id=bugs_a>known Bugs</a>
 		    <small>
 			    ( <img id=loading_bugs src="{{ url_for('static', filename='img/small-loading.gif') }}" />
 			    <span style="display:none" id=n_bugs></span> )
 		    </small>
 	    </center>
 	    <hr>
-	    Please login or <a href="register">create a free account</a> to use the demo.
-	    We recommend using the latest version of Chrome, Chromium, or Opera.
+	    login or <a href="register">create one</a>;  best with chrom{e,ium} or opera
     </span>
-    <p><noscript><tt>Requires JavaScript</tt></noscript></p>
+    <p><noscript><tt>requires javascript</tt></noscript></p>
     <form style="display:none" method=POST>
         {{ form.hidden_tag() }}
         {{ form.email(value=username, type="email", class_="field", placeholder="email (username)", required="required") }}

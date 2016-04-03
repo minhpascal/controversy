@@ -73,7 +73,7 @@ cApp.controller('SearchController', function($scope, $http, $rootScope, $locatio
 		if (!$rootScope.keyword) return;
 		$http.get('/api/trend/' + $rootScope.keyword)
 			.success(function(res) {
-				$scope.trend_available = (res['error'] || res['result'].length < 4);
+				$scope.trend_available = !(res['error'] || res['result'].length < 4);
 			}).error(function(res) {
 				return;
 			});

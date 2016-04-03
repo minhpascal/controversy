@@ -14,18 +14,15 @@ header {
 	background: #fff;
 	border-bottom: 1px solid #efefef;
 	position: fixed;
-	font-size: 14px;
 	>div {
 		>a.mini { display: none; }
-		a:active, a:hover { border-bottom: none; }
 		padding: 0 15px 0 5px;
 		display: inline;
 		h1 {
+			text-transform: lowercase;
 			text-align: left;
 			display: inline;
-			font-size: 25px;
-			opacity: 0.8;
-			font-variant: small-caps;
+			font-size: 1.2em;
 		}
 		span#subtitle {
 			opacity: 0.4;
@@ -37,7 +34,6 @@ header {
 		}
 		form { display: inline; }
 		>form input {
-			font-size: 16px;
 			padding: 6px 12px;
 			line-height: 1.5;
 			@include border-radius(2px);
@@ -122,6 +118,7 @@ main {
 
 	article {
 		text-align: justify;
+		line-height: 150%;
 		%def { 
 			border-bottom: none;
 			color: #fff;
@@ -161,7 +158,6 @@ span.danger {
 	@include border-radius(2px); }
 figcaption { margin:10px 0 10px 0; }
 @media (max-width: 700px) {
-	header>div h1 { font-size: 22px; }
 	header>div span#right-header, header>div >a { font-size: 12px; }
 	.non-essentials { display: none; }
 }

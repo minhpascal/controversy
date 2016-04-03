@@ -43,9 +43,7 @@ div.article {
 		margin-bottom: 2px;
 		font-size: 28px;
 		display: block;
-		&:hover, &:active {
-			background-color: rgba(255, 255, 255, 0);
-			border-bottom: none; }
+		border-bottom: none;
 	}
 	p.url {
 		padding: 5px;
@@ -57,9 +55,7 @@ div.article {
 		display: block;
 		margin-bottom: -10px;
 		a {
-			&:hover, &:active {
-				background-color: rgba(0, 0, 0, 0);
-				border-bottom: none; }
+			border-bottom: none;
 			color: #04bff4;
 			text-decoration: none;
 			width: 385px;

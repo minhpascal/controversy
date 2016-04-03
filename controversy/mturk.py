@@ -8,6 +8,7 @@ import content
 import datetime
 import time
 import forms
+import json
 from error import UsageError
 import nltk.data
 import itertools
@@ -126,6 +127,13 @@ def update_doc():
 def submitted():
     css = digest('mturk/highlight.css')
     return render_template('mturk_submitted.html', **locals())
+
+
+@mturk.route('/dataset')
+def dataset():
+    css = digest('mturk/highlight.css')
+    return render_template('mturk_dataset.html', **locals())
+
 
 
 def get_db():

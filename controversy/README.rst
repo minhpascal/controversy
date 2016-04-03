@@ -3,12 +3,41 @@
 API specification
 ~~~~~~~~~~~~~~~~~
 
-.. sidebar:: docs t.o.c.
+If you're viewing this page on GitHub, please consider switching to our HTML version here: https://ocha.2pitau.org/docs.html
+
+.. sidebar:: docs toc
 
 	.. contents::
 		:depth: 3
 
-You must be logged in to query any of these endpoints.
+
+**New**: we've opened the trend API such that logins aren't required!
+
+trends
+------
+
+**GET** ``/api/trend``
+
+.. include:: documents/trend.json
+	:code: javascript
+	:number-lines:
+
+
+Where ``['result']['trending']`` is a key-value pair list where the key is the query and the value is the amount of search traffic towards that query. ``['result']['top-5']`` is a ranked list of the most popular queries. ``top-5`` will always be a (non-proper) subset of trending.
+
+``/api/trend/<k>``. Where ``<k>`` is an element of ``/api/trend``'s ``trending`` list (a keyword that's been searched for before).
+
+.. include:: documents/trendk.json
+	:code: javascript
+	:number-lines:
+	
+**GET** ``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's an example (not based on the ``json`` above):
+
+.. image:: documents/romney.png
+
+If you don't want a normalized plot, do ``<k>.png?nonorm``.
+
+You must be logged in to query any of the *below* endpoints (i.e. trends don't require logins).
 
 errors
 ------
@@ -41,26 +70,3 @@ user search-history
 	:number-lines:
 
 
-trends
-------
-
-**GET** ``/api/trend``
-
-.. include:: documents/trend.json
-	:code: javascript
-	:number-lines:
-
-
-Where ``['result']['trending']`` is a key-value pair list where the key is the query and the value is the amount of search traffic towards that query. ``['result']['top-5']`` is a ranked list of the most popular queries. ``top-5`` will always be a (non-proper) subset of trending.
-
-``/api/trend/<k>``. Where ``<k>`` is an element of ``/api/trend``'s ``trending`` list (a keyword that's been searched for before).
-
-.. include:: documents/trendk.json
-	:code: javascript
-	:number-lines:
-	
-**GET** ``/api/trend/<k>.png`` will generate a trendline (if there's enough data) of the controversy of a keyword versus time. Here's an example (not based on the ``json`` above):
-
-.. image:: documents/romney.png
-
-If you don't want a normalized plot, do ``<k>.png?nonorm``.

@@ -19,7 +19,7 @@ Joint mining of news text and social media to discover controversial points in n
 Pending
 --------
 
-*New*: the trends API was made public. See docs: https://ocha.2pitau.org/docs.html
+*New*: the trends API was made public. See docs: https://sxibolet.github.io/docs.html
 
 We're preparing a pre-mturk method for downloading the training data dynamically.
 
@@ -33,12 +33,12 @@ If you'd like to reproduce our results, we encourage you to use the demo or look
 
 ------
 
-.. image:: http://ocha.2pitau.org/img/biography/uiuc.gif
+.. image:: https://sxibolet.github.io/img/uiuc.gif
 	:target: http://cs.illinois.edu
 
-.. _IEEE Big Data 2015: http://ocha.2pitau.org/pdf/big-data-2015.pdf
-.. _UIUC PURE Conference 2015: http://ocha.2pitau.org/pdf/pure.pdf
+.. _IEEE Big Data 2015: https://sxibolet.github.io/pdf/big-data-2015.pdf
+.. _UIUC PURE Conference 2015: http://sxibolet.github.io/pdf/pure.pdf
 .. _controversy.2pitau.org: https://controversy.2pitau.org
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu
-.. _API spec: http://ocha.2pitau.org/docs.html
+.. _API spec: http://sxibolet.github.io
 .. _some instructions to help you: controversy/documents/development-help.rst

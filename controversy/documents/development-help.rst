@@ -4,7 +4,7 @@ This is not for the faint-hearted; we really do recommend you use the web client
 
 Please use Python 2.7.x
 
-#. ``$ git clone https://github.com/gdyer/controversy``
+#. ``$ git clone https://github.com/SXibolet/controversy``
 #. ``$ cd controversy/controversy``
 #. get an academic SentiStrength license by sending an email to `the address listed here`_, move the ``jar`` and data into ``sentistrength`` with names ``SentiStrengthCom.jar`` and ``data-11`` respectively. You'll need to be in academia to get a free license.
 #. ``$ mv config.py.default config.py``, and change credentials where marked as ``REQUIRED``. You'll need to register for NYTimes' `Article Search`_ and `Community`_ APIs and `Twitter's API`_.
@@ -23,7 +23,8 @@ Please use Python 2.7.x
 #. ``$ python app.py``
 #. navigate to ``localhost:4040`` in your browser. See `API spec`_ for routes.
 
-.. _API spec: http://ocha.2pitau.org/controversy-docs
+
+.. _API spec: https://sxibolet.github.io/docs.html
 .. _dependencies: http://www.scipy.org/install.html
 .. _Article Search: http://developer.nytimes.com/apps/mykeys
 .. _Community: http://developer.nytimes.com/apps/mykeys

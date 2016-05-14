@@ -19,8 +19,6 @@ Joint mining of news text and social media to discover controversial points in n
 Pending
 --------
 
-*New*: the trends API was made public. See docs: https://sxibolet.github.io/docs.html
-
 We're preparing a pre-mturk method for downloading the training data dynamically.
 
 We're currently improving upon our IEEE paper.
@@ -40,5 +38,5 @@ If you'd like to reproduce our results, we encourage you to use the demo or look
 .. _UIUC PURE Conference 2015: http://sxibolet.github.io/pdf/pure.pdf
 .. _controversy.2pitau.org: https://controversy.2pitau.org
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu
-.. _API spec: http://sxibolet.github.io
+.. _API spec: http://controversy.2pitau.org/api-docs
 .. _some instructions to help you: controversy/documents/development-help.rst

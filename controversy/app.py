@@ -90,6 +90,10 @@ def bourbaki():
     session['user'] = db.dump_user(username)
     return redirect('/')
 
+@application.route('/api-docs')
+def api_docs():
+    return render_template('docs.html')
+
 
 @application.route('/login/<username>', methods=['GET', 'POST'])
 @application.route("/login", defaults={'username': None}, methods=['GET', 'POST'])

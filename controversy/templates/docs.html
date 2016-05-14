@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.12: http://docutils.sourceforge.net/" />
+<title>API specification</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='html4css1.css') }}" type="text/css" />
+<link rel="stylesheet" href="https://rawgit.com/SXibolet/standards/master/docs.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="api-specification">
+<h1 class="title">API specification</h1>
+
+<p>If you’re viewing this page on GitHub, please consider switching to our HTML version here: <a class="reference external" href="https://controversy.2pitau.org/api-docs">https://controversy.2pitau.org/api-docs</a></p>
+<div class="sidebar">
+<p class="first sidebar-title">docs toc</p>
+<div class="contents last topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#trends" id="id1">trends</a></li>
+<li><a class="reference internal" href="#errors" id="id2">errors</a></li>
+<li><a class="reference internal" href="#article-rank" id="id3">article rank</a></li>
+<li><a class="reference internal" href="#user-search-history" id="id4">user search-history</a></li>
+</ul>
+</div>
+</div>
+<p><strong>New</strong>: we’ve opened the trend API such that logins aren’t required!</p>
+<div class="section" id="trends">
+<h2><a class="toc-backref" href="#id1">trends</a></h2>
+<p><strong>GET</strong> <tt class="docutils literal">/api/trend</tt></p>
+<pre class="code javascript literal-block">
+<span class="ln"> 1 </span><span class="punctuation">{</span>
+<span class="ln"> 2 </span>  <span class="literal string double">&quot;error&quot;</span><span class="operator">:</span> <span class="literal number integer">0</span><span class="punctuation">,</span>
+<span class="ln"> 3 </span>  <span class="literal string double">&quot;result&quot;</span><span class="operator">:</span> <span class="punctuation">{</span>
+<span class="ln"> 4 </span>    <span class="literal string double">&quot;controversial&quot;</span><span class="operator">:</span> <span class="punctuation">[</span>
+<span class="ln"> 5 </span>      <span class="punctuation">{</span>
+<span class="ln"> 6 </span>        <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">2689.61</span><span class="punctuation">,</span>
+<span class="ln"> 7 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;clinton&quot;</span>
+<span class="ln"> 8 </span>      <span class="punctuation">},</span>
+<span class="ln"> 9 </span>      <span class="punctuation">{</span>
+<span class="ln">10 </span>        <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">2005.47</span><span class="punctuation">,</span>
+<span class="ln">11 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;bush&quot;</span>
+<span class="ln">12 </span>      <span class="punctuation">},</span>
+<span class="ln">13 </span>      <span class="punctuation">{</span>
+<span class="ln">14 </span>        <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">1580.31</span><span class="punctuation">,</span>
+<span class="ln">15 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;putin&quot;</span>
+<span class="ln">16 </span>      <span class="punctuation">},</span>
+<span class="ln">17 </span>      <span class="punctuation">{</span>
+<span class="ln">18 </span>        <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">1359.08</span><span class="punctuation">,</span>
+<span class="ln">19 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;romney&quot;</span>
+<span class="ln">20 </span>      <span class="punctuation">},</span>
+<span class="ln">21 </span>      <span class="punctuation">{</span>
+<span class="ln">22 </span>        <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">1174.0</span><span class="punctuation">,</span>
+<span class="ln">23 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;hungary&quot;</span>
+<span class="ln">24 </span>      <span class="punctuation">},</span>
+<span class="ln">25 </span>      <span class="punctuation">{</span>
+<span class="ln">26 </span>        <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">1125.78</span><span class="punctuation">,</span>
+<span class="ln">27 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;syria&quot;</span>
+<span class="ln">28 </span>      <span class="punctuation">}</span>
+<span class="ln">29 </span>    <span class="punctuation">],</span>
+<span class="ln">30 </span>    <span class="literal string double">&quot;top-5&quot;</span><span class="operator">:</span> <span class="punctuation">[</span>
+<span class="ln">31 </span>      <span class="literal string double">&quot;clinton&quot;</span><span class="punctuation">,</span>
+<span class="ln">32 </span>      <span class="literal string double">&quot;hippo&quot;</span><span class="punctuation">,</span>
+<span class="ln">33 </span>      <span class="literal string double">&quot;romney&quot;</span><span class="punctuation">,</span>
+<span class="ln">34 </span>      <span class="literal string double">&quot;austria&quot;</span><span class="punctuation">,</span>
+<span class="ln">35 </span>      <span class="literal string double">&quot;greece&quot;</span>
+<span class="ln">36 </span>    <span class="punctuation">],</span>
+<span class="ln">37 </span>    <span class="literal string double">&quot;trending&quot;</span><span class="operator">:</span> <span class="punctuation">{</span>
+<span class="ln">38 </span>      <span class="literal string double">&quot;AIDs&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">39 </span>      <span class="literal string double">&quot;afghanistan&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">40 </span>      <span class="literal string double">&quot;african&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">41 </span>      <span class="literal string double">&quot;austria&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">42 </span>      <span class="literal string double">&quot;baltimore&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">43 </span>      <span class="literal string double">&quot;bush&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">44 </span>      <span class="literal string double">&quot;clinton&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">45 </span>      <span class="literal string double">&quot;germany&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">46 </span>      <span class="literal string double">&quot;greece&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">47 </span>      <span class="literal string double">&quot;hillary&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">48 </span>      <span class="literal string double">&quot;hillary clinton&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">49 </span>      <span class="literal string double">&quot;hippo&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">50 </span>      <span class="literal string double">&quot;hulu&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">51 </span>      <span class="literal string double">&quot;hungary&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">52 </span>      <span class="literal string double">&quot;illinois&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">53 </span>      <span class="literal string double">&quot;iran&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">54 </span>      <span class="literal string double">&quot;iraq&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">55 </span>      <span class="literal string double">&quot;isis&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">56 </span>      <span class="literal string double">&quot;new york&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">57 </span>      <span class="literal string double">&quot;new york city&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">58 </span>      <span class="literal string double">&quot;obama&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">59 </span>      <span class="literal string double">&quot;prince&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">60 </span>      <span class="literal string double">&quot;princeton&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">61 </span>      <span class="literal string double">&quot;putin&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">62 </span>      <span class="literal string double">&quot;romney&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">63 </span>      <span class="literal string double">&quot;ron paul&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">64 </span>      <span class="literal string double">&quot;stanford&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span><span class="punctuation">,</span>
+<span class="ln">65 </span>      <span class="literal string double">&quot;syria&quot;</span><span class="operator">:</span> <span class="literal number float">3.571428571428571</span>
+<span class="ln">66 </span>    <span class="punctuation">}</span>
+<span class="ln">67 </span>  <span class="punctuation">}</span>
+<span class="ln">68 </span><span class="punctuation">}</span>
+</pre>
+<p>Where <tt class="docutils literal"><span class="pre">['result']['trending']</span></tt> is a key-value pair list where the key is the query and the value is the amount of search traffic towards that query. <tt class="docutils literal"><span class="pre">['result']['top-5']</span></tt> is a ranked list of the most popular queries. <tt class="docutils literal"><span class="pre">top-5</span></tt> will always be a (non-proper) subset of trending.</p>
+<p><tt class="docutils literal"><span class="pre">/api/trend/&lt;k&gt;</span></tt>. Where <tt class="docutils literal">&lt;k&gt;</tt> is an element of <tt class="docutils literal">/api/trend</tt>’s <tt class="docutils literal">trending</tt> list (a keyword that’s been searched for before).</p>
+<pre class="code javascript literal-block">
+<span class="ln"> 1 </span><span class="punctuation">{</span>
+<span class="ln"> 2 </span>  <span class="literal string double">&quot;error&quot;</span><span class="operator">:</span> <span class="literal number integer">0</span><span class="punctuation">,</span>
+<span class="ln"> 3 </span>  <span class="literal string double">&quot;result&quot;</span><span class="operator">:</span> <span class="punctuation">[</span>
+<span class="ln"> 4 </span>    <span class="punctuation">{</span>
+<span class="ln"> 5 </span>      <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">1359.08</span><span class="punctuation">,</span>
+<span class="ln"> 6 </span>      <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Tue, 13 Oct 2015 16:45:51 GMT&quot;</span>
+<span class="ln"> 7 </span>    <span class="punctuation">},</span>
+<span class="ln"> 8 </span>    <span class="punctuation">{</span>
+<span class="ln"> 9 </span>      <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">488.701</span><span class="punctuation">,</span>
+<span class="ln">10 </span>      <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 11 Nov 2015 17:46:48 GMT&quot;</span>
+<span class="ln">11 </span>    <span class="punctuation">},</span>
+<span class="ln">12 </span>    <span class="punctuation">{</span>
+<span class="ln">13 </span>      <span class="literal string double">&quot;EntropyScore&quot;</span><span class="operator">:</span> <span class="literal number float">572.734</span><span class="punctuation">,</span>
+<span class="ln">14 </span>      <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Sun, 22 Nov 2015 21:39:06 GMT&quot;</span>
+<span class="ln">15 </span>    <span class="punctuation">}</span>
+<span class="ln">16 </span>  <span class="punctuation">]</span>
+<span class="ln">17 </span><span class="punctuation">}</span>
+</pre>
+<p><strong>GET</strong> <tt class="docutils literal"><span class="pre">/api/trend/&lt;k&gt;.png</span></tt> will generate a trendline (if there’s enough data) of the controversy of a keyword versus time. Here’s an example (not based on the <tt class="docutils literal">json</tt> above):</p>
+<img src="{{ url_for('static', filename='cdocs/romney.png') }}" />
+<p>If you don’t want a normalized plot, do <tt class="docutils literal"><span class="pre">&lt;k&gt;.png?nonorm</span></tt>.</p>
+<p>You must be logged in to query any of the <em>below</em> endpoints (i.e. trends don’t require logins).</p>
+</div>
+<div class="section" id="errors">
+<h2><a class="toc-backref" href="#id2">errors</a></h2>
+<dl class="docutils">
+<dt><tt class="docutils literal">UsageError</tt></dt>
+<dd><tt class="docutils literal">error</tt> will be <tt class="docutils literal">1</tt>, <tt class="docutils literal">message</tt> will have an error message, <tt class="docutils literal">400</tt> status code</dd>
+<dt>other error</dt>
+<dd>same, except with a <tt class="docutils literal">200</tt>. e.g.: no articles exist for the queryterm</dd>
+</dl>
+</div>
+<div class="section" id="article-rank">
+<h2><a class="toc-backref" href="#id3">article rank</a></h2>
+<p><strong>GET</strong> <tt class="docutils literal"><span class="pre">/api?q=syria</span></tt></p>
+<pre class="code javascript literal-block">
+<span class="ln"> 1 </span><span class="punctuation">{</span>
+<span class="ln"> 2 </span>  <span class="literal string double">&quot;training&quot;</span><span class="operator">:</span> <span class="keyword constant">false</span><span class="punctuation">,</span>
+<span class="ln"> 3 </span>  <span class="literal string double">&quot;byline&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;By TIM ARANGO&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 4 </span>  <span class="literal string double">&quot;lead&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;A question has come to dominate the lives of thousands of Syrians here: Embark on a perilous journey to Europe or build a new life in Turkey.&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 5 </span>  <span class="literal string double">&quot;title&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Syrian Migrants in Istanbul Confront Choice: Stay or Move On&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 6 </span>  <span class="literal string double">&quot;url&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;http://www.nytimes.com/2015/12/24/world/europe/syrian-migrants-in-istanbul-confront-choice-stay-or-move-on.html&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 7 </span>  <span class="literal string double">&quot;abstract&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;A question has come to dominate the lives of thousands of Syrians here: Embark on a perilous journey to Europe or build a new life in Turkey.&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 8 </span>  <span class="literal string double">&quot;xlarge&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;https://www.nytimes.com/images/2015/12/21/world/21ISTANBUL1/21ISTANBUL1-articleLarge.jpg&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 9 </span>  <span class="literal string double">&quot;source&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;The New York Times&quot;</span><span class="punctuation">,</span>
+<span class="ln">10 </span>  <span class="literal string double">&quot;score&quot;</span><span class="operator">:</span> <span class="literal number float">140.29687018903874</span><span class="punctuation">,</span>
+<span class="ln">11 </span>  <span class="literal string double">&quot;full&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;ISTANBUL \u2014  At Pages, a bookstore and cafe in a three-story wooden house in a tidy cul-de-sac up a hill in this city\u2019s oldest quarter, a literary refuge has blossomed for young Arabs in exile \u2014 mainly Syrians but also Iraqis, Libyans and Yemenis who have fled the troubles of home and taken up residence here. The shelves are lined with Arabic translations of Orhan Pamuk, Jack Kerouac, Gabriel Garc\u00eda M\u00e1rquez and Franz Kafka. Two Syrian novels are particularly popular: \u201cNo Knives in This City\u2019s Kitchens,\u201d about a family living under tyranny, and \u201cThe Shell,\u201d about a prisoner in a Syrian jail. \u201cThis is the generation of revolution in all of the Arab world,\u201d said Samer Alkadri, a painter and graphic designer from Damascus, Syria, who opened the cafe with his wife in July. He stocks Arabic books he has flown in from a publishing house in Beirut, Lebanon. \u201cThey want to know why everything happened, and they don\u2019t believe the media.\u201d The cafe, and the little garden out back where a lazy rabbit visits on many days, is also a place to discuss the one question that has come to dominate the lives of Syrians here: to stay, or to embark on the perilous sea journey to Europe. That question has become more urgent in the wake of a recent deal between Turkey and the European Union aimed at stemming the flow of asylum seekers to the Continent. As Europe confronts a crisis in which nearly 700,000 people this year have made a journey that started with a dangerous sea passage from Turkey to Greece, it has turned to Turkey for help. The European Union, under the recent pact, is offering more than $3 billion in aid to the Turkish government to spend on improving the lives of Syrians, such as building schools and health facilities, with the hope that many would then choose to stay and build their lives here. Four of the five people who worked for Mr. Alkadri when he opened the cafe are now in Europe. Mr. Alkadri, though, has vowed to stay. \u201cI am here because I want to return to Syria,\u201d he said. \u201cMaybe tomorrow, or maybe after 10 years.\u201d \u201cAfter this terrible war,\u201d he added, \u201cwe will need people to rebuild Syria.\u201d For many Syrians, the decision will depend on whether Turkey can deliver on a promise to allow them to work legally, which could raise their wages and, as many Syrians hope, offer a way to citizenship. Basil Qali, 19, left a government-controlled suburb of Damascus in October, and on a recent morning he was sweeping the floor of a cafe here. He works 13 hours a day and earns the equivalent of about $280 a month. \u201cHere you work for about 13 hours a day only for money for food,\u201d he said. He said he would think about staying in Turkey if he could make more money and have a chance at citizenship. But for now, he thinks only of Europe. \u201cFor us, there is no point in talking about what is going on in Syria because we know it will last for five or 10 more years,\u201d he said. \u201cSo we mostly talk about a plan for getting to Europe, and making money and saving money.\u201d Another young Syrian in Istanbul, Mohammed Sayid, 20, works as a restaurant deliveryman. He said his father had been a supporter of the rebellion in Syria, and had been executed by the government. He has learned Turkish and hopes to stay here, provided the government does more to improve his life by allowing him to work legally. He complains of discrimination \u2014 girls he flirts with in bars turn away, he said, when they learn he is Syrian \u2014 but he is hesitant to join his friends in Europe. \u201cI\u2019ve been here as a stranger for a long time,\u201d Mr. Sayid said. \u201cI\u2019m not ready to be a stranger again in a new country.\u201d Despite a recent exodus, there are still nearly 2.2 million Syrian refugees in Turkey, the most of any host country in the region. In Istanbul alone, there are roughly 350,000, writing their own chapter in the history of a city that has long been a place of exile. Over the years, they have become woven into the frenetic life of this city, opening cafes, performing as street musicians on its busiest boulevard and panhandling on street corners, holding out Syrian passports to elicit the sympathies of passers-by. Perhaps not since the end of World War I, when Muslims were fleeing Greece and the Balkans, and Russians were escaping the Bolshevik Revolution, have Istanbul\u2019s streets swelled with so many \u00e9migr\u00e9s. Syrians here say they are newly optimistic because of the victory of President Recep Tayyip Erdogan\u2019s Islamist Justice and Development party in parliamentary elections last month. Syrians, by and large, love Mr. Erdogan because of Turkey\u2019s longstanding open-door policy for refugees, and ahead of the election they worried that opposition parties hostile to foreigners would do well at the ballot box. \u201cHe opened the doors for Syrians,\u201d Mr. Alkadri said. Mr. Erdogan and his allies consider themselves heirs to the Ottoman past, when Istanbul \u2014 then Constantinople \u2014 ruled an empire that stretched to the Arab world and into Europe. It was also the seat of the Muslim caliphate, but the lands they controlled were a mosaic of ethnicities and faiths. The modern Turkey that emerged from the collapse of the empire at the end of World War I was a largely homogeneous country based on an ethnic understanding of national identity. Political groups that see themselves as the upholders of this tradition \u2014 rivals to Mr. Erdogan and his party \u2014 have been hostile to the presence of so many Syrians. Now, without an election to muddy the political waters, and with billions in European money for the government to spend, many Syrians here are hopeful that Mr. Erdogan\u2019s government will see to their basic needs, which are many. In a recent report, for example, Human Rights Watch said that 400,000 Syrian children in Turkey were not in school. At Pages, Mohammed Kayali, 32, works on promoting the cafe on social media. He already made the journey to Europe, to Sweden in 2012, but came back. \u201cSurvivor\u2019s guilt,\u201d he said, simply, when asked why. And, he added, \u201cThe weather.\u201d When friends contemplating the journey ask his advice, Mr. Kayali tells them, \u201cIn some ways you are going to regret it.\u201d In Europe, he said that because of generous social programs, \u201cYou are guaranteed a living but not a life.\u201d By that, he meant a loss of identity. \u201cYou will be forced to change too much.\u201d On the night of the elections last month, when it became clear that Mr. Erdogan\u2019s party was cruising to victory, Mr. Kayali picked up his phone and called his fianc\u00e9e, also in Turkey. \u201cWe are going to stay,\u201d he told her.&quot;</span><span class="punctuation">,</span>
+<span class="ln">12 </span>  <span class="literal string double">&quot;sentences&quot;</span><span class="operator">:</span> <span class="punctuation">[</span>
+<span class="ln">13 </span>    <span class="punctuation">{</span>
+<span class="ln">14 </span>      <span class="literal string double">&quot;tweets&quot;</span><span class="operator">:</span> <span class="punctuation">[</span>
+<span class="ln">15 </span>        <span class="punctuation">{</span>
+<span class="ln">16 </span>          <span class="literal string double">&quot;is_negative&quot;</span><span class="operator">:</span> <span class="keyword constant">false</span><span class="punctuation">,</span>
+<span class="ln">17 </span>          <span class="literal string double">&quot;is_positive&quot;</span><span class="operator">:</span> <span class="keyword constant">false</span><span class="punctuation">,</span>
+<span class="ln">18 </span>          <span class="literal string double">&quot;sentiment&quot;</span><span class="operator">:</span> <span class="literal number integer">0</span><span class="punctuation">,</span>
+<span class="ln">19 </span>          <span class="literal string double">&quot;author&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;kamalkaroum&quot;</span><span class="punctuation">,</span>
+<span class="ln">20 </span>          <span class="literal string double">&quot;retweeted&quot;</span><span class="operator">:</span> <span class="keyword constant">false</span><span class="punctuation">,</span>
+<span class="ln">21 </span>          <span class="literal string double">&quot;ts&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Thu Jan 07 00:38:05 +0000 2016&quot;</span><span class="punctuation">,</span>
+<span class="ln">22 </span>          <span class="literal string double">&quot;n_statuses&quot;</span><span class="operator">:</span> <span class="literal number integer">6353</span><span class="punctuation">,</span>
+<span class="ln">23 </span>          <span class="literal string double">&quot;pimg&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;http://pbs.twimg.com/profile_images/681907688712843264/Mc0EEWbj_normal.jpg&quot;</span><span class="punctuation">,</span>
+<span class="ln">24 </span>          <span class="literal string double">&quot;time_zone&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Casablanca&quot;</span><span class="punctuation">,</span>
+<span class="ln">25 </span>          <span class="literal string double">&quot;followers&quot;</span><span class="operator">:</span> <span class="literal number integer">2208</span><span class="punctuation">,</span>
+<span class="ln">26 </span>          <span class="literal string double">&quot;location&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;&quot;</span><span class="punctuation">,</span>
+<span class="ln">27 </span>          <span class="literal string double">&quot;clean&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;syria here&quot;</span><span class="punctuation">,</span>
+<span class="ln">28 </span>          <span class="literal string double">&quot;identifier&quot;</span><span class="operator">:</span> <span class="literal number integer">684896754479792128</span><span class="punctuation">,</span>
+<span class="ln">29 </span>          <span class="literal string double">&quot;retweets&quot;</span><span class="operator">:</span> <span class="literal number integer">0</span><span class="punctuation">,</span>
+<span class="ln">30 </span>          <span class="literal string double">&quot;dirty&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;#syria here https://t.co/63rTJeN4EG&quot;</span>
+<span class="ln">31 </span>        <span class="punctuation">}</span>
+<span class="ln">32 </span>      <span class="punctuation">],</span>
+<span class="ln">33 </span>      <span class="literal string double">&quot;text&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;\u201cThis is the generation of revolution in all of the Arab world,\u201d said Samer Alkadri, a painter and graphic designer from Damascus, Syria, who opened the cafe with his wife in July.&quot;</span><span class="punctuation">,</span>
+<span class="ln">34 </span>      <span class="literal string double">&quot;score&quot;</span><span class="operator">:</span> <span class="literal number float">6.186682698996645</span><span class="punctuation">,</span>
+<span class="ln">35 </span>      <span class="literal string double">&quot;linguistic_score&quot;</span><span class="operator">:</span> <span class="literal number float">5.155639062229566</span><span class="punctuation">,</span>
+<span class="ln">36 </span>      <span class="literal string double">&quot;sentiment_score&quot;</span><span class="operator">:</span> <span class="literal number float">1.031043636767078</span>
+<span class="ln">37 </span>    <span class="punctuation">}</span>
+<span class="ln">38 </span>  <span class="punctuation">],</span>
+<span class="ln">39 </span>  <span class="literal string double">&quot;sentiment_score&quot;</span><span class="operator">:</span> <span class="literal number float">31.710930212630974</span><span class="punctuation">,</span>
+<span class="ln">40 </span>  <span class="literal string double">&quot;linguistic_score&quot;</span><span class="operator">:</span> <span class="literal number float">108.58593997640777</span><span class="punctuation">,</span>
+<span class="ln">41 </span>  <span class="literal string double">&quot;published&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;2015-12-27&quot;</span>
+<span class="ln">42 </span><span class="punctuation">}</span>
+</pre>
+<p>Where <tt class="docutils literal">score</tt> is the score (defined in the IEEE paper) for an article or keyword. It’s the sum of the sentiment and linguistic scores.</p>
+</div>
+<div class="section" id="user-search-history">
+<h2><a class="toc-backref" href="#id4">user search-history</a></h2>
+<p><strong>GET</strong> <tt class="docutils literal"><span class="pre">/api/user-history</span></tt>. It’s only possible to query the currently-signed-in user’s history, so no arguments.</p>
+<pre class="code javascript literal-block">
+<span class="ln">  1 </span><span class="punctuation">{</span>
+<span class="ln">  2 </span>  <span class="literal string double">&quot;error&quot;</span><span class="operator">:</span> <span class="literal number integer">0</span><span class="punctuation">,</span>
+<span class="ln">  3 </span>  <span class="literal string double">&quot;result&quot;</span><span class="operator">:</span> <span class="punctuation">{</span>
+<span class="ln">  4 </span>    <span class="literal string double">&quot;queries&quot;</span><span class="operator">:</span> <span class="punctuation">[</span>
+<span class="ln">  5 </span>      <span class="punctuation">{</span>
+<span class="ln">  6 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Tue, 20 Oct 2015 18:30:12 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln">  7 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;clinton&quot;</span>
+<span class="ln">  8 </span>      <span class="punctuation">},</span>
+<span class="ln">  9 </span>      <span class="punctuation">{</span>
+<span class="ln"> 10 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Tue, 20 Oct 2015 18:30:31 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 11 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;bush&quot;</span>
+<span class="ln"> 12 </span>      <span class="punctuation">},</span>
+<span class="ln"> 13 </span>      <span class="punctuation">{</span>
+<span class="ln"> 14 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Tue, 27 Oct 2015 18:58:16 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 15 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;obama&quot;</span>
+<span class="ln"> 16 </span>      <span class="punctuation">},</span>
+<span class="ln"> 17 </span>      <span class="punctuation">{</span>
+<span class="ln"> 18 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Tue, 27 Oct 2015 19:00:02 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 19 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;iraq&quot;</span>
+<span class="ln"> 20 </span>      <span class="punctuation">},</span>
+<span class="ln"> 21 </span>      <span class="punctuation">{</span>
+<span class="ln"> 22 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Tue, 27 Oct 2015 19:03:57 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 23 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;afghanistan&quot;</span>
+<span class="ln"> 24 </span>      <span class="punctuation">},</span>
+<span class="ln"> 25 </span>      <span class="punctuation">{</span>
+<span class="ln"> 26 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 02:37:38 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 27 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;baltimore&quot;</span>
+<span class="ln"> 28 </span>      <span class="punctuation">},</span>
+<span class="ln"> 29 </span>      <span class="punctuation">{</span>
+<span class="ln"> 30 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 02:52:47 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 31 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;new york&quot;</span>
+<span class="ln"> 32 </span>      <span class="punctuation">},</span>
+<span class="ln"> 33 </span>      <span class="punctuation">{</span>
+<span class="ln"> 34 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 02:53:56 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 35 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;new york city&quot;</span>
+<span class="ln"> 36 </span>      <span class="punctuation">},</span>
+<span class="ln"> 37 </span>      <span class="punctuation">{</span>
+<span class="ln"> 38 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 03:22:28 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 39 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;iran&quot;</span>
+<span class="ln"> 40 </span>      <span class="punctuation">},</span>
+<span class="ln"> 41 </span>      <span class="punctuation">{</span>
+<span class="ln"> 42 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 03:24:13 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 43 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;stanford&quot;</span>
+<span class="ln"> 44 </span>      <span class="punctuation">},</span>
+<span class="ln"> 45 </span>      <span class="punctuation">{</span>
+<span class="ln"> 46 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 13:49:12 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 47 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;princeton&quot;</span>
+<span class="ln"> 48 </span>      <span class="punctuation">},</span>
+<span class="ln"> 49 </span>      <span class="punctuation">{</span>
+<span class="ln"> 50 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 16:19:07 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 51 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;greece&quot;</span>
+<span class="ln"> 52 </span>      <span class="punctuation">},</span>
+<span class="ln"> 53 </span>      <span class="punctuation">{</span>
+<span class="ln"> 54 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 17:17:06 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 55 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;germany&quot;</span>
+<span class="ln"> 56 </span>      <span class="punctuation">},</span>
+<span class="ln"> 57 </span>      <span class="punctuation">{</span>
+<span class="ln"> 58 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 17:26:48 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 59 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;hungary&quot;</span>
+<span class="ln"> 60 </span>      <span class="punctuation">},</span>
+<span class="ln"> 61 </span>      <span class="punctuation">{</span>
+<span class="ln"> 62 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 18:00:53 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 63 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;austria&quot;</span>
+<span class="ln"> 64 </span>      <span class="punctuation">},</span>
+<span class="ln"> 65 </span>      <span class="punctuation">{</span>
+<span class="ln"> 66 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 28 Oct 2015 21:43:20 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 67 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;putin&quot;</span>
+<span class="ln"> 68 </span>      <span class="punctuation">},</span>
+<span class="ln"> 69 </span>      <span class="punctuation">{</span>
+<span class="ln"> 70 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Tue, 10 Nov 2015 18:30:26 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 71 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;illinois&quot;</span>
+<span class="ln"> 72 </span>      <span class="punctuation">},</span>
+<span class="ln"> 73 </span>      <span class="punctuation">{</span>
+<span class="ln"> 74 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Tue, 10 Nov 2015 18:31:39 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 75 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;prince&quot;</span>
+<span class="ln"> 76 </span>      <span class="punctuation">},</span>
+<span class="ln"> 77 </span>      <span class="punctuation">{</span>
+<span class="ln"> 78 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 11 Nov 2015 17:46:35 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 79 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;romney&quot;</span>
+<span class="ln"> 80 </span>      <span class="punctuation">},</span>
+<span class="ln"> 81 </span>      <span class="punctuation">{</span>
+<span class="ln"> 82 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 11 Nov 2015 17:48:23 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 83 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;african&quot;</span>
+<span class="ln"> 84 </span>      <span class="punctuation">},</span>
+<span class="ln"> 85 </span>      <span class="punctuation">{</span>
+<span class="ln"> 86 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 11 Nov 2015 17:50:38 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 87 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;hulu&quot;</span>
+<span class="ln"> 88 </span>      <span class="punctuation">},</span>
+<span class="ln"> 89 </span>      <span class="punctuation">{</span>
+<span class="ln"> 90 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Wed, 11 Nov 2015 18:12:59 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 91 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;ron paul&quot;</span>
+<span class="ln"> 92 </span>      <span class="punctuation">},</span>
+<span class="ln"> 93 </span>      <span class="punctuation">{</span>
+<span class="ln"> 94 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Sat, 21 Nov 2015 18:42:05 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 95 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;AIDs&quot;</span>
+<span class="ln"> 96 </span>      <span class="punctuation">},</span>
+<span class="ln"> 97 </span>      <span class="punctuation">{</span>
+<span class="ln"> 98 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Sat, 21 Nov 2015 18:50:27 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln"> 99 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;isis&quot;</span>
+<span class="ln">100 </span>      <span class="punctuation">},</span>
+<span class="ln">101 </span>      <span class="punctuation">{</span>
+<span class="ln">102 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Sat, 21 Nov 2015 18:56:29 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln">103 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;syria&quot;</span>
+<span class="ln">104 </span>      <span class="punctuation">},</span>
+<span class="ln">105 </span>      <span class="punctuation">{</span>
+<span class="ln">106 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Sat, 21 Nov 2015 18:57:57 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln">107 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;hillary&quot;</span>
+<span class="ln">108 </span>      <span class="punctuation">},</span>
+<span class="ln">109 </span>      <span class="punctuation">{</span>
+<span class="ln">110 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Sat, 21 Nov 2015 19:00:40 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln">111 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;hillary clinton&quot;</span>
+<span class="ln">112 </span>      <span class="punctuation">},</span>
+<span class="ln">113 </span>      <span class="punctuation">{</span>
+<span class="ln">114 </span>        <span class="literal string double">&quot;Performed&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;Mon, 23 Nov 2015 11:23:42 GMT&quot;</span><span class="punctuation">,</span>
+<span class="ln">115 </span>        <span class="literal string double">&quot;Term&quot;</span><span class="operator">:</span> <span class="literal string double">&quot;hippo&quot;</span>
+<span class="ln">116 </span>      <span class="punctuation">}</span>
+<span class="ln">117 </span>    <span class="punctuation">]</span>
+<span class="ln">118 </span>  <span class="punctuation">}</span>
+<span class="ln">119 </span><span class="punctuation">}</span>
+</pre>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+<a class="reference external" href="docs.rst">View document source</a>.
+Generated on: 2016-04-17.
+Generated by <a class="reference external" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
+
+</div>
+</body>
+</html>

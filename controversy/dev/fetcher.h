@@ -1,5 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <curl/curl.h>
-#include <pthread.h>
+/* multithreaded article fetcher */
+#ifndef FETCHER_H 
+#define FETCHER_H 
 #include "queue.h"
+
+Queue *tasks;
+void Fetcher_init(char **sources);
+
+#endif

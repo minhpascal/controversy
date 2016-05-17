@@ -1,0 +1,7 @@
+language: c
+before_install:
+	- sudo apt-get -qq update
+	- sudo apt-get install -y valgrind libcurl4-openssl-dev
+script: 
+	- cd controversy/dev
+	- make && ./queue_test && ./fetch_test

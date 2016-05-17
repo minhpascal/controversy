@@ -7,6 +7,7 @@ Queue *Queue_init() {
 	q->size = 0;
 	q->head = NULL;
 	q->tail = NULL;
+	q->cancel = 0;
 	pthread_mutex_init(&q->lock, NULL);
 	pthread_cond_init(&q->not_empty, NULL);
 	return q;
@@ -17,9 +18,12 @@ void Queue_free(Queue *q) {
 	pthread_cond_destroy(&q->not_empty);
 	QueueNode *i = q->head;
 	while (i) {
+		fprintf(stderr, "here!\n");
 		free(i);
 		i = i->next;
 	}
+
+	free(q);
 }
 
 void Queue_push(Queue *q, void *data) {
@@ -48,15 +52,23 @@ void *Queue_pull(Queue *q) {
 		pthread_cond_wait(&q->not_empty, &q->lock);
 	}
 
+	if (q->cancel) {
+		pthread_mutex_unlock(&q->lock);
+		return NULL;
+	}
+
 	q->size--;
 
-	QueueNode *res = q->head;
+	QueueNode *old_head = q->head;
 	if (q->head == q->tail) {
 		q->head = q->tail = NULL;
 	} else {
 		q->head = q->head->next;
 	}
 
+	void *res = old_head->data;
+	free(old_head);
+
 	pthread_mutex_unlock(&q->lock);
-	return res->data;
+	return res;
 }

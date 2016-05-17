@@ -1,13 +1,8 @@
-/* a thread-safe queue implementation for
-   article/comment fetcher */
+/* a thread-safe queue implementation for article/comment fetcher */
 #ifndef QUEUE_H
 #define QUEUE_H
 
 #include <pthread.h>
-
-#define true 1
-#define false 0
-#define bool int
 
 typedef struct QueueNode {
 	struct QueueNode *next;
@@ -16,13 +11,15 @@ typedef struct QueueNode {
 
 typedef struct {
 	int size;
+	int cancel;
 	QueueNode *head, *tail;
 	pthread_cond_t not_empty;
 	pthread_mutex_t lock;
-	bool cancel;
 } Queue;
 
 Queue *Queue_init();
+
+// frees q and its nodes but not their data
 void Queue_free(Queue *q);
 
 // add element to queue; won't block

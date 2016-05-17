@@ -5,6 +5,9 @@
 *.rdb
 *.aux
 *.log
+*.o
+*.out
+*.dSYM
 dump.rdb
 .DS_Store
 config.py

@@ -27,8 +27,8 @@ from twython.exceptions import TwythonAuthError
 MAX_ATTEMPTS = 6
 MAX_COMMENTARY = 500
 TAG_RE = re.compile(r'<[^>]+>')
-ARTICLE_SEARCH_BASE = 'http://api-beta.nytimes.com/svc/search/v2/articlesearch.json?'
-COMMENT_BASE = 'http://api-beta.nytimes.com/svc/community/v3/user-content/url.json?'
+ARTICLE_SEARCH_BASE = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?'
+COMMENT_BASE = 'http://api.nytimes.com/svc/community/v3/user-content/url.json?'
 
 
 class SocialContent(object):

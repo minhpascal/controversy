@@ -27,7 +27,7 @@ We're currently improving upon our IEEE paper.
 Running for development
 -----------------------
 
-If you'd like to reproduce our results, we encourage you to use the demo or look at our `API spec`_ for raw ``json`` results. Alternatively, you can clone this repository and run the server yourself. We wrote `some instructions to help you`_.
+If you'd like to reproduce our results, we encourage you to use the demo online or look at our `API spec`_ for raw ``json`` results. Alternatively, you can clone this repository and either call the scoring function or run the demo server yourself. We wrote `some instructions to help you`_.
 
 ------
 

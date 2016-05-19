@@ -3,7 +3,7 @@
 #define FETCHER_H 
 #include "queue.h"
 
-Queue *tasks;
-void Fetcher_init(char **sources);
+// HTML of URLs in ``sources`` to ``key``
+void Fetcher_fetch(char **sources);
 
 #endif

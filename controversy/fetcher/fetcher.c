@@ -9,8 +9,30 @@
 #define THREAD_MAX 8
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+Queue *tasks;
 int n_fetches, n_todo;
 pthread_mutex_t n_fetches_lock = PTHREAD_MUTEX_INITIALIZER;
+
+typedef struct Page {
+	char *string;
+	size_t len;
+} Page;
+
+size_t w_callback(void *ptr, size_t size, size_t nmemb, Page *pg) {
+	size_t pckt_size = size * nmemb,
+	       nl = pg->len + pckt_size;
+	pg->string = realloc(pg->string, nl + 1);
+	memcpy(pg->string + pg->len, ptr, pckt_size);
+	pg->len = nl;
+	pg->string[nl] = '\0';
+
+	return pckt_size;
+}
+
+// write ``page`` to db
+void write_page(Page *page) {
+	// TODO
+}
 
 void *perform(void *arg) {
 	while (1) {
@@ -38,25 +60,48 @@ void *perform(void *arg) {
 
 		curl = curl_easy_init();
 		if (curl) {
+			Page *page = malloc(sizeof(page));
+			page->len = 0;
+			// allocate enough space for NULL-char
+			page->string = malloc(1);
+			page->string[0] = '\0';
+
 			curl_easy_setopt(curl, CURLOPT_URL, url);
 			curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+			curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
+			curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, w_callback);
+			curl_easy_setopt(curl, CURLOPT_WRITEDATA, page);
 
 			res = curl_easy_perform(curl);
 			if (res != CURLE_OK) {
 				fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+				exit(1);
 			}
 
+			if (page->len > 0) {
+				write_page(page);
+			} else {
+				fprintf(stderr, "(!) ===> page %s is NULL\n", url);
+			}
+
+			free(page->string);
+			free(page);
 			curl_easy_cleanup(curl);
+		} else {
+			exit(1);
 		}
+
+		curl_easy_cleanup(curl);
 	}
 
 	return 0;
 }
 
-void Fetcher_init(char **sources) {
+void Fetcher_fetch(char **sources) {
 	tasks = Queue_init();
-	while (sources) {
-		Queue_push(tasks, *sources);
+
+	while (*sources != NULL) {
+		Queue_push(tasks, *sources++);
 		sources++;
 	}
 
@@ -71,4 +116,6 @@ void Fetcher_init(char **sources) {
 	for (int i = 0; i < n_threads; i++) {
 		pthread_join(pids[i], NULL);
 	}
+
+	curl_global_cleanup();
 }

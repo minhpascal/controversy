@@ -15,3 +15,4 @@ venv
 controversy/sentistrength
 notes.rst
 nohup.out
+mongo-c-driver

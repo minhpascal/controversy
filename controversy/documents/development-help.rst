@@ -1,6 +1,9 @@
 .. |...| unicode:: U+2026 .. ldots
 
-This is not for the faint-hearted; we really do recommend you use the web client.
+Running the server locally
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is not for the faint-hearted.
 
 Please use Python 2.7.x
 

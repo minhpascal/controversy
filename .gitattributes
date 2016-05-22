@@ -1,3 +1,4 @@
 *.html linguist-vendored
-*.scss linguist-vendored
 *.css linguist-vendored
+controversy/fetcher/mongo-c-driver linguist-vendored
+controversy/fetcher/libbson linguist-vendored

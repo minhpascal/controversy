@@ -2,7 +2,6 @@ pymysql
 twython
 beautifulsoup4
 requests
-requests[security]
 requests_oauthlib
 oauthlib==0.7.2
 redis

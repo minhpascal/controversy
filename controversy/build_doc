@@ -1,2 +1,0 @@
-rst2html.py -stg README.rst README.html
-docusty --externals=documents/externals.txt --stydest=documents README.html README.html

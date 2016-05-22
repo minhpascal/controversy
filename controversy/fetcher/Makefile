@@ -1,21 +1,21 @@
 CC=gcc
-INC=-I.
+INC=-isystem
 LOPTS=-pthread
 EXEC=fetcher_test queue_test 
 
 all: $(EXEC)
 
 fetcher_test: fetcher_test.c fetcher.o queue.o
-	$(CC) $(INC) $(LOPTS) -std=c99 -ggdb $^ -o $@ -lcurl
+	$(CC) $(shell pkg-config --cflags --libs libmongoc-1.0) $(INC) $(LOPTS) -ggdb $^ -o $@ -lcurl 
 
 fetcher.o: fetcher.c fetcher.h queue.o
-	$(CC) $(INC) $(LOPTS) -std=c99 -ggdb -c $<
+	$(CC) $(shell pkg-config --cflags --libs libmongoc-1.0) $(INC) $(LOPTS) -lcurl -ggdb -c $<
 
 queue_test: queue_test.c queue.o
-	$(CC) $(INC) $(LOPTS) -std=c99 -ggdb $^ -o $@
+	$(CC) $(INC) $(LOPTS) -ggdb $^ -o $@
 
 queue.o: queue.c queue.h
-	$(CC) $(INC) $(LOPTS) -std=c99 -ggdb -c $<
+	$(CC) $(INC) $(LOPTS) -ggdb -c $<
 
 clean:
 	rm *.o $(EXEC)

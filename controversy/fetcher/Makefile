@@ -6,7 +6,7 @@ EXEC=fetcher_test queue_test
 all: $(EXEC)
 
 fetcher_test: fetcher_test.c fetcher.o queue.o
-	$(CC) $(shell pkg-config --cflags --libs libmongoc-1.0) $(INC) $(LOPTS) -ggdb $^ -o $@ -lcurl 
+	$(CC) $(shell pkg-config --cflags --libs libmongoc-1.0) $(INC) $(LOPTS) -ggdb $^ -o $@ -lcurl
 
 fetcher.o: fetcher.c fetcher.h queue.o
 	$(CC) $(shell pkg-config --cflags --libs libmongoc-1.0) $(INC) $(LOPTS) -lcurl -ggdb -c $<

@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include "queue.h"
 
 Queue *Queue_init() {
@@ -18,7 +17,6 @@ void Queue_free(Queue *q) {
 	pthread_cond_destroy(&q->not_empty);
 	QueueNode *i = q->head;
 	while (i) {
-		fprintf(stderr, "here!\n");
 		free(i);
 		i = i->next;
 	}

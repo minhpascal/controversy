@@ -11,6 +11,8 @@
 #define THREAD_MAX 8
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+
+
 Queue *tasks;
 int n_fetches, n_todo;
 pthread_mutex_t n_fetches_lock = PTHREAD_MUTEX_INITIALIZER;
@@ -19,8 +21,13 @@ pthread_mutex_t n_fetches_lock = PTHREAD_MUTEX_INITIALIZER;
 typedef struct page {
 	char *string;
 	size_t len;
-	char *keyword;
 } page_t;
+
+// passed to worker threads
+typedef struct thread_task {
+	char *keyword;
+	mongoc_client_pool_t *pool;
+} thread_task_t;
 
 size_t w_callback(void *ptr, size_t size, size_t nmemb, page_t *pg) {
 	size_t pckt_size = size * nmemb,
@@ -31,6 +38,11 @@ size_t w_callback(void *ptr, size_t size, size_t nmemb, page_t *pg) {
 	pg->string[nl] = '\0';
 
 	return pckt_size;
+}
+
+int page_exists(char *url, mongoc_client_pool_t *pool) {
+	// TODO
+	return 0;
 }
 
 // write ``page`` to db
@@ -44,7 +56,8 @@ void write_page(page_t *page, mongoc_client_pool_t *pool, char *url, char *keywo
 
 	BSON_APPEND_OID(doc, "_id", &oid);
 	BSON_APPEND_UTF8(doc, "url", url);
-	BSON_APPEND_UTF8(doc, "url", url);
+	BSON_APPEND_UTF8(doc, "keyword", keyword);
+	BSON_APPEND_UTF8(doc, "html", keyword);
 
 	// TODO: write to article collection with HTML, keyword, and url
 	// TODO: write to tweets collection entire JSON response
@@ -59,7 +72,8 @@ void write_page(page_t *page, mongoc_client_pool_t *pool, char *url, char *keywo
 }
 
 void *perform(void *arg) {
-	mongoc_client_pool_t *pool = arg;
+	thread_task_t *ttt = (thread_task_t *)arg;
+	mongoc_client_pool_t *pool = ttt->pool;
 
 	while (1) {
 		pthread_mutex_lock(&n_fetches_lock);
@@ -106,7 +120,7 @@ void *perform(void *arg) {
 			}
 
 			if (page->len > 0) {
-				write_page(page, pool, url, keyword);
+				write_page(page, pool, url, ttt->keyword);
 			} else {
 				fprintf(stderr, "(!) ===> page %s is NULL\n", url);
 			}
@@ -141,9 +155,13 @@ void Fetcher_fetch(char **sources, char *keyword) {
 	mongoc_uri_t *uri = mongoc_uri_new("mongodb://localhost/27017/");
 	mongoc_client_pool_t *pool = mongoc_client_pool_new(uri);
 
+	thread_task_t *ttt = malloc(sizeof(thread_task_t));
+	ttt->keyword = keyword;
+	ttt->pool = pool;
+
 	int i, j;
 	for (i = 0; i < n_threads; i++) {
-		pthread_create(&pids[i], NULL, perform, pool);
+		pthread_create(&pids[i], NULL, perform, ttt);
 	}
 
 	mongoc_uri_destroy(uri);
@@ -152,6 +170,10 @@ void Fetcher_fetch(char **sources, char *keyword) {
 		pthread_join(pids[i], NULL);
 	}
 
+
+	free(ttt);
+	mongoc_client_pool_destroy(ttt->pool);
 	mongoc_cleanup();
 	curl_global_cleanup();
+	Queue_free(tasks);
 }

@@ -19,10 +19,9 @@ Joint mining of news text and social media to discover controversial points in n
 Pending
 --------
 
-We're preparing a pre-mturk method for downloading the training data dynamically.
-
-We're currently improving upon our IEEE paper.
-
+1. prepare a pre-mturk method for downloading the training data dynamically (both annotated and not).
+2. improving upon the method mentioned in our IEEE paper.
+3. move docs to ``docs.controversy.2pitau.org`` and rebuild with Sphinx.
 
 Running for development
 -----------------------

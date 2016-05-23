@@ -1,4 +1,7 @@
+loading-bar.min.js linguist-vendored
 *.html linguist-vendored
+controversy/static/lib linguist-vendored
 *.css linguist-vendored
+controversy/fetcher/mongo-c-driver-1.3.0 linguist-vendored
 controversy/fetcher/mongo-c-driver linguist-vendored
 controversy/fetcher/libbson linguist-vendored

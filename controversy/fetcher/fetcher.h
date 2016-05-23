@@ -3,7 +3,7 @@
 #define FETCHER_H 
 #include "queue.h"
 
-// HTML of URLs in ``sources`` to ``key``
-void Fetcher_fetch(char **sources);
+// fetch HTML from ``sources[i]`` cooresponding to ``keyword``
+void Fetcher_fetch(char **sources, char *keyword);
 
 #endif

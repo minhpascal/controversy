@@ -19,6 +19,7 @@ pthread_mutex_t n_fetches_lock = PTHREAD_MUTEX_INITIALIZER;
 typedef struct page {
 	char *string;
 	size_t len;
+	char *keyword;
 } page_t;
 
 size_t w_callback(void *ptr, size_t size, size_t nmemb, page_t *pg) {
@@ -33,7 +34,7 @@ size_t w_callback(void *ptr, size_t size, size_t nmemb, page_t *pg) {
 }
 
 // write ``page`` to db
-void write_page(page_t *page, mongoc_client_pool_t *pool) {
+void write_page(page_t *page, mongoc_client_pool_t *pool, char *url, char *keyword) {
 	mongoc_client_t *client = mongoc_client_pool_pop(pool);
 	mongoc_collection_t *collection = mongoc_client_get_collection(client, "controversy", "training_html");
 
@@ -42,10 +43,11 @@ void write_page(page_t *page, mongoc_client_pool_t *pool) {
 	bson_oid_init(&oid, NULL);
 
 	BSON_APPEND_OID(doc, "_id", &oid);
-	BSON_APPEND_UTF8(doc, "hello", "world");
+	BSON_APPEND_UTF8(doc, "url", url);
+	BSON_APPEND_UTF8(doc, "url", url);
 
-	// TODO: write to articles collection
-	// ts, keyword, article, 
+	// TODO: write to article collection with HTML, keyword, and url
+	// TODO: write to tweets collection entire JSON response
 
 	bson_error_t error;
 	if (!mongoc_collection_insert(collection, MONGOC_INSERT_NONE, doc, NULL, &error)) {
@@ -104,12 +106,12 @@ void *perform(void *arg) {
 			}
 
 			if (page->len > 0) {
-				write_page(page, pool);
+				write_page(page, pool, url, keyword);
 			} else {
 				fprintf(stderr, "(!) ===> page %s is NULL\n", url);
 			}
 
-			free(page->string);
+			free(page->string); // url
 			free(page);
 			curl_easy_cleanup(curl);
 		} else {
@@ -122,7 +124,7 @@ void *perform(void *arg) {
 	return 0;
 }
 
-void Fetcher_fetch(char **sources) {
+void Fetcher_fetch(char **sources, char *keyword) {
 	tasks = Queue_init();
 
 	while (*sources != NULL) {

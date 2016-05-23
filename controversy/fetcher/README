@@ -1,0 +1,4 @@
+0. fetch article URLs and tweets by keyword from mturk_loader.py
+1. fetch each article result if not already saved (matching URL)
+2. store article for each keyword with URL and keyword
+2. store tweet for each keyword in tweets collection

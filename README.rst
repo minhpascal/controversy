@@ -21,7 +21,6 @@ Pending
 
 1. prepare a pre-mturk method for downloading the training data dynamically (both annotated and not).
 2. improving upon the method mentioned in our IEEE paper.
-3. move docs to ``docs.controversy.2pitau.org`` and rebuild with Sphinx.
 
 Running for development
 -----------------------
@@ -30,12 +29,12 @@ If you'd like to reproduce our results, we encourage you to use the demo online 
 
 ------
 
-.. image:: https://sxibolet.github.io/img/uiuc.gif
+.. image:: https://sxibolet.2pitau.org/img/uiuc.gif
 	:target: http://cs.illinois.edu
 
-.. _IEEE Big Data 2015: https://sxibolet.github.io/pdf/big-data-2015.pdf
-.. _UIUC PURE Conference 2015: http://sxibolet.github.io/pdf/pure.pdf
+.. _IEEE Big Data 2015: https://sxibolet.2pitau.org/pdf/big-data-2015.pdf
+.. _UIUC PURE Conference 2015: http://sxibolet.2pitau.org/pdf/pure.pdf
 .. _controversy.2pitau.org: https://controversy.2pitau.org
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu
-.. _API spec: http://controversy.2pitau.org/api-docs
+.. _API spec: https://docs.controversy.2pitau.org
 .. _some instructions to help you: controversy/documents/development-help.rst

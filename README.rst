@@ -29,7 +29,7 @@ If you'd like to reproduce our results, we encourage you to use the demo online 
 
 ------
 
-.. image:: https://sxibolet.2pitau.org/img/uiuc.gif
+.. image:: https://sxibolet.2pitau.org/_static/img/uiuc.gif
 	:target: http://cs.illinois.edu
 
 .. _IEEE Big Data 2015: https://sxibolet.2pitau.org/pdf/big-data-2015.pdf

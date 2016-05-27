@@ -1,0 +1,4 @@
+use Sphinx to build the documentation:
+
+	``pip install sphinx``
+	``make html``, and make a merge request if you don't have write access

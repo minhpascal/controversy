@@ -1,8 +1,11 @@
 @import 'bootstrap.min.css';
 * {
-	font-family: Verdana, 'Open Sans', Roboto, Ubuntu, 'Source Sans Pro', 'Helvetica Nueue', Helvetica, sans-serif; }
-h1 {
-	font-weight: 700; }
+	font-family: Optima, "Lucida Sans Unicode", Verdana, "Lucida Grande", sans-serif; }
+h1, h2, h3, h4, h5 {
+	font-weight: 700;
+	text-transform: uppercase; }
+em, i, h1, h2, h3, h4, h5 {
+	font-family: Baskerville, Baskerville Old Face, Hoefler Text, Garamond, Times New Roman, serif; }
 blockquote {
 	font-size: 16px; }
 blockquote.good {

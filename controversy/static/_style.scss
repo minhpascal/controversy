@@ -1,9 +1,22 @@
 @import 'reset';
 @import 'vars';
 html {
-	font-family: Verdana, Open Sans, Myriad Pro, Calibri, Droid Sans, Trebuchet MS, sans-serif;
-	font-size: .8em;
+	font-family: Optima, "Lucida Sans Unicode", Verdana, "Lucida Grande", sans-serif;
 	height: 100%; }
+em, i, h1, h2, h3, h4, h5 {
+	font-family: Baskerville, Baskerville Old Face, Hoefler Text, Garamond, Times New Roman, serif; }
+h1, h2, h3, h4, h5 {
+	text-transform: uppercase; }
+h1 {
+	font-size: 130%; }
+h2 {
+	font-size: 110%; }
+h3 {
+	font-size: 90%; }
+h4 {
+	font-size: 75%; }
+h5 {
+	font-size: 60%; }
 input {
 	outline: 0;
 	box-shadow: none; }

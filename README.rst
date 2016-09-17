@@ -32,8 +32,8 @@ If you'd like to reproduce our results, we encourage you to use the demo online 
 .. image:: https://sxibolet.2pitau.org/_static/img/uiuc.gif
 	:target: http://cs.illinois.edu
 
-.. _IEEE Big Data 2015: https://sxibolet.2pitau.org/pdf/big-data-2015.pdf
-.. _UIUC PURE Conference 2015: http://sxibolet.2pitau.org/pdf/pure.pdf
+.. _IEEE Big Data 2015: https://sxibolet.2pitau.org/_static/pdf/big-data-2015.pdf
+.. _UIUC PURE Conference 2015: https://sxibolet.2pitau.org/_static/pdf/pure.pdf
 .. _controversy.2pitau.org: https://controversy.2pitau.org
 .. _controversy.web.engr.illinois.edu: http://controversy.web.engr.illinois.edu
 .. _API spec: https://docs.controversy.2pitau.org

@@ -1,10 +1,16 @@
 @import 'reset';
 @import 'vars';
-html {
-	font-family: Optima, "Lucida Sans Unicode", Verdana, "Lucida Grande", sans-serif;
-	height: 100%; }
-em, i, h1, h2, h3, h4, h5 {
-	font-family: Baskerville, Baskerville Old Face, Hoefler Text, Garamond, Times New Roman, serif; }
+body {
+	font-family: "Palatino LT", "Palatino Linotype", Palatino, Baskerville, "Bodoni MT", Garamond, Trebuchet, serif !important;
+	font-variant-numeric: oldstyle-nums diagonal-fractions slashed-zero;
+	text-rendering: optimizeLegibility;
+	font-size: 1em;
+	word-wrap: break-word;
+}
+h1, h2, h3, h4, h5 {
+	font-family: "Zapf Humanist 601", Optima, "Optima Nova", "URW Imperial", Amira, "Chianti BT", sans-serif !important;
+	font-weight: 700 !important;
+}
 h1, h2, h3, h4, h5 {
 	text-transform: uppercase; }
 h1 {

@@ -12,7 +12,6 @@
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 
-
 Queue *tasks;
 int n_fetches, n_todo;
 pthread_mutex_t n_fetches_lock = PTHREAD_MUTEX_INITIALIZER;

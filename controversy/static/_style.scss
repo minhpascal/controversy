@@ -33,10 +33,13 @@ img {
 a {
 	line-height: 130%;
 	word-wrap: break-word;
-	color: #303c3c;
-	border-bottom: 1px solid #808080;
-	text-decoration: none;
-	@include transition(0.1s); }
+	text-decoration: underline;
+	color: inherit;
+	&:hover {
+		color: #ff0000;
+		text-decoration: none;
+	}
+}
 input.field {
 	padding: 6px 12px;
 	color: #555;

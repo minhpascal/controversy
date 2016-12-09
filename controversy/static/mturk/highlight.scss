@@ -1,39 +1,41 @@
 @import 'bootstrap.min.css';
-* {
-	font-family: Optima, "Lucida Sans Unicode", Verdana, "Lucida Grande", sans-serif; }
-h1, h2, h3, h4, h5 {
-	font-weight: 700;
-	text-transform: uppercase; }
-em, i, h1, h2, h3, h4, h5 {
-	font-family: Baskerville, Baskerville Old Face, Hoefler Text, Garamond, Times New Roman, serif; }
+body {
+	font-family: 'Verdana', sans-serif;
+}
 blockquote {
-	font-size: 16px; }
+	font-size: 16px;
+}
 blockquote.good {
 	background-color: #dff0d8;
-	border-left: 5px solid #3c763d; }
+	border-left: 5px solid #3c763d;
+}
 blockquote.bad {
 	background-color: #f2dede;
-	border-left: 5px solid #a94442; }
+	border-left: 5px solid #a94442;
+}
 .col-md-3 {
 	color: #ddd;
-	background-color: rgba(245, 245, 245, .3); }
+	background-color: rgba(245, 245, 245, .3);
+}
 div#full_article {
 	font-size: 16px;
 	span {
-		cursor: pointer; }
+		cursor: pointer;
+	}
 	span.controversial {
 		color: #bada55;
-		background-color: #800; }
+		background-color: #800;
+	}
 }
 #copyright {
-	margin-bottom: 14em; }
+	margin-bottom: 14em;
+}
 .btn {
-	font-weight: 700; }
-.top_bar {
-	height: 8px;
-	background-color: #d9d9d9;
-	margin-bottom: 12px; }
-#full_article { text-align: justify; }
+	font-weight: 700;
+}
+#full_article {
+	text-align: justify;
+}
 #bot_bar {
 	.col-md-12 {
 		.pull-left { padding: 8px; }
@@ -44,7 +46,8 @@ div#full_article {
 		height: 61px; }
 	position: fixed;
 	z-index: 1;
-	bottom: 0; }
+	bottom: 0;
+}
 @media (max-height: 400px) {
 	#bot_bar { position: relative; }
 }	

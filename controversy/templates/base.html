@@ -14,18 +14,6 @@ Controversy &middot; hotspots of news articles</title>
 
 <link rel=icon href="{{ url_for('static', filename='img/fav.ico') }}" />
 <link rel=stylesheet href="{{ css }}" />
-{% if webkit is not none %}
-{% if webkit is not none and webkit|length > 0%}
-<!-- added styles for webkit browsers -->
-<link rel=stylesheet href="{{ webkit }}" />
-{% endif %}
-{% endif %}
-{% if safari is not none %}
-{% if safari|length > 0 %}
-<!-- added styles for Safari -->
-<link rel=stylesheet href="{{ safari }}" />
-{% endif %}
-{% endif %}
 {% block content %}{% endblock %}
 
 <footer>

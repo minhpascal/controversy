@@ -61,14 +61,6 @@ def handle_500(error):
     raise UsageError('our-fault', status_code=500)
 
 
-def added_style(name):
-    return digest('%s.css' % name) if session.get(name) == name else None
-
-
-def get_added_styles():
-    return added_style('webkit'), added_style('safari')
-
-
 def loggedin():
     return session.get('username') is not None
 
@@ -113,13 +105,6 @@ def login(username):
                            js=digest('login.js'),
                            username=username or '')
 
-
-@application.route("/set/<name>")
-def set_browser(name):
-    if name not in {'webkit', 'safari'}:
-        return plain_text_resp('no', code=400)
-    session[name] = name
-    return plain_text_resp('yes')
 
 
 @application.route("/register", methods=['GET', 'POST'])
@@ -191,11 +176,8 @@ def index():
     """all pages for the app are loaded through here.
     Angular handles partials, which are rendered through ``/partial``
     """
-    webkit, safari = get_added_styles()
     return render_template('app.html',
             user=session['user'],
-            safari=safari,
-            webkit=webkit,
             css=digest('app.css'),
             js=digest('home.js'),
             angular='Home')

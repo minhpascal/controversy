@@ -6,15 +6,7 @@ document.getElementsByTagName('form')[0].style.display = 'block';
 
 if (!window.jQuery) {
 	document.getElementsByTagName('form')[0].style.display = 'none';
-} else {
-	var isWebKit = 'WebkitAppearance' in document.documentElement.style;
-	var isSafari = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
-	if (isWebKit) {
-		$.ajax({url: '/set/webkit'});
-	}
-	if (isSafari) {
-		$.ajax({url: '/set/safari'});
-	}
+	document.getElementById('anon_login').style.display = 'none';
 }
 
 $(document).ready(function() {
@@ -27,7 +19,7 @@ $(document).ready(function() {
 		$("#bugs_a").text('Report a bug')
 	}, function() {
 		issues = '?';
-	}, 'https://api.github.com/repos/gdyer/controversy/issues');
+	}, 'https://api.github.com/repos/SXibolet/controversy/issues');
 });
 
 

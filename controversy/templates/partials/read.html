@@ -4,7 +4,7 @@
 	<a class=lg href="#results">&larr; all articles</a>
 	<a class=mini href="#results">&larr;</a>
 	&middot;
-	<span title="{{ article.title }}" ng-bind-html="article.title | limitTo: lim"></span>
+	<span id=article_title title="{{ article.title }}" ng-bind-html="article.title | limitTo: lim"></span>
 	{{ article.title.length > lim ? '&hellip;' : ''}}
 	<span id=right-header>
 		<a ng-show="previousExists" ng-click="change(-1)" title="more controversial article">
@@ -21,9 +21,14 @@
 </header>
 <main>
 <ul class=details>
-	<li ng-repeat="key in ['byline', 'source']">
-	<span ng-show="article[key]" title="{{ key }}">
-		{{ article[key] }}
+	<li>
+	<span ng-show="article['byline']" title="byline">
+		{{ article['byline'] }}
+	</span>&nbsp;
+	</li>
+	<li>
+	<span ng-show="article['source']" title="source">
+		<i>{{ article['source'] }}</i>
 	</span>&nbsp;
 	</li>
 	<li>

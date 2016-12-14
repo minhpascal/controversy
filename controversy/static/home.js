@@ -246,16 +246,6 @@ cApp.controller('TweetsController', function($scope, $rootScope, $location, $rou
 		$location.hash('right-header');
 	};
 
-	$scope.hoverIn = function(pimg) {
-		this.hovering = true;
-		$scope.propic = pimg;
-		$scope.globalHover = true;
-	};
-
-	$scope.hoverOut = function() {
-		this.hovering = false;
-		$scope.globalHover = false;
-	};
 });
 
 

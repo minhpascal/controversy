@@ -33,11 +33,12 @@ img {
 a {
 	line-height: 130%;
 	word-wrap: break-word;
-	text-decoration: underline;
+	text-decoration: none;
 	color: inherit;
+	border-bottom: 1px dotted #999;
 	&:hover {
-		color: #ff0000;
-		text-decoration: none;
+		color: red;
+		border-bottom: 1px solid #999;
 	}
 }
 input.field {

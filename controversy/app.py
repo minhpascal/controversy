@@ -144,6 +144,12 @@ def logout():
     flash("<b>%s</b>, you were logged out" % u)
     return redirect('/login')
 
+@application.route("/register_anon")
+def register_anon():
+    u = session['username']
+    session.pop('username', None)
+    session.pop('user', None)
+    return redirect('/register')
 
 @application.route("/account", methods=['GET', 'POST'])
 @require_login

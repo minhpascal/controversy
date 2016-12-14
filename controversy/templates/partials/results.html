@@ -8,27 +8,27 @@
 		{% endraw %}
         </form>
         <span id=right-header>
-            <span class=non-essentials>
-                welcome back, {{ user.Name|first_name }} &middot;
-            </span>
             <a ng-click="clear()">home</a>
         </span>
     </div>
 </header>
+<header id=sub>
+	Articles are ranked by controversy from 1 (most controversial), &hellip;
+</header>
 
 {% raw %}
-<main>
-<ul class=articles ng-show="json" ng-style="$root.results_style">
-    <li ng-repeat="article in json">
-    <div class=article ng-class="{ 'most-controversial' : $first, 'least-controversial' : $last }">
-        <a href="#results/{{ $index }}" class=title ng-bind-html="($index+1) + '. ' + article.title"></a>
-        <img ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
-        <p ng-bind-html="article.abstract"></p>
-        <p class=url>
+<main style="padding: 8em 1em">
+<ul id=articles ng-show="json" ng-style="$root.results_style">
+	<li ng-repeat="article in json">
+	<div class=article ng-class="{ 'most-controversial' : $first, 'least-controversial' : $last }">
+		<a href="#results/{{ $index }}" class=title ng-bind-html="($index+1) + '. ' + article.title"></a>
+		<img ng-show="article.xlarge" ng-src="{{ article.xlarge }}" />
+		<p ng-bind-html="article.abstract"></p>
+		<p class=url>
 		<a href="#results/{{ $index }}">Read the full article {{ article.sentiment_entropy}}</a>
-        </p>
-    </div>
-    </li>
+		</p>
+	</div>
+	</li>
 </ul>
 
 </main>

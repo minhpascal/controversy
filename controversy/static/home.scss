@@ -1,7 +1,7 @@
 @import 'style';
 @import 'cards';
-$search_focus: #f1f8fb;
-$search_focus_text: #2b6dad;
+$mark_bg: #f1f8fb;
+$mark_txt: #2b6dad;
 $loading_src: 'img/loading.gif';
 footer { display: none; }
 header {
@@ -15,6 +15,7 @@ header {
 	border-bottom: 1px solid #efefef;
 	position: fixed;
 	>div {
+		// this is "getting" rather unwieldy
 		>a.mini { display: none; }
 		padding: 0 15px 0 5px;
 		display: inline;
@@ -26,10 +27,15 @@ header {
 		span#subtitle {
 			opacity: 0.4;
 			padding-left: 5px;
+			font-size: smaller;
+			font-style: italic;
 		}
 		span#right-header {
 			float: right;
 			padding-right: 10px;
+		}
+		span#article_title {
+			font-style: italic;
 		}
 		form { display: inline; }
 		>form input {
@@ -40,25 +46,40 @@ header {
 			margin: 0 auto;
 			height: 15px;
 			width: 30%;
-			&:focus {
-				background-color: $search_focus;
-				color: $search_focus_text; }
 		}
 
 	}
 	input[type='text'].top_loading {
 		background: url($loading_src) no-repeat;
 		background-position: 98% 50%;
-		background-size: 20px 20px; }
+		background-size: 20px 20px;
+	}
+}
+header#sub {
+	height: $subheader_height;
+	line-height: $subheader_height;
+	background: $mark_bg;
+	overflow: auto;
+	white-space: nowrap;
+	overflow-y: hidden;
+	color: $mark_txt;
+	border-bottom: 1px solid #efefef;
+	position: fixed;
+	top: $header_height + 1;
+	min-width: 100%;
+	text-align: center;
+	font-size: smaller;
+	font-style: italic;
 }
 
 main {
-	padding: 6em 1em;
+	padding: 4em 1em;
 	input.loading {
 		background: url($loading_src) no-repeat;
 		background-size: 20px 20px;
 		padding: 10px 10px 10px 36px;
-		background-position: 10% 50%; }
+		background-position: 10% 50%;
+	}
 	>form { 
 		margin-bottom: 10px; 
 		text-align: center;
@@ -66,9 +87,6 @@ main {
 			margin-bottom: 10px;
 			width: 275px;
 			border-bottom: 1px solid $grey;
-			&:focus {
-				color: $search_focus_text;
-				background-color: $search_focus; }
 		}
 
 	}
@@ -79,17 +97,20 @@ main {
 		margin: 0 auto;
 		dl.left {
 			float: left;	
-			width: 50%; }
+			width: 50%;
+		}
 		dl.right {
 			float: right;
-			width: 50%; }
+			width: 50%;
+		}
 		// controversial or trending keywords
 		dt {
 			float: left;
 			width: 7.5em;
 			padding: 1ex .5em 0 .5em;
 			text-align: right;
-			font-weight: bold; }
+			font-weight: bold;
+		}
 
 		// featured keywords
 		dd {
@@ -97,7 +118,8 @@ main {
 			margin: 0 0 0 8.5em;
 			padding: 1ex 0.5em;
 			text-align: left;
-			border-left: 1px solid #888; }
+			border-left: 1px solid #888;
+		}
 	}
 
 	ul.details {
@@ -111,7 +133,8 @@ main {
 				line-height: 30px;
 				@include border-radius(2px);
 				border: 1px solid $grey;
-				padding: 2px; }
+				padding: 2px;
+			}
 		}
 	}
 
@@ -121,9 +144,11 @@ main {
 		%def { 
 			border-bottom: none;
 			color: #fff;
-			background-color: #337ab7; }
+			background-color: #337ab7;
+		}
 		a { 
 			@extend %def;
+			text-decoration: none;
 			font-weight: 700; // controversial sentences
 			&:hover, &:active {
 				background-color: #2e6da4;
@@ -132,33 +157,54 @@ main {
 		}
 	}
 
+	// NYT copyright
 	article + p {
 		@include transition(.3s);
-		opacity: 0.6; } // NYT copyright
-	article+p:hover { opacity: 1.0; }
+		opacity: 0.6;
+	} 	article+p:hover { opacity: 1.0; }
+
 	mark {
 		line-height: 25px;
 		color: #2b6dad;
 		background-color: #f1f8fb;
 		@include border-radius(2px);
-		padding: 2px; }
+		padding: 2px;
+	}
 	.disabled {
 		cursor: not-allowed;
 		background-color: #f9f9f9;
 		&:active {
 			color: #fff; 
-			background-color: $warn; }
+			background-color: $warn;
+		}
 	}
 }
 span.danger {
 	color: #fff;
 	background-color: #d43f3a;
 	padding: 2px;
-	@include border-radius(2px); }
+	@include border-radius(2px);
+}
 figcaption { margin:10px 0 10px 0; }
 @media (max-width: 700px) {
 	header>div span#right-header, header>div >a { font-size: 12px; }
+	header#sub {
+		font-size: 12px;
+		top: $mobile_header_height + 1;
+	}
 	.non-essentials { display: none; }
+	header {
+		height: $mobile_header_height;
+		line-height: $mobile_header_height;
+		h1 {
+			font-size: .7em;
+		}
+	}
+}
+@media (max-width: 620px) {
+	main div.featured_keywords {
+		dt { writing-mode: vertical-rl; }
+	}
 }
 @media (max-width: 520px) {
 	main div.featured_keywords {

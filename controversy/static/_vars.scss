@@ -4,6 +4,8 @@ $warn: #edb43a; // yellow
 $happy: #00933b; // green
 $cool: #0266c8; // blue
 $header_height: 55px;
+$mobile_header_height: 40px;
+$subheader_height: 25px;
 @mixin box-shadow($top, $left, $blur, $color) {
     -webkit-box-shadow: 0 $top $left $blur $color;
     -moz-box-shadow: 0 $top $left $blur $color;
@@ -32,6 +34,10 @@ $header_height: 55px;
     -webkit-column-fill: $s;
     -moz-column-fill: $s;
     column-fill: $s; }
+@mixin column-width($s) {
+    -webkit-column-width: $s;
+    -moz-column-width: $s;
+    column-width: $s; }
 @mixin column-count($s) {
     -webkit-column-count: $s;
     -moz-column-count: $s;

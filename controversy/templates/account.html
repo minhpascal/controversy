@@ -7,16 +7,20 @@
 			hotspots of news articles
 		</span>
 		<span id=right-header title="{{ user['Name'] }} at {{ user['School'] }}">
-			<span class=non-essentials>
+			<i class=non-essentials>
 				{% if user['Logins'] > 1 %}
 				welcome back, {{ user['Name']|first_name }} &middot;
 				{% else %}
 				welcome, {{ user['Name']|first_name }}! &middot;
 				{% endif %}
-			</span>
+			</i>
 			<a href="/">home</a>
 			&middot;
+			{% if user.Id == 'bourbaki@illinois.edu' %}
+			<a href="/register_anon">register &rarr;</a>
+			{% else %}
 			<a href="/logout">logout &rarr;</a>
+			{% endif %}
 		</span>
 	</div>
 </header>
@@ -24,6 +28,9 @@
 
 
 <h3>Query history</h3>
+{% if user['Id'] == 'bourbaki@illinois.edu' %}
+<i>Anonymous users do not have query histories.</i>
+{% else %}
 <ul>
 	{% if history|length %}
 	{{ user['Name']|first_name }}, you searched for &hellip;
@@ -43,6 +50,7 @@
 	&hellip; nothing yet. May we interest you in <a href="../">a try</a>?
 	{% endif %}
 </ul>
+{% endif %}
 
 
 <h3>This account</h3>
@@ -71,17 +79,16 @@
 <!-- bourbaki@illinois.edu cannot be closed -->
 {% endif %}
 
-<h3>Usage notes</h3>
-<p>We encrypt passwords with a one-way hash and cannot even see your password ourselves. As of fall 2015, we force SSL as you browse the site. This means your connection, namely the data we exchange, is private by default. We'd like to thank StartSSL for providing this service for free.</p>
-<p>We'd like to thank the NSF and NIH for supporting this work.</p>
 
 <h3 name=bugs id=bugs>About / Bugs</h3>
-<a class="github-button" href="https://github.com/gdyer/controversy" data-icon="octicon-star" data-style="mega" aria-label="Star gdyer/controversy on GitHub">Star</a>
-<a class="github-button" href="https://github.com/gdyer/controversy" data-icon="octicon-eye" data-style="mega" aria-label="Watch gdyer/controversy on GitHub">Watch</a>
-<a class="github-button" href="https://github.com/gdyer/controversy/issues" data-icon="octicon-issue-opened" data-style="mega" data-count-api="/repos/ntkme/github-buttons#open_issues_count" data-count-aria-label="# issues on GitHub" aria-label="Issue gdyer/controversy on GitHub">Known bugs</a>
-<p>This is <b>Controversy</b>, version <b>v{{ version }}</b>. Available <a target=_blank href="http://github.com/gdyer/controversy">on GitHub</a>.</p>
+<a class="github-button" href="https://github.com/SXibolet/controversy" data-icon="octicon-star" data-style="mega" aria-label="Star SXibolet/controversy on GitHub">Star</a>
+<a class="github-button" href="https://github.com/SXibolet/controversy" data-icon="octicon-eye" data-style="mega" aria-label="Watch SXibolet/controversy on GitHub">Watch</a>
+<a class="github-button" href="https://github.com/SXibolet/controversy/issues" data-icon="octicon-issue-opened" data-style="mega" data-count-api="/repos/ntkme/github-buttons#open_issues_count" data-count-aria-label="# issues on GitHub" aria-label="Issue SXibolet/controversy on GitHub">Known bugs</a>
+<p>This is <b style='font-family:Optima,inherit;'>CONTROVERSY</b>, available <a target=_blank href="http://github.com/SXibolet/controversy">on GitHub</a>.</p>
+<p>We encrypt passwords with a one-way hash. As of fall 2015, we force SSL as you browse the site.</p>
+<p>We'd like to thank the NSF and NIH for supporting this work.</p>
 <div>
-	<p>Found a bug? <a target=_blank href="https://github.com/gdyer/controversy/issues/new">Please file a report</a>.</p>
+	<p>Found a bug? <a target=_blank href="https://github.com/SXibolet/controversy/issues/new">Please file a report</a>.</p>
 	<ul ng-controller="IssuesController" class=issues_list>
 		Known problems &hellip;
 		{% raw %}

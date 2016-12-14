@@ -23,9 +23,9 @@
 </header>
 <main>
 <mark>{{ sentence.text }}</mark>
-<ul class=tweets>
+<ul id=tweets>
 	<li ng-repeat="tweet in sentence.tweets">
-	<div class=tweet ng-mouseenter="hoverIn()" ng-mouseleave="hoverOut()" ng-class="{ 'happy' : tweet.is_positive, 'mad' : tweet.is_negative, 'hovering' : hovering, 'no-hover' : (!hovering && globalHover)}">
+	<div class=tweet ng-class="{ 'happy' : tweet.is_positive, 'mad' : tweet.is_negative }">
 		{{ tweet.dirty }}
 	</div> 
 	</li>

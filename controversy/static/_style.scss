@@ -60,7 +60,8 @@ input[type="submit"] {
 	color: #333;
 	padding: 4px;
 	outline: 0;
-	@include border-radius(2px);
+	border-radius: 0;
+	-webkit-appearance: none;
 	@include transition(0.15s);
 	&:hover { border: 1px solid #a3a3a3; }
 	&:focus, &:active { outline: 0; }

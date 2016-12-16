@@ -11,10 +11,10 @@
 				{% if user['Logins'] > 1 %}
 				welcome back, {{ user['Name']|first_name }} &middot;
 				{% else %}
-				welcome, {{ user['Name']|first_name }}! &middot;
+				welcome, {{ user['Name']|first_name }} &middot;
 				{% endif %}
 			</i>
-			<a href="/">home</a>
+			<a href="/">&times;</a>
 			&middot;
 			{% if user.Id == 'bourbaki@illinois.edu' %}
 			<a href="/register_anon">register &rarr;</a>

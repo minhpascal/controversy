@@ -5,10 +5,10 @@
 <html lang="en">
 {% endif %}
 <title>
-{% if title is defined %}
-{{ title }} &middot;
-{% endif %}
-Controversy &middot; hotspots of news articles</title>
+	{% if title is defined %}
+	{{ title }} &mdash;
+	{% endif %}
+	Controversy &mdash; hotspots of news articles</title>
 <meta name="description" content="Hotspots of news articles: joint mining of news text and social media to discover controversial points in news. " />
 <meta name="viewport" id="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />
 
@@ -17,11 +17,11 @@ Controversy &middot; hotspots of news articles</title>
 {% block content %}{% endblock %}
 
 <footer>
-    <p>
-    	Hotspots of News Articles: Joint Mining of News Text &amp; Social Media to Discover Controversial Points in News
-        <br>
+	<p>
+	<i>Hotspots of News Articles: Joint Mining of News Text &amp; Social Media to Discover Controversial Points in News</i>
+	<br>
 	Ismini Lourentzou, Graham Dyer, Abhishek Sharma, ChengXiang Zhai &mdash; <tt>{lourent2, gdyer2, sharma51, czhai}@illinois.edu</tt> &mdash; University of Illinois, Urbana-Champaign.
-    </p>
+	</p>
 </footer>
 
 {% if angular is defined %}

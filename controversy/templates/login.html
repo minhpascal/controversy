@@ -1,24 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 {% if form.errors %}
-<div id=error>
+<div id=error onclick="this.style.display='none';">
     {% for field in form.errors %}
     <b>{{ field|safe }}</b>&hellip;
     {% for error in form.errors[field] %}
     {{ error|lower }}
     {% endfor %}
     {% endfor %}
+    <b>(&times;)</b>
 </div>
 {% endif %}
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<div id=message>
+<div id=messages onclick="this.style.display='none';">
     {% for message in messages %}
     {{ message|safe }}
     {% if not loop.last %}
     &middot;
     {% endif %}
     {% endfor %}
+    <b>(&times;)</b>
 </div>
 {% endif %}
 {% endwith %}

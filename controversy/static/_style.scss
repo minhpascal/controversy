@@ -12,25 +12,36 @@ h1, h2, h3, h4, h5 {
 	font-weight: 700 !important;
 }
 h1, h2, h3, h4, h5 {
-	text-transform: uppercase; }
+	text-transform: uppercase;
+}
 h1 {
-	font-size: 130%; }
+	font-size: 130%;
+}
 h2 {
-	font-size: 110%; }
+	font-size: 110%;
+}
 h3 {
-	font-size: 90%; }
+	font-size: 90%;
+}
 h4 {
-	font-size: 75%; }
+	font-size: 75%;
+}
 h5 {
-	font-size: 60%; }
+	font-size: 60%;
+}
 input {
 	outline: 0;
-	box-shadow: none; }
+	box-shadow: none;
+	-webkit-tap-highlight-color: transparent;
+}
 img {
 	max-width: 100%;
 	height: auto;
-	margin: auto; }
+	margin: auto;
+}
 a {
+	-webkit-tap-highlight-color: transparent;
+	cursor: pointer;
 	line-height: 130%;
 	word-wrap: break-word;
 	text-decoration: none;
@@ -50,7 +61,8 @@ input.field {
 	margin-bottom: 5px;
 	height: 20px;
 	width: 70%;
-	text-align: center; }
+	text-align: center;
+}
 input[type="submit"] {
 	cursor: pointer;
 	min-width: 100px;
@@ -67,10 +79,12 @@ input[type="submit"] {
 	&:focus, &:active { outline: 0; }
 	&:active {
 		-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-		box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125); }
+		box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+	}
 }
 input::-moz-focus-inner { 
-	  border: 0; }
+	border: 0;
+}
 footer {
 	margin: 5em 0 0.5em 0;
 	width: 95%;
@@ -93,4 +107,11 @@ div#message {
 }
 div#error {
 	@extend div#message;
-	background-color: $warn; }
+	background-color: $warn;
+}
+@media (max-width: 400px) {
+	div#error, div#message {
+		font-size: smaller;
+		opacity: 0.9;
+	}
+}

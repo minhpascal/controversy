@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 {% if form.errors %}
-<div id=error>
+<div id=error onclick="this.style.display='none';">
 	{% for field in form.errors %}
 	<b>{{ field }}</b>&hellip;
 	{% for error in form.errors[field] %}
 	{{ error|lower }}
 	{% endfor %}
 	{% endfor %}
+	<b>(&times;)</b>
 </div>
 {% endif %}
 <div id=login>

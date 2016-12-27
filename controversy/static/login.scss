@@ -21,6 +21,7 @@ div#login {
 }
 @media (max-width: 520px)  {
 	div#login {
+		input[type="submit"] { height: 35px; }
 		width: 350px;
 		font-size: 14px;
 	}

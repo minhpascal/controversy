@@ -27,8 +27,8 @@ from twython.exceptions import TwythonAuthError
 MAX_ATTEMPTS = 6
 MAX_COMMENTARY = 500
 TAG_RE = re.compile(r'<[^>]+>')
-ARTICLE_SEARCH_BASE = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?'
-COMMENT_BASE = 'http://api.nytimes.com/svc/community/v3/user-content/url.json?'
+ARTICLE_SEARCH_BASE = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?'
+COMMENT_BASE = 'https://api.nytimes.com/svc/community/v3/user-content/url.json?'
 
 
 class SocialContent(object):
@@ -142,7 +142,7 @@ class Article(object):
             return None
         jar = cookielib.CookieJar()
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(jar))
-        opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
+        opener.addheaders = [('User-Agent', NYT_UA)]
         response = opener.open(urllib2.Request(self.url))
         soup = BeautifulSoup(response.read(), 'html.parser')
         body = soup.findAll('p', {
@@ -164,6 +164,10 @@ def article_search(keyword, training=False):
     today = datetime.date.today()
     last_week = today - datetime.timedelta(days=11)
 
+
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-Agent', NYT_UA)]
+
     params = urllib.urlencode({
         'q': keyword,
         'begin_date': nyt_query_date(last_week),
@@ -172,7 +176,8 @@ def article_search(keyword, training=False):
         'facet_field': 'source'
     })
 
-    response = urllib2.urlopen('%s%s' % (ARTICLE_SEARCH_BASE, params))
+    print '%s%s' % (ARTICLE_SEARCH_BASE, params)
+    response = opener.open('%s%s' % (ARTICLE_SEARCH_BASE, params))
     # an Article will be None if it doesn't have body text (thus the partial)
     # return an array of Article objects that have a body text
     return filter(partial(is_not, None),

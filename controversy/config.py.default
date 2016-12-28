@@ -9,6 +9,7 @@ TWITTER_KEYS = ['twitter api'] # REQUIRED change. If you train, you'll need a fe
 TWITTER_SECRETS = ['twitter api secret'] # REQUIRED change
 NYT_ARTICLE_SEARCH_KEY = 'nyt article search key' # REQUIRED change
 NYT_COMMUNITY_KEYS = ['nyt community api key'] # REQUIRED change
+NYT_UA = 'Mozilla/5.0' # optional change
 REDIS_HOST = 'localhost'
 REDIS_PORT = '6378'
 TWILIO_SID = 'twilio key' # optional change

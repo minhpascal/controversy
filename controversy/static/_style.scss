@@ -91,7 +91,10 @@ footer {
 	color: #b0b0b0;
 	font-size: 12px;
 	text-align: center;
-	p { padding-top: 10px; }
+	p {
+		padding-top: 10px;
+		line-height: 150%;
+	}
 }
 div#message {
 	position: fixed;

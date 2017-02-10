@@ -17,4 +17,5 @@ TWILIO_AUTH_TOKEN = 'twilio auth key' # optional change
 ADMIN_PHONE = '+1911' # optional change
 CAPTCHA_PUBLIC = 'reCAPTCHA key' # optional change
 CAPTCHA_PRIVATE = 'reCAPTCHA secret key' # optional change
+TOR_PW = 'PW_FOR_TOR' # change if scraper is blacklisted
 DEBUG = True # should change if deployed publically

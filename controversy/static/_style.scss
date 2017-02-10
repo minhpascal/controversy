@@ -41,15 +41,15 @@ img {
 }
 a {
 	-webkit-tap-highlight-color: transparent;
-	cursor: pointer;
-	line-height: 130%;
-	word-wrap: break-word;
 	text-decoration: none;
 	color: inherit;
-	border-bottom: 1px dotted #999;
-	&:hover {
-		color: red;
-		border-bottom: 1px solid #999;
+	border-bottom: 1px dotted;
+	line-height: 130%;
+	word-wrap: break-word;
+	&:hover, &:active {
+		color: #ed0000;
+		border-bottom: 1px solid;
+		text-decoration: none;
 	}
 }
 input.field {

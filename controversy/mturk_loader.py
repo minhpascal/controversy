@@ -76,6 +76,8 @@ if __name__ == '__main__':
 
         update_progress(n_done, n_tasks)
 
+        break
+
     print('\t... done')
     summary = 'summary: %s doc(s) ready for training from %s terms (%s skipped)' % (n_docs, n_tasks, n_dup_keywords)
     sms_admin('mturk_loader finished. %s' % summary)

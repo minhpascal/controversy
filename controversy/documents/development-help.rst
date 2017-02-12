@@ -18,7 +18,9 @@ Please use Python 2.7.x
 #. ``$ pip install virtualenv``
 #. ``$ virtualenv venv``
 #. ``$ . venv/bin/activate``
-#. ``$ pip install -r requirements.txt`` will install requirements into the virtual environment to limit bloat on your actual machine
+#. ``$ pip install -r requirements.txt`` will install requirements into the virtual environment to limit bloat on your actual machine.
+#. ``git clone https://github.com/aaronsw/pytorctl``
+#. ``pip install pytorctl/``
 #. ``$ python``
         - ``>>> import nltk``
         - ``>>> nltk.download('stopwords', 'punkt')``

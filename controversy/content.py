@@ -22,6 +22,7 @@ from functools import partial
 from operator import is_not
 from nltk.corpus import stopwords
 from twython.exceptions import TwythonAuthError
+import tor_query
 
 
 MAX_ATTEMPTS = 6
@@ -153,7 +154,6 @@ class Article(object):
         # we'll split into paragraphs for easier reading if training
         res = ('|*^*|' if training else ' ').join(p.text for p in body)
         jar.clear()
-        print(res)
         return res
 
 
@@ -167,9 +167,6 @@ def article_search(keyword, training=False):
     today = datetime.date.today()
     last_week = today - datetime.timedelta(days=11)
 
-    opener = urllib2.build_opener()
-    opener.addheaders = [('User-Agent', NYT_UA)]
-
     params = urllib.urlencode({
         'q': keyword,
         'begin_date': nyt_query_date(last_week),
@@ -178,7 +175,8 @@ def article_search(keyword, training=False):
         'facet_field': 'source'
     })
 
-    response = opener.open('%s%s' % (ARTICLE_SEARCH_BASE, params))
+    tor_query.renew_connection()
+    response = tor_query.query('%s%s' % (ARTICLE_SEARCH_BASE, params))
     # an Article will be None if it doesn't have body text (thus the partial)
     # return an array of Article objects that have a body text
     return filter(partial(is_not, None),
@@ -203,9 +201,10 @@ def article_comments(url, offset=0, training=False):
         })
 
         try:
-            response = urllib2.urlopen('%s%s' % (COMMENT_BASE, params))
+            response = tor_query.query('%s%s' % (COMMENT_BASE, params))
         except urllib2.HTTPError:
             # max requests exceeded (>5k queries or >30 / second)
+            tor_query.renew_connection()
             curr_key += 1
             i -= 1
             break

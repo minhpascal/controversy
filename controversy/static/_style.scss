@@ -67,15 +67,20 @@ input[type="submit"] {
 	cursor: pointer;
 	min-width: 100px;
 	height: 40px;
-	background-color: #e9e9e9;
-	border: 1px solid #c3c3c3;
 	color: #333;
 	padding: 4px;
 	outline: 0;
 	border-radius: 0;
 	-webkit-appearance: none;
+
 	@include transition(0.15s);
-	&:hover { border: 1px solid #a3a3a3; }
+
+	background-color: #e9e9e9;
+	border: 1px solid #c3c3c3;
+
+	&:hover {
+		border-color: #a3a3a3;
+	}
 	&:focus, &:active { outline: 0; }
 	&:active {
 		-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);

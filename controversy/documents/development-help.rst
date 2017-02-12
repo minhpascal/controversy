@@ -3,6 +3,8 @@
 Running the server locally
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+These instructions are outdated as of Feb. 2017. Please use the demo until they're updated.
+
 This is not for the faint-hearted.
 
 Please use Python 2.7.x
@@ -19,8 +21,6 @@ Please use Python 2.7.x
 #. ``$ virtualenv venv``
 #. ``$ . venv/bin/activate``
 #. ``$ pip install -r requirements.txt`` will install requirements into the virtual environment to limit bloat on your actual machine.
-#. ``git clone https://github.com/aaronsw/pytorctl``
-#. ``pip install pytorctl/``
 #. ``$ python``
         - ``>>> import nltk``
         - ``>>> nltk.download('stopwords', 'punkt')``
